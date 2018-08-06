@@ -11,6 +11,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QFile>
+#include <QFileDialog>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -29,7 +30,6 @@ Widget::Widget(QWidget *parent) :
     connect( _manager, &QNetworkAccessManager::finished, this , [this](QNetworkReply* reply)
     {
         QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
-
 
         QByteArray str = reply->readAll();
         QJsonDocument doc = QJsonDocument::fromJson(str);
@@ -56,7 +56,8 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButtonFILE, &QPushButton::clicked, [this]
     {
-        QFile f("/project/todo/tfl/sample-picc.txt");
+        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl", "*.*");
+        QFile f(fileName);
 
         f.open(QIODevice::ReadOnly);
 
