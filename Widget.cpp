@@ -92,6 +92,7 @@ void Widget::parseData(const QJsonDocument &doc)
         QString stationName = obj["stationName"].toString();
         int timeToStation = obj["timeToStation"].toInt();
         QString dest = obj["destinationName"].toString();
+        QString platform = obj["platformName"].toString();
 
         Vehicle& v = _trains[id];
         if( v.timeToStation == 0 || v.timeToStation > timeToStation)
@@ -101,6 +102,7 @@ void Widget::parseData(const QJsonDocument &doc)
             v.timeToStation = timeToStation;
             v.stationName = stationName;
             v.destinationName = dest;
+            v.platformName = platform;
         }
     }
 
