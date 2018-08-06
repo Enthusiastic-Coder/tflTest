@@ -50,7 +50,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_key", key);
 
         QUrl url(QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->lineEdit->text()));
-        //url.setQuery(query);
+        url.setQuery(query);
 
         QNetworkRequest req(url);
         req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
