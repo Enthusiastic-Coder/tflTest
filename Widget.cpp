@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QFile>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -29,12 +30,6 @@ Widget::Widget(QWidget *parent) :
     {
         QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
 
-        int ne = reply->error();
-
-        int status = 0;
-
-        if ( statusCode.isValid() )
-            status = statusCode.toInt();
 
         QByteArray str = reply->readAll();
         QJsonDocument doc = QJsonDocument::fromJson(str);
@@ -49,7 +44,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QUrl url(QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->lineEdit->text()));
+        QUrl url(QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText()));
         url.setQuery(query);
 
         QNetworkRequest req(url);
@@ -57,6 +52,20 @@ Widget::Widget(QWidget *parent) :
 
         _manager->get(req);
 
+    });
+
+    connect( ui->pushButtonFILE, &QPushButton::clicked, [this]
+    {
+        QFile f("/project/todo/tfl/sample-picc.txt");
+
+        f.open(QIODevice::ReadOnly);
+
+        if( f.isOpen())
+        {
+            QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
+
+            parseData(doc);
+        }
     });
 }
 
@@ -69,12 +78,39 @@ void Widget::parseData(const QJsonDocument &doc)
 {
     QJsonArray items = doc.array();
 
+    _trains.clear();
+
     for(const auto& i : items)
     {
         QJsonObject obj = i.toObject();
         QString id = obj["vehicleId"].toString();
         QString currentLocation = obj["currentLocation"].toString();
+        QString stationName = obj["stationName"].toString();
+        int timeToStation = obj["timeToStation"].toInt();
 
+        Vehicle& v = _trains[id];
+        if( v.timeToStation == 0 || v.timeToStation > timeToStation)
+        {
+            v.vehicleId = id;
+            v.currentLocation = currentLocation;
+            v.timeToStation = timeToStation;
+            v.stationName = stationName;
+        }
     }
+
+    updateTextBrowserWithMap();
+}
+
+void Widget::updateTextBrowserWithMap()
+{
+    ui->textBrowser->clear();
+
+    for(const auto& item : _trains)
+    {
+        ui->textBrowser->append(item.toString());
+        ui->textBrowser->append("\n---------\n");
+    }
+
+    ui->textBrowser->append(QString("COUNT:%1").arg(_trains.size()));
 }
 

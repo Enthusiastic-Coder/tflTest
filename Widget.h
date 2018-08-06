@@ -17,7 +17,16 @@ struct Vehicle
     QString vehicleId;
     QString stationName;
     QString currentLocation;
-    double timeToStation;
+    int timeToStation = 0;
+
+    QString toString() const
+    {
+        return QString("id:%1\nStn:%2\nCurr:%3\nTimeTo:%4")
+                .arg(vehicleId)
+                .arg(stationName)
+                .arg(currentLocation)
+                .arg(timeToStation);
+    }
 };
 
 
@@ -31,6 +40,7 @@ public:
 
 protected:
     void parseData(const QJsonDocument& doc);
+    void updateTextBrowserWithMap();
 
 private:
     Ui::Widget *ui;

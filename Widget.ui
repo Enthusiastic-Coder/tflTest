@@ -13,32 +13,97 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>371</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>hammersmith-city</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonGET">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>GET</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QPushButton" name="pushButtonGET">
+     <property name="text">
+      <string>GET</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="pushButtonFILE">
+     <property name="text">
+      <string>FILE</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QTextBrowser" name="textBrowser"/>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <widget class="QComboBox" name="comboBoxLines">
+     <item>
+      <property name="text">
+       <string>hammersmith-city</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>piccadilly</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>victoria</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>circle</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>district</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>bakerloo</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>waterloo-city</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>metropolitan</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>jubilee</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>northern</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>central</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
