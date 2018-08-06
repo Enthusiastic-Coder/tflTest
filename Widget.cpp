@@ -67,6 +67,10 @@ Widget::Widget(QWidget *parent) :
             parseData(doc);
         }
     });
+
+#ifdef Q_OS_ANDROID
+    ui->pushButtonFILE->hide();
+#endif
 }
 
 Widget::~Widget()
