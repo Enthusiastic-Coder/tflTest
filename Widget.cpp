@@ -40,6 +40,8 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButtonGET, &QPushButton::clicked, [this]
     {
+        ui->textBrowser->clear();
+
         QUrlQuery query;
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
@@ -56,6 +58,8 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButtonFILE, &QPushButton::clicked, [this]
     {
+        ui->textBrowser->clear();
+
         QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl", "*.*");
         QFile f(fileName);
 
