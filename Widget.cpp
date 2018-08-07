@@ -88,22 +88,27 @@ void Widget::parseData(const QJsonDocument &doc)
     for(const auto& i : items)
     {
         QJsonObject obj = i.toObject();
-        QString id = obj["vehicleId"].toString();
+
+        QString id = obj["id"].toString();
+        QString vehicleId = obj["vehicleId"].toString();
         QString currentLocation = obj["currentLocation"].toString();
         QString stationName = obj["stationName"].toString();
         int timeToStation = obj["timeToStation"].toInt();
         QString dest = obj["destinationName"].toString();
         QString platform = obj["platformName"].toString();
+        QString direction = obj["direction"].toString();
 
-        Vehicle& v = _trains[id];
+        Vehicle& v = _trains[vehicleId.isEmpty()?id:vehicleId];
         if( v.timeToStation == 0 || v.timeToStation > timeToStation)
         {
-            v.vehicleId = id;
+            v.vehicleId = vehicleId;
+            v.id = id;
             v.currentLocation = currentLocation;
             v.timeToStation = timeToStation;
             v.stationName = stationName;
             v.destinationName = dest;
             v.platformName = platform;
+            v.direction = direction;
         }
     }
 
@@ -117,7 +122,7 @@ void Widget::updateTextBrowserWithMap()
     for(const auto& item : _trains)
     {
         ui->textBrowser->append(item.toString());
-        ui->textBrowser->append("\n---------\n");
+        ui->textBrowser->append("\n");
     }
 
     ui->textBrowser->append(QString("COUNT:%1").arg(_trains.size()));

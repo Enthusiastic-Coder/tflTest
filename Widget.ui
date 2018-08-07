@@ -48,6 +48,16 @@
     <widget class="QComboBox" name="comboBoxLines">
      <item>
       <property name="text">
+       <string>circle</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dlr</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>hammersmith-city</string>
       </property>
      </item>
@@ -59,11 +69,6 @@
      <item>
       <property name="text">
        <string>victoria</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>circle</string>
       </property>
      </item>
      <item>
