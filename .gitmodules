@@ -1,0 +1,3 @@
+[submodule "sdk"]
+	path = sdk
+	url = git@bitbucket.org:MOJ_JEB/sdk.git
