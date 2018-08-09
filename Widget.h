@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 #include <QMap>
+#include <QTextBrowser>
 
 namespace Ui {
 class Widget;
@@ -48,7 +49,7 @@ public:
 
 protected:
     void parseData(const QJsonDocument& doc);
-    void updateTextBrowserWithMap();
+    void updateTextBrowserWithMap(QTextBrowser *textBrowser);
 
 private:
     Ui::Widget *ui;

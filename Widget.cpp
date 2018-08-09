@@ -24,19 +24,8 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     _manager = new QNetworkAccessManager(this);
 
-    QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
-    sslConfiguration.setProtocol(QSsl::TlsV1_2);
-
-    connect( _manager, &QNetworkAccessManager::finished, this , [this](QNetworkReply* reply)
-    {
-        QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
-
-        QByteArray str = reply->readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(str);
-
-        parseData(doc);
-        reply->deleteLater();
-    });
+//    QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
+//    sslConfiguration.setProtocol(QSsl::TlsV1_2);
 
     connect( ui->pushButtonGET, &QPushButton::clicked, [this]
     {
@@ -46,13 +35,66 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QUrl url(QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText()));
+        QString urlText;
+
+        if( ui->comboBoxLines->currentIndex() ==0)
+            urlText = "https://api.tfl.gov.uk/Mode/tube/Arrivals";
+        else
+            urlText = QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText());
+
+        QUrl url(urlText);
         url.setQuery(query);
 
         QNetworkRequest req(url);
         req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
 
-        _manager->get(req);
+        QNetworkReply* reply = _manager->get(req);
+
+        connect(reply, &QNetworkReply::finished, this, [reply,this]
+        {
+            QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+            QByteArray str = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(str);
+
+            parseData(doc);
+            updateTextBrowserWithMap(ui->textBrowser);
+            reply->deleteLater();
+        });
+
+    });
+
+    connect( ui->pushButtonGET_2, &QPushButton::clicked, [this]
+    {
+        ui->textBrowser_2->clear();
+
+        QUrlQuery query;
+        query.addQueryItem("app_id", appID);
+        query.addQueryItem("app_key", key);
+
+        QString urlText =
+                QString("https://api.tfl.gov.uk/Line/%1/StopPoints")
+                .arg(ui->comboBoxLines_2->currentText());
+
+        QUrl url(urlText);
+        url.setQuery(query);
+
+        QNetworkRequest req(url);
+        req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
+
+        QNetworkReply* reply = _manager->get(req);
+
+        connect(reply, &QNetworkReply::finished, this, [reply,this]
+        {
+            QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+            QByteArray str = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(str);
+
+            parseData(doc);
+            updateTextBrowserWithMap(ui->textBrowser_2);
+            reply->deleteLater();
+        });
 
     });
 
@@ -72,6 +114,8 @@ Widget::Widget(QWidget *parent) :
             parseData(doc);
         }
     });
+
+
 
 #ifdef Q_OS_ANDROID
     ui->pushButtonFILE->hide();
@@ -115,20 +159,18 @@ void Widget::parseData(const QJsonDocument &doc)
             v.direction = direction;
         }
     }
-
-    updateTextBrowserWithMap();
 }
 
-void Widget::updateTextBrowserWithMap()
+void Widget::updateTextBrowserWithMap(QTextBrowser* textBrowser)
 {
-    ui->textBrowser->clear();
+    textBrowser->clear();
 
     for(const auto& item : _trains)
     {
-        ui->textBrowser->append(item.toString());
-        ui->textBrowser->append("\n");
+        textBrowser->append(item.toString());
+        textBrowser->append("\n");
     }
 
-    ui->textBrowser->append(QString("COUNT:%1").arg(_trains.size()));
+    textBrowser->append(QString("COUNT:%1").arg(_trains.size()));
 }
 
