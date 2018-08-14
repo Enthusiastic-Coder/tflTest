@@ -112,6 +112,7 @@ Widget::Widget(QWidget *parent) :
             QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
 
             parseData(doc);
+            updateTextBrowserWithMap(ui->textBrowser);
         }
     });
 
