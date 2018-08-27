@@ -67,6 +67,7 @@ Widget::Widget(QWidget *parent) :
     connect( ui->pushButtonGET_2, &QPushButton::clicked, [this]
     {
         ui->textBrowser_2->clear();
+        ui->labelStopPoint->clear();
 
         QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl/stoppoints", "*.*");
         QFile f(fileName);
@@ -75,6 +76,7 @@ Widget::Widget(QWidget *parent) :
 
         if( f.isOpen())
         {
+            ui->labelStopPoint->setText( f.fileName() );
             QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
 
             parseStopPoints(doc);
@@ -85,14 +87,16 @@ Widget::Widget(QWidget *parent) :
     connect( ui->pushButtonFILE, &QPushButton::clicked, [this]
     {
         ui->textBrowser->clear();
+        ui->labelArrivals->clear();
 
-        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl", "*.*");
+        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl/arrivals", "*.*");
         QFile f(fileName);
 
         f.open(QIODevice::ReadOnly);
 
         if( f.isOpen())
         {
+            ui->labelArrivals->setText( f.fileName());
             QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
 
             parseLineArrival(doc);
