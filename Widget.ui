@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -26,6 +26,9 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0" colspan="2">
         <widget class="QComboBox" name="comboBoxLines">
+         <property name="insertPolicy">
+          <enum>QComboBox::InsertAlphabetically</enum>
+         </property>
          <item>
           <property name="text">
            <string>ALL</string>
@@ -130,17 +133,17 @@
        <string>Stop Points</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="0">
+       <item row="0" column="0">
         <widget class="QPushButton" name="pushButtonGET_2">
          <property name="text">
-          <string>GET</string>
+          <string>FILE</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
+       <item row="1" column="0" colspan="3">
         <widget class="QTextBrowser" name="textBrowser_2"/>
        </item>
-       <item row="1" column="1">
+       <item row="0" column="1">
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -152,70 +155,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="0" column="0">
-        <widget class="QComboBox" name="comboBoxLines_2">
-         <item>
-          <property name="text">
-           <string>circle</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>dlr</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>hammersmith-city</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>piccadilly</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>victoria</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>district</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>bakerloo</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>waterloo-city</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>metropolitan</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>jubilee</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>northern</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>central</string>
-          </property>
-         </item>
-        </widget>
        </item>
       </layout>
      </widget>

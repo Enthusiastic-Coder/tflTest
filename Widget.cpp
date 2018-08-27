@@ -57,8 +57,8 @@ Widget::Widget(QWidget *parent) :
             QByteArray str = reply->readAll();
             QJsonDocument doc = QJsonDocument::fromJson(str);
 
-            parseData(doc);
-            updateTextBrowserWithMap(ui->textBrowser);
+            parseLineArrival(doc);
+            updateTextBrowserWithArrivals(ui->textBrowser);
             reply->deleteLater();
         });
 
@@ -68,34 +68,18 @@ Widget::Widget(QWidget *parent) :
     {
         ui->textBrowser_2->clear();
 
-        QUrlQuery query;
-        query.addQueryItem("app_id", appID);
-        query.addQueryItem("app_key", key);
+        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl/stoppoints", "*.*");
+        QFile f(fileName);
 
-        QString urlText =
-                QString("https://api.tfl.gov.uk/Line/%1/StopPoints")
-                .arg(ui->comboBoxLines_2->currentText());
+        f.open(QIODevice::ReadOnly);
 
-        QUrl url(urlText);
-        url.setQuery(query);
-
-        QNetworkRequest req(url);
-        req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
-
-        QNetworkReply* reply = _manager->get(req);
-
-        connect(reply, &QNetworkReply::finished, this, [reply,this]
+        if( f.isOpen())
         {
-            QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+            QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
 
-            QByteArray str = reply->readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(str);
-
-            parseData(doc);
-            updateTextBrowserWithMap(ui->textBrowser_2);
-            reply->deleteLater();
-        });
-
+            parseStopPoints(doc);
+            updateTextBrowserWithStations(ui->textBrowser_2);
+        }
     });
 
     connect( ui->pushButtonFILE, &QPushButton::clicked, [this]
@@ -111,8 +95,8 @@ Widget::Widget(QWidget *parent) :
         {
             QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
 
-            parseData(doc);
-            updateTextBrowserWithMap(ui->textBrowser);
+            parseLineArrival(doc);
+            updateTextBrowserWithArrivals(ui->textBrowser);
         }
     });
 
@@ -128,13 +112,13 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::parseData(const QJsonDocument &doc)
+void Widget::parseLineArrival(const QJsonDocument &doc)
 {
     QJsonArray items = doc.array();
 
     _trains.clear();
 
-    for(const auto& i : items)
+    for(const auto i : items)
     {
         QJsonObject obj = i.toObject();
 
@@ -162,7 +146,25 @@ void Widget::parseData(const QJsonDocument &doc)
     }
 }
 
-void Widget::updateTextBrowserWithMap(QTextBrowser* textBrowser)
+void Widget::parseStopPoints(const QJsonDocument &doc)
+{
+    _stations.clear();
+
+    QJsonArray items = doc.array();
+
+    for(const auto i : items)
+    {
+        QJsonObject obj = i.toObject();
+        QString stopName = obj["commonName"].toString();
+        StopPoint& sp = _stations[stopName];
+
+        sp.name = stopName;
+        sp.location.fLat = obj["lat"].toDouble();
+        sp.location.fLng = obj["lon"].toDouble();
+    }
+}
+
+void Widget::updateTextBrowserWithArrivals(QTextBrowser* textBrowser)
 {
     textBrowser->clear();
 
@@ -175,3 +177,12 @@ void Widget::updateTextBrowserWithMap(QTextBrowser* textBrowser)
     textBrowser->append(QString("COUNT:%1").arg(_trains.size()));
 }
 
+void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
+{
+    textBrowser->clear();
+
+    for(const auto& item : _stations)
+        textBrowser->append(item.toString());
+
+    textBrowser->append(QString("COUNT:%1").arg(_stations.size()));
+}

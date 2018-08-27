@@ -38,6 +38,25 @@ struct Vehicle
     }
 };
 
+struct LatLng
+{
+    float fLat = 0.0f;
+    float fLng = 0.0f;
+};
+
+struct StopPoint
+{
+    QString name;
+    LatLng location;
+
+    QString toString() const
+    {
+        return QString("%1, [%2,%3]")
+                .arg(name)
+                .arg(location.fLat)
+                .arg(location.fLng);
+    }
+};
 
 class Widget : public QWidget
 {
@@ -48,13 +67,16 @@ public:
     ~Widget();
 
 protected:
-    void parseData(const QJsonDocument& doc);
-    void updateTextBrowserWithMap(QTextBrowser *textBrowser);
+    void parseLineArrival(const QJsonDocument& doc);
+    void parseStopPoints(const QJsonDocument& doc);
+    void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
+    void updateTextBrowserWithStations(QTextBrowser *textBrowser);
 
 private:
     Ui::Widget *ui;
     QNetworkAccessManager* _manager;
     QMap<QString, Vehicle> _trains;
+    QMap<QString,StopPoint> _stations;
 };
 
 #endif // WIDGET_H
