@@ -35,12 +35,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QString urlText;
-
-        if( ui->comboBoxLines->currentIndex() ==0)
-            urlText = "https://api.tfl.gov.uk/Mode/tube/Arrivals";
-        else
-            urlText = QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText());
+        QString urlText = QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText());
 
         QUrl url(urlText);
         url.setQuery(query);

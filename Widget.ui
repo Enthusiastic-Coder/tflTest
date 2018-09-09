@@ -38,11 +38,6 @@
          </property>
          <item>
           <property name="text">
-           <string>ALL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>circle</string>
           </property>
          </item>
