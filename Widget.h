@@ -19,6 +19,7 @@ struct Vehicle
     QString vehicleId;
     QString stationName;
     QString currentLocation;
+    QString towards;
     QString direction;
     int timeToStation = 0;
     QString destinationName;
@@ -26,15 +27,16 @@ struct Vehicle
 
     QString toString() const
     {
-        return QString("id:%1, %7\nStn:%2\nCurr:%3\nDir:%8\nTimeTo:%4\nDest:%5\nPlat:%6")
+        return QString("id:%1, %2\nStn:%3\nCurr:%4\nToward:%9\nDir:%8\nTimeTo:%5\nDest:%6\nPlat:%7")
                 .arg(id)
+                .arg(vehicleId)
                 .arg(stationName)
                 .arg(currentLocation)
                 .arg(timeToStation)
                 .arg(destinationName)
                 .arg(platformName)
-                .arg(vehicleId)
-                .arg(direction);
+                .arg(direction)
+                .arg(towards);
     }
 };
 
