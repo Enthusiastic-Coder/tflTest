@@ -43,6 +43,11 @@
          </item>
          <item>
           <property name="text">
+           <string>tfl-rail</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>dlr</string>
           </property>
          </item>

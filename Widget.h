@@ -15,7 +15,6 @@ struct Vehicle
 {
     Vehicle() {}
 
-    QString id;
     QString vehicleId;
     QString stationName;
     QString currentLocation;
@@ -25,10 +24,35 @@ struct Vehicle
     QString destinationName;
     QString platformName;
 
+    void formatCurrentLocation()
+    {
+        if( currentLocation.startsWith("Approaching"))
+        {
+            currentLocation = currentLocation.mid(QString("Approaching").length()+1);
+        }
+        else if( currentLocation.startsWith("At"))
+        {
+            int idx = currentLocation.lastIndexOf("Platform");
+            currentLocation = currentLocation.mid(3, idx-4);
+        }
+        else if( currentLocation.startsWith("Between"))
+        {
+            int idx = currentLocation.lastIndexOf("and");
+            currentLocation = currentLocation.mid(8, idx-9);
+        }
+        else if( currentLocation.startsWith("Left"))
+        {
+            currentLocation = currentLocation.mid(QString("Left").length()+1);
+        }
+        else if( currentLocation.startsWith("Departed"))
+        {
+            currentLocation = currentLocation.mid(QString("Departed").length()+1);
+        }
+    }
+
     QString toString() const
     {
-        return QString("id:%1, %2\nStn:%3\nCurr:%4\nToward:%9\nDir:%8\nTimeTo:%5\nDest:%6\nPlat:%7")
-                .arg(id)
+        return QString("id:%1\nStn:%2\nCurr:[%3]\nToward:%8\nDir:%7\nTimeTo:%4\nDest:%5\nPlat:%6")
                 .arg(vehicleId)
                 .arg(stationName)
                 .arg(currentLocation)
