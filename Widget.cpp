@@ -64,7 +64,7 @@ Widget::Widget(QWidget *parent) :
         ui->textBrowser_2->clear();
         ui->labelStopPoint->clear();
 
-        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl/stoppoints", "*.*");
+        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/Project/GIT/TrainTracker/data/StopPoints", "*.*");
         QFile f(fileName);
 
         f.open(QIODevice::ReadOnly);
@@ -84,7 +84,7 @@ Widget::Widget(QWidget *parent) :
         ui->textBrowser->clear();
         ui->labelArrivals->clear();
 
-        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/project/todo/tfl/arrivals", "*.*");
+        QString fileName = QFileDialog::getOpenFileName(this, "Pick file", "/Project/GIT/TrainTracker/data/Arrivals", "*.*");
         QFile f(fileName);
 
         f.open(QIODevice::ReadOnly);

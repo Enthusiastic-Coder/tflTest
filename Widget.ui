@@ -53,6 +53,16 @@
          </item>
          <item>
           <property name="text">
+           <string>london-overground</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>tram</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>hammersmith-city</string>
           </property>
          </item>
