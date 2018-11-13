@@ -141,7 +141,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc)
             v.destinationName = dest;
             v.platformName = platform;
             v.direction = direction;
-            v.formatCurrentLocation();
+//            v.formatCurrentLocation();
         }
     }
 }
