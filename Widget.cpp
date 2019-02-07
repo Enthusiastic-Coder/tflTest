@@ -24,6 +24,7 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     _manager = new QNetworkAccessManager(this);
 
+
 //    QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
 //    sslConfiguration.setProtocol(QSsl::TlsV1_2);
 
@@ -41,7 +42,12 @@ Widget::Widget(QWidget *parent) :
         url.setQuery(query);
 
         QNetworkRequest req(url);
+//        QSslConfiguration config = req.sslConfiguration();
+//        config.setProtocol(QSsl::SslV2);
         req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
+
+        QSslConfiguration config = req.sslConfiguration();
+        config.setProtocol(QSsl::AnyProtocol);
 
         QNetworkReply* reply = _manager->get(req);
 
