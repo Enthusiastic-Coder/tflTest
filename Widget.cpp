@@ -31,6 +31,7 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pushButtonGETStopPoint, &QPushButton::clicked, [this]
     {
         ui->textBrowser_2->clear();
+        ui->labelStopPoint->clear();
 
         QUrlQuery query;
         query.addQueryItem("app_id", appID);
