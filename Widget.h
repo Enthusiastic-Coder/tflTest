@@ -23,6 +23,7 @@ struct Vehicle
     int timeToStation = 0;
     QString destinationName;
     QString platformName;
+    QString naptanId;
 
     void formatCurrentLocation()
     {
@@ -52,9 +53,10 @@ struct Vehicle
 
     QString toString() const
     {
-        return QString("id:%1\nStn:%2\nCurr:[%3]\nToward:%8\nDir:%7\nTimeTo:%4\nDest:%5\nPlat:%6")
+        return QString("id:%1\nStn:%2\nNaptanId:%3\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5\nDest:%6\nPlat:%7")
                 .arg(vehicleId)
                 .arg(stationName)
+                .arg(naptanId)
                 .arg(currentLocation)
                 .arg(timeToStation)
                 .arg(destinationName)
