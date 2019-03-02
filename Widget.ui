@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
+    <width>556</width>
     <height>402</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TFL Testing</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="1" column="1">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -48,91 +48,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="4">
-        <widget class="QComboBox" name="comboBoxLines">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::InsertAlphabetically</enum>
-         </property>
-         <item>
-          <property name="text">
-           <string>circle</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>tfl-rail</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>dlr</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>london-overground</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>tram</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>hammersmith-city</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>piccadilly</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>victoria</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>district</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>bakerloo</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>waterloo-city</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>metropolitan</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>jubilee</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>northern</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>central</string>
-          </property>
-         </item>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -140,30 +55,24 @@
        <string>Stop Points</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
+       <item row="1" column="0" colspan="6">
+        <widget class="QTextBrowser" name="textBrowser_2"/>
+       </item>
+       <item row="0" column="2" colspan="2">
         <widget class="QPushButton" name="pushButtonGET_2">
          <property name="text">
           <string>FILE</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="0" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButtonGETStopPoint">
+         <property name="text">
+          <string>GET</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="1" column="0" colspan="4">
-        <widget class="QTextBrowser" name="textBrowser_2"/>
-       </item>
-       <item row="0" column="1">
+       <item row="0" column="4">
         <widget class="QLabel" name="labelStopPoint">
          <property name="text">
           <string>....</string>
@@ -172,6 +81,91 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="comboBoxLines">
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::InsertAlphabetically</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>circle</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>tfl-rail</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>dlr</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>london-overground</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>tram</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>hammersmith-city</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>piccadilly</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>victoria</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>district</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>bakerloo</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>waterloo-city</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>metropolitan</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>jubilee</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>northern</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>central</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>

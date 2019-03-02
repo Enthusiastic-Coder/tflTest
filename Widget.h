@@ -75,12 +75,14 @@ struct LatLng
 struct StopPoint
 {
     QString name;
+    QString naptanId;
     LatLng location;
 
     QString toString() const
     {
-        return QString("%1, [%2,%3]")
+        return QString("%1, %2, [%3,%4]")
                 .arg(name)
+                .arg(naptanId)
                 .arg(location.fLat)
                 .arg(location.fLng);
     }

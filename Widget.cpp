@@ -28,6 +28,37 @@ Widget::Widget(QWidget *parent) :
 //    QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
 //    sslConfiguration.setProtocol(QSsl::TlsV1_2);
 
+    connect(ui->pushButtonGETStopPoint, &QPushButton::clicked, [this]
+    {
+        ui->textBrowser_2->clear();
+
+        QUrlQuery query;
+        query.addQueryItem("app_id", appID);
+        query.addQueryItem("app_key", key);
+
+        QString urlText = QString("https://api.tfl.gov.uk/line/%1/stoppoints").arg(ui->comboBoxLines->currentText());
+
+        QUrl url(urlText);
+        url.setQuery(query);
+
+        QNetworkRequest req(url);
+        req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
+
+        QNetworkReply* reply = _manager->get(req);
+
+        connect(reply, &QNetworkReply::finished, this, [reply,this]
+        {
+            QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+            QByteArray str = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(str);
+
+            parseStopPoints(doc);
+            updateTextBrowserWithStations(ui->textBrowser_2);
+            reply->deleteLater();
+        });
+    });
+
     connect( ui->pushButtonGET, &QPushButton::clicked, [this]
     {
         ui->textBrowser->clear();
@@ -167,6 +198,7 @@ void Widget::parseStopPoints(const QJsonDocument &doc)
         StopPoint& sp = _stations[stopName];
 
         sp.name = stopName;
+        sp.naptanId = obj["naptanId"].toString();
         sp.location.fLat = obj["lat"].toDouble();
         sp.location.fLng = obj["lon"].toDouble();
     }
@@ -194,3 +226,4 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
 
     textBrowser->append(QString("COUNT:%1").arg(_stations.size()));
 }
+
