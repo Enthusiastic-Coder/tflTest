@@ -98,6 +98,7 @@ void TFLRouteWorker::downloadNextLine()
     if( _allRoutesList.isEmpty())
     {
         emit progressSoFar("ALL ROUTES COMPLETE");
+        emit finished();
         return;
     }
 
