@@ -26,6 +26,13 @@ Widget::Widget(QWidget *parent) :
     _manager = new QNetworkAccessManager(this);
 
 
+    connect( _tflWorker, &TFLRouteWorker::finished, [this]
+    {
+        ui->pushButtonTFLDownload->setEnabled(true);
+    });
+
+    connect( _tflWorker, &TFLRouteWorker::progressSoFar, ui->labelTFLProgress, &QLabel::setText);
+
 //    QSslConfiguration sslConfiguration(QSslConfiguration::defaultConfiguration());
 //    sslConfiguration.setProtocol(QSsl::TlsV1_2);
 
@@ -145,7 +152,6 @@ Widget::Widget(QWidget *parent) :
     ui->pushButtonFILE->hide();
 #endif
 
-    connect( this, &Widget::postMsgToTflProgressLabel, this, &Widget::updateTFLProgressText);
 }
 
 Widget::~Widget()
@@ -234,12 +240,6 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
 
 void Widget::startTFLRoutesDownload()
 {
-    emit postMsgToTflProgressLabel("Finished");
-
+    ui->pushButtonTFLDownload->setEnabled(false);
     _tflWorker->downloadAllRoutesList();
-}
-
-void Widget::updateTFLProgressText(QString msg)
-{
-    ui->labelTFLProgress->setText( msg);
 }

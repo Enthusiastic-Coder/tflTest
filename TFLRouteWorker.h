@@ -18,7 +18,8 @@ protected:
     void downloadNextLine();
 
 signals:
-    void lineStarted(QString);
+    void finished();
+    void progressSoFar(QString msg);
 
 public slots:
 

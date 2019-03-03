@@ -81,11 +81,12 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     QFile file(QString("routes/route_%1.txt").arg(lineId));
     if( !file.open(QIODevice::WriteOnly))
     {
-        qDebug() << "Failed : " << lineId;
+        emit progressSoFar("Failed : " + lineId);
         return;
     }
 
-    qDebug() << "Saved:  " << file.fileName() << "--- Routes left : " << _allRoutesList.size();
+    QString msg = QString( "Saved: %1 -- Routes Left : %2").arg(file.fileName()).arg(_allRoutesList.size());
+    emit progressSoFar(msg);
 
     QTextStream textStream(&file);
     textStream << json;
@@ -96,10 +97,9 @@ void TFLRouteWorker::downloadNextLine()
 {
     if( _allRoutesList.isEmpty())
     {
-        qDebug() << "ALL ROUTES COMPLETE";
+        emit progressSoFar("ALL ROUTES COMPLETE");
         return;
     }
-
 
     QUrlQuery query;
     query.addQueryItem("app_id", appID);

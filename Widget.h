@@ -97,12 +97,8 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-signals:
-    void postMsgToTflProgressLabel(QString);
-
 protected slots:
     void startTFLRoutesDownload();
-    void updateTFLProgressText(QString msg);
 
 protected:
     void parseLineArrival(const QJsonDocument& doc);
