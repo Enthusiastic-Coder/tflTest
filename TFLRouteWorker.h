@@ -1,0 +1,31 @@
+#ifndef TFLROUTEWORKER_H
+#define TFLROUTEWORKER_H
+
+#include <QObject>
+#include <QNetworkAccessManager>
+
+class TFLRouteWorker : public QObject
+{
+    Q_OBJECT
+public:
+    explicit TFLRouteWorker(QObject *parent = nullptr);
+
+    void downloadAllRoutesList();
+
+protected:
+    void storeAllRouteIDsInList(const QByteArray &json);
+    void processRoute(const QByteArray &json);
+    void downloadNextLine();
+
+signals:
+    void lineStarted(QString);
+
+public slots:
+
+private:
+    QNetworkAccessManager* _networkManager = nullptr;
+    const QString rootURL = "https://api.tfl.gov.uk/Line/Route/";
+    QStringList _allRoutesList;
+};
+
+#endif // TFLROUTEWORKER_H

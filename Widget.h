@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QMap>
 #include <QTextBrowser>
+#include "TFLRouteWorker.h"
 
 namespace Ui {
 class Widget;
@@ -96,6 +97,13 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
+signals:
+    void postMsgToTflProgressLabel(QString);
+
+protected slots:
+    void startTFLRoutesDownload();
+    void updateTFLProgressText(QString msg);
+
 protected:
     void parseLineArrival(const QJsonDocument& doc);
     void parseStopPoints(const QJsonDocument& doc);
@@ -107,6 +115,7 @@ private:
     QNetworkAccessManager* _manager;
     QMap<QString, Vehicle> _trains;
     QMap<QString,StopPoint> _stations;
+    TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
 };
 
 #endif // WIDGET_H

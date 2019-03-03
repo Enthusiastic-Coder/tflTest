@@ -13,6 +13,7 @@
 #include <QFile>
 #include <QFileDialog>
 
+
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
@@ -138,10 +139,13 @@ Widget::Widget(QWidget *parent) :
     });
 
 
+    connect( ui->pushButtonTFLDownload, &QPushButton::clicked, this, &Widget::startTFLRoutesDownload);
 
 #ifdef Q_OS_ANDROID
     ui->pushButtonFILE->hide();
 #endif
+
+    connect( this, &Widget::postMsgToTflProgressLabel, this, &Widget::updateTFLProgressText);
 }
 
 Widget::~Widget()
@@ -228,3 +232,14 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
     textBrowser->append(QString("COUNT:%1").arg(_stations.size()));
 }
 
+void Widget::startTFLRoutesDownload()
+{
+    emit postMsgToTflProgressLabel("Finished");
+
+    _tflWorker->downloadAllRoutesList();
+}
+
+void Widget::updateTFLProgressText(QString msg)
+{
+    ui->labelTFLProgress->setText( msg);
+}

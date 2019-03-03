@@ -24,10 +24,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        Widget.cpp
+        Widget.cpp \
+    TFLRouteWorker.cpp
 
 HEADERS += \
-        Widget.h
+        Widget.h \
+    TFLRouteWorker.h
 
 FORMS += \
         Widget.ui
