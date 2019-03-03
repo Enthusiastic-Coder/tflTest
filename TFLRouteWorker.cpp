@@ -85,7 +85,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
         return;
     }
 
-    qDebug() << "Saved:  " << file.fileName();
+    qDebug() << "Saved:  " << file.fileName() << "--- Routes left : " << _allRoutesList.size();
 
     QTextStream textStream(&file);
     textStream << json;
