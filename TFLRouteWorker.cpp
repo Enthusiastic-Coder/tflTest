@@ -78,7 +78,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     QString lineId = rootObj["lineId"].toString();
 
-    QFile file(QString("routes/route_%1.txt").arg(lineId));
+    QFile file(QString("routes/%1.txt").arg(lineId));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + lineId);

@@ -54,7 +54,7 @@ struct Vehicle
 
     QString toString() const
     {
-        return QString("id:%1\nStn:%2\nNaptanId:%3\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5\nDest:%6\nPlat:%7")
+        return QString("vehicleID:%1\nStn:%2\nNaptanId:%3\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5 [%10m]\nDest:%6\nPlat:%7")
                 .arg(vehicleId)
                 .arg(stationName)
                 .arg(naptanId)
@@ -63,7 +63,8 @@ struct Vehicle
                 .arg(destinationName)
                 .arg(platformName)
                 .arg(direction)
-                .arg(towards);
+                .arg(towards)
+                .arg(timeToStation/100.0/1.609334, 0,'g', 2);
     }
 };
 

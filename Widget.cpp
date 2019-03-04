@@ -169,6 +169,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc)
     {
         QJsonObject obj = i.toObject();
 
+        QString id = obj["id"].toString();
         QString vehicleId = obj["vehicleId"].toString();
         QString currentLocation = obj["currentLocation"].toString();
         QString stationName = obj["stationName"].toString();
@@ -178,8 +179,13 @@ void Widget::parseLineArrival(const QJsonDocument &doc)
         QString direction = obj["direction"].toString();
         QString towards = obj["towards"].toString();
         QString naptanId = obj["naptanId"].toString();
+        QString lineId = obj["lineId"].toString();
 
-        Vehicle& v = _trains[vehicleId.isEmpty()?stationName:vehicleId];
+        QString compoundId = dest + id;
+
+        QString finalId = vehicleId.isEmpty()?compoundId:vehicleId;
+
+        Vehicle& v = _trains[finalId+lineId];
         if( v.timeToStation == 0 || timeToStation < v.timeToStation )
         {
             v.vehicleId = vehicleId;
