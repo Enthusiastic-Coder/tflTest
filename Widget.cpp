@@ -127,7 +127,7 @@ Widget::Widget(QWidget *parent) :
             QByteArray str = reply->readAll();
             QJsonDocument doc = QJsonDocument::fromJson(str);
 
-            parseLineArrival(doc);
+            parseLineArrival(doc, false);
             updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
             reply->deleteLater();
         });
@@ -188,7 +188,7 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::parseLineArrival(const QJsonDocument &doc)
+void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
 {
     QJsonArray items = doc.array();
 
@@ -214,8 +214,8 @@ void Widget::parseLineArrival(const QJsonDocument &doc)
 
         QString finalId = vehicleId.isEmpty()?compoundId:vehicleId;
 
-        Vehicle& v = _trains[finalId+lineId];
-        if( v.timeToStation == 0 || timeToStation < v.timeToStation )
+        Vehicle& v = _trains[!bMinimize?stationName:"" + finalId+lineId];
+        if( v.timeToStation == 0 || timeToStation < v.timeToStation || !bMinimize)
         {
             v.vehicleId = vehicleId;
             v.currentLocation = currentLocation;

@@ -103,7 +103,7 @@ protected slots:
     void startTFLRoutesDownload();
 
 protected:
-    void parseLineArrival(const QJsonDocument& doc);
+    void parseLineArrival(const QJsonDocument& doc, bool bMinimize=true);
     void parseStopPoints(const QJsonDocument& doc);
     void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
     void updateTextBrowserWithStations(QTextBrowser *textBrowser);
