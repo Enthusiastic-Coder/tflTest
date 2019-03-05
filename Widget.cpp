@@ -13,6 +13,8 @@
 #include <QFile>
 #include <QFileDialog>
 
+#include <QVector>
+
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -82,12 +84,7 @@ Widget::Widget(QWidget *parent) :
         url.setQuery(query);
 
         QNetworkRequest req(url);
-//        QSslConfiguration config = req.sslConfiguration();
-//        config.setProtocol(QSsl::SslV2);
         req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
-
-        QSslConfiguration config = req.sslConfiguration();
-        config.setProtocol(QSsl::AnyProtocol);
 
         QNetworkReply* reply = _manager->get(req);
 
@@ -100,6 +97,38 @@ Widget::Widget(QWidget *parent) :
 
             parseLineArrival(doc);
             updateTextBrowserWithArrivals(ui->textBrowser);
+            reply->deleteLater();
+        });
+
+    });
+
+    connect( ui->pushButtonGET_Vehicle, &QPushButton::clicked, [this]
+    {
+        ui->textBrowser_Vehicle->clear();
+
+        QUrlQuery query;
+        query.addQueryItem("app_id", appID);
+        query.addQueryItem("app_key", key);
+
+        QString urlText = QString("https://api.tfl.gov.uk/vehicle/%1/arrivals").arg(ui->lineEdit_VehicleID->text());
+
+        QUrl url(urlText);
+        url.setQuery(query);
+
+        QNetworkRequest req(url);
+        req.setRawHeader("User-Agent" , "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17");
+
+        QNetworkReply* reply = _manager->get(req);
+
+        connect(reply, &QNetworkReply::finished, this, [reply,this]
+        {
+            QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+            QByteArray str = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(str);
+
+            parseLineArrival(doc);
+            updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
             reply->deleteLater();
         });
 
@@ -225,13 +254,23 @@ void Widget::updateTextBrowserWithArrivals(QTextBrowser* textBrowser)
 {
     textBrowser->clear();
 
+    QVector<const Vehicle*> trains;
+
     for(const auto& item : _trains)
+        trains << &item;
+
+    std::sort( trains.begin(), trains.end(), [](const Vehicle* l, const Vehicle* r)
     {
-        textBrowser->append(item.toString());
+        return l->timeToStation < r->timeToStation;
+    });
+
+    for(const auto& item : trains)
+    {
+        textBrowser->append(item->toString());
         textBrowser->append("\n");
     }
 
-    textBrowser->append(QString("COUNT:%1").arg(_trains.size()));
+    textBrowser->append(QString("COUNT:%1").arg(trains.size()));
 }
 
 void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
