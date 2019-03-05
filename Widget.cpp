@@ -226,6 +226,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
             v.platformName = platform;
             v.direction = direction;
             v.naptanId = naptanId;
+            v.lineId = lineId;
 //            v.formatCurrentLocation();
         }
     }
