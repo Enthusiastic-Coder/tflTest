@@ -10,7 +10,7 @@ class TFLRouteWorker : public QObject
 public:
     explicit TFLRouteWorker(QObject *parent = nullptr);
 
-    void downloadAllRoutesList();
+    void downloadAllRoutesList(bool bInbound=false);
 
 protected:
     void storeAllRouteIDsInList(const QByteArray &json);
@@ -27,6 +27,7 @@ private:
     QNetworkAccessManager* _networkManager = nullptr;
     const QString rootURL = "https://api.tfl.gov.uk/Line/Route/";
     QStringList _allRoutesList;
+    bool _bInbound = false;
 };
 
 #endif // TFLROUTEWORKER_H

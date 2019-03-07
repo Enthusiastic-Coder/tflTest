@@ -108,7 +108,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -200,7 +200,14 @@
        <string>AllRoutes</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="2" column="0">
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="labelTFLProgress">
+         <property name="text">
+          <string>Info.....</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -233,10 +240,10 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="labelTFLProgress">
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="checkBoxInBound">
          <property name="text">
-          <string>Info.....</string>
+          <string>InBound</string>
          </property>
         </widget>
        </item>

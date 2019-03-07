@@ -242,7 +242,7 @@ void Widget::parseStopPoints(const QJsonDocument &doc)
     {
         QJsonObject obj = i.toObject();
         QString stopName = obj["commonName"].toString();
-        StopPoint& sp = _stations[stopName];
+        OldStopPoint& sp = _stations[stopName];
 
         sp.name = stopName;
         sp.naptanId = obj["naptanId"].toString();
@@ -287,5 +287,5 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
 void Widget::startTFLRoutesDownload()
 {
     ui->pushButtonTFLDownload->setEnabled(false);
-    _tflWorker->downloadAllRoutesList();
+    _tflWorker->downloadAllRoutesList(ui->checkBoxInBound->isChecked() );
 }

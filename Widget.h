@@ -77,7 +77,7 @@ struct LatLng
     float fLng = 0.0f;
 };
 
-struct StopPoint
+struct OldStopPoint
 {
     QString name;
     QString naptanId;
@@ -114,7 +114,7 @@ private:
     Ui::Widget *ui;
     QNetworkAccessManager* _manager;
     QMap<QString, Vehicle> _trains;
-    QMap<QString,StopPoint> _stations;
+    QMap<QString,OldStopPoint> _stations;
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
 };
 

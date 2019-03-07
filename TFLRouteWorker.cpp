@@ -20,6 +20,8 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
     QDir dir(QDir::current());
 
     dir.mkdir("routes");
+    dir.mkdir("routes/inbound");
+    dir.mkdir("routes/outbound");
 
     connect( _networkManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
     {
@@ -46,8 +48,9 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
     });
 }
 
-void TFLRouteWorker::downloadAllRoutesList()
+void TFLRouteWorker::downloadAllRoutesList(bool bInbound)
 {
+    _bInbound = bInbound;
     QUrl url(rootURL);
     QNetworkRequest request(url);
     _networkManager->get(request);
@@ -78,7 +81,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     QString lineId = rootObj["lineId"].toString();
 
-    QFile file(QString("routes/%1.txt").arg(lineId));
+    QFile file(QString("routes/%2/%1.txt").arg(lineId).arg(_bInbound?"inbound":"outbound"));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + lineId);
@@ -109,7 +112,7 @@ void TFLRouteWorker::downloadNextLine()
     QString lineId = _allRoutesList.front();
     _allRoutesList.pop_front();
 
-    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/Outbound").arg(lineId)));
+    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/%2").arg(lineId).arg(_bInbound?"Inbound":"Outbound")));
     url.setQuery(query);
     QNetworkRequest request(url);
     _networkManager->get(request);
