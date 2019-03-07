@@ -20,8 +20,6 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
     QDir dir(QDir::current());
 
     dir.mkdir("routes");
-    dir.mkdir("routes/inbound");
-    dir.mkdir("routes/outbound");
 
     connect( _networkManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
     {
@@ -81,7 +79,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     QString lineId = rootObj["lineId"].toString();
 
-    QFile file(QString("routes/%2/%1.txt").arg(lineId).arg(_bInbound?"inbound":"outbound"));
+    QFile file(QString("routes/%2_%1.txt").arg(lineId).arg(_bInbound?"i":"o"));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + lineId);
