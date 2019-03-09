@@ -114,7 +114,7 @@ private:
     Ui::Widget *ui;
     QNetworkAccessManager* _manager;
     QMap<QString, Vehicle> _trains;
-    QMap<QString,OldStopPoint> _stations;
+    QHash<QString,OldStopPoint> _stations;
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
 };
 
