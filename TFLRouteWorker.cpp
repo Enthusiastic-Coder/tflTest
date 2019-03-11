@@ -101,12 +101,57 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     QJsonDocument document = QJsonDocument::fromJson(json);
     QJsonObject rootObj = document.object();
 
-    QString lineId = rootObj["lineId"].toString();
+    QJsonDocument finalDocument;
 
-    QFile file(QString("routes/%2_%1.txt").arg(lineId).arg(_bInbound?"i":"o"));
+    QJsonObject topObject;
+    topObject["lineId"] = rootObj["lineId"];
+    topObject["lineName"] = rootObj["lineName"];
+    topObject["mode"] = rootObj["mode"];
+
+    QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
+
+    QJsonArray outBranchArray;
+
+    for(QJsonValue value : inBranchArray)
+    {
+        QJsonObject obj;
+        obj["direction"] = value["direction"];
+        obj["lineId"] = value["lineId"];
+        obj["lineName"] = value["lineName"];
+
+        QJsonArray inStopPointArray = value["stopPoint"].toArray();
+        QJsonArray outStopPointArray;
+        for(QJsonValue value : inStopPointArray)
+        {
+            QJsonObject obj;
+
+            obj["parentId"] = value["parentId"];
+            obj["stationId"] = value["stationId"];;
+            obj["icsId"] = value["icsId"];
+            obj["topMostParentId"] = value["topMostParentId"];
+            obj["stopLetter"] = value["stopLetter"];
+            obj["zone"] = value["zone"];
+
+            obj["id"] = value["id"];
+            obj["name"] = value["name"];
+            obj["lat"] = value["lat"];
+            obj["lon"] = value["lon"];
+            outStopPointArray.append(obj);
+        }
+
+        obj["stopPoint"] = outStopPointArray;
+
+        outBranchArray.append(obj);
+    }
+
+    topObject["stopPointSequences"] = outBranchArray;
+
+    finalDocument.setObject(topObject);
+
+    QFile file(QString("routes/%2_%1.txt").arg(_currentLineId).arg(_bInbound?"i":"o"));
     if( !file.open(QIODevice::WriteOnly))
     {
-        emit progressSoFar("Failed : " + lineId);
+        emit progressSoFar("Failed : " + _currentLineId);
         return;
     }
 
@@ -114,7 +159,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     emit progressSoFar(msg);
 
     QTextStream textStream(&file);
-    textStream << json;
+    textStream << finalDocument.toJson(QJsonDocument::Compact);
     file.close();
 }
 
@@ -131,10 +176,10 @@ void TFLRouteWorker::downloadNextLine()
     query.addQueryItem("app_id", appID);
     query.addQueryItem("app_key", key);
 
-    QString lineId = _allRoutesList.front();
+    _currentLineId = _allRoutesList.front();
     _allRoutesList.pop_front();
 
-    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/%2").arg(lineId).arg(_bInbound?"Inbound":"Outbound")));
+    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/%2").arg(_currentLineId).arg(_bInbound?"Inbound":"Outbound")));
     url.setQuery(query);
     QNetworkRequest request(url);
     _networkManager->get(request);
