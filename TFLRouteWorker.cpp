@@ -116,8 +116,6 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     {
         QJsonObject obj;
         obj["direction"] = value["direction"];
-        obj["lineId"] = value["lineId"];
-        obj["lineName"] = value["lineName"];
 
         QJsonArray inStopPointArray = value["stopPoint"].toArray();
         QJsonArray outStopPointArray;
