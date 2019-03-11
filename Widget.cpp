@@ -31,6 +31,7 @@ Widget::Widget(QWidget *parent) :
     connect( _tflWorker, &TFLRouteWorker::finished, [this]
     {
         ui->pushButtonTFLDownload->setEnabled(true);
+        ui->pushButtonStopPoint->setEnabled(true);
     });
 
     connect( _tflWorker, &TFLRouteWorker::progressSoFar, ui->labelTFLProgress, &QLabel::setText);
@@ -177,6 +178,8 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButtonTFLDownload, &QPushButton::clicked, this, &Widget::startTFLRoutesDownload);
 
+    connect( ui->pushButtonStopPoint, &QPushButton::clicked, this, &Widget::startTFLStopPointDownload);
+
 #ifdef Q_OS_ANDROID
     ui->pushButtonFILE->hide();
 #endif
@@ -287,5 +290,13 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
 void Widget::startTFLRoutesDownload()
 {
     ui->pushButtonTFLDownload->setEnabled(false);
+    ui->pushButtonStopPoint->setEnabled(false);
     _tflWorker->downloadAllRoutesList(ui->checkBoxInBound->isChecked() );
+}
+
+void Widget::startTFLStopPointDownload()
+{
+    ui->pushButtonTFLDownload->setEnabled(false);
+    ui->pushButtonStopPoint->setEnabled(false);
+    _tflWorker->downloadAllStopPoints();
 }

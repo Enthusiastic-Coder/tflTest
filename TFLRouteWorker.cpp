@@ -20,6 +20,7 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
     QDir dir(QDir::current());
 
     dir.mkdir("routes");
+    dir.mkdir("stoppoints");
 
     connect( _networkManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
     {
@@ -36,12 +37,24 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
         if( reply->request().url().toString() == rootURL)
         {
             storeAllRouteIDsInList(data);
-            downloadNextLine();
+
+            if( _bDownloadRoutes )
+                downloadNextLine();
+            else
+                downloadNextStops();
         }
         else
         {
-            processRoute(data);
-            downloadNextLine();
+            if( _bDownloadRoutes )
+            {
+                processRoute(data);
+                downloadNextLine();
+            }
+            else
+            {
+                processStops(data);
+                downloadNextStops();
+            }
         }
     });
 }
@@ -49,6 +62,17 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
 void TFLRouteWorker::downloadAllRoutesList(bool bInbound)
 {
     _bInbound = bInbound;
+    beginWork();
+}
+
+void TFLRouteWorker::downloadAllStopPoints()
+{
+    _bDownloadRoutes = false;
+    beginWork();
+}
+
+void TFLRouteWorker::beginWork()
+{
     QUrl url(rootURL);
     QNetworkRequest request(url);
     _networkManager->get(request);
@@ -111,6 +135,48 @@ void TFLRouteWorker::downloadNextLine()
     _allRoutesList.pop_front();
 
     QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/%2").arg(lineId).arg(_bInbound?"Inbound":"Outbound")));
+    url.setQuery(query);
+    QNetworkRequest request(url);
+    _networkManager->get(request);
+}
+
+void TFLRouteWorker::processStops(const QByteArray &json)
+{
+    QJsonDocument document = QJsonDocument::fromJson(json);
+    QJsonObject rootObj = document.object();
+
+    QFile file(QString("stoppoints/%1.txt").arg(_currentLineId));
+    if( !file.open(QIODevice::WriteOnly))
+    {
+        emit progressSoFar("Failed : " + _currentLineId);
+        return;
+    }
+
+    QString msg = QString( "Saved: %1 -- Routes Left : %2").arg(file.fileName()).arg(_allRoutesList.size());
+    emit progressSoFar(msg);
+
+    QTextStream textStream(&file);
+    textStream << json;
+    file.close();
+}
+
+void TFLRouteWorker::downloadNextStops()
+{
+    if( _allRoutesList.isEmpty())
+    {
+        emit progressSoFar("ALL STOPS COMPLETE");
+        emit finished();
+        return;
+    }
+
+    QUrlQuery query;
+    query.addQueryItem("app_id", appID);
+    query.addQueryItem("app_key", key);
+
+    _currentLineId = _allRoutesList.front();
+    _allRoutesList.pop_front();
+
+    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/stoppoints").arg(_currentLineId)));
     url.setQuery(query);
     QNetworkRequest request(url);
     _networkManager->get(request);
