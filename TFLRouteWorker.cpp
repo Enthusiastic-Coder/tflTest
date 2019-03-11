@@ -145,6 +145,31 @@ void TFLRouteWorker::processStops(const QByteArray &json)
     QJsonDocument document = QJsonDocument::fromJson(json);
     QJsonObject rootObj = document.object();
 
+    QJsonArray lines = document.array();
+
+    QJsonDocument finalDocument;
+
+    QJsonArray a;
+
+    for(QJsonValue value : lines)
+    {
+        QJsonObject obj;
+
+        obj["naptanId"] = value["naptanId"];
+        obj["indicator"] = value["indicator"];
+        obj["stopLetter"] = value["stopLetter"];
+        obj["icsCode"] = value["icsCode"];
+        obj["stationNaptan"] = value["stationNaptan"];
+        obj["id"] = value["id"];
+        obj["commonName"] = value["commonName"];
+        obj["lat"] = value["lat"];
+        obj["lon"] = value["lon"];
+
+        a.append(obj);
+    }
+
+    finalDocument.setArray(a);
+
     QFile file(QString("stoppoints/%1.txt").arg(_currentLineId));
     if( !file.open(QIODevice::WriteOnly))
     {
@@ -156,7 +181,7 @@ void TFLRouteWorker::processStops(const QByteArray &json)
     emit progressSoFar(msg);
 
     QTextStream textStream(&file);
-    textStream << json;
+    textStream << finalDocument.toJson(QJsonDocument::Compact);
     file.close();
 }
 
