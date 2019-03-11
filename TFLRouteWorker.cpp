@@ -19,8 +19,10 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
 
     QDir dir(QDir::current());
 
-    dir.mkdir("routes");
-    dir.mkdir("stoppoints");
+    dir.mkdir("Routes");
+    dir.mkdir("Routes/inbound");
+    dir.mkdir("Routes/outbound");
+    dir.mkdir("StopPoints");
 
     connect( _networkManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
     {
@@ -146,7 +148,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     finalDocument.setObject(topObject);
 
-    QFile file(QString("routes/%2_%1.txt").arg(_currentLineId).arg(_bInbound?"i":"o"));
+    QFile file(QString("Routes/%2/%1.txt").arg(_currentLineId).arg(_bInbound?"inbound":"outbound"));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + _currentLineId);
@@ -213,7 +215,7 @@ void TFLRouteWorker::processStops(const QByteArray &json)
 
     finalDocument.setArray(a);
 
-    QFile file(QString("stoppoints/%1.txt").arg(_currentLineId));
+    QFile file(QString("StopPoints/%1.txt").arg(_currentLineId));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + _currentLineId);
