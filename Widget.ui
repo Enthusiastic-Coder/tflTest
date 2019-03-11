@@ -200,10 +200,30 @@
        <string>AllRoutes</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBoxInBound">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButtonTFLDownload">
          <property name="text">
-          <string>InBound</string>
+          <string>Start Route Download</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QLabel" name="labelTFLProgress">
+         <property name="text">
+          <string>Info.....</string>
          </property>
         </widget>
        </item>
@@ -220,37 +240,17 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButtonTFLDownload">
-         <property name="text">
-          <string>Start Route Download</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="labelTFLProgress">
-         <property name="text">
-          <string>Info.....</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="pushButtonStopPoint">
          <property name="text">
           <string>Start Stoppoint Download</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="checkBoxInBound">
+         <property name="text">
+          <string>InBound</string>
          </property>
         </widget>
        </item>
