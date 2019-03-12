@@ -109,6 +109,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     topObject["lineId"] = rootObj["lineId"];
     topObject["lineName"] = rootObj["lineName"];
     topObject["mode"] = rootObj["mode"];
+    topObject["direction"] = rootObj["direction"];
 
     QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
 
@@ -117,7 +118,6 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     for(QJsonValue value : inBranchArray)
     {
         QJsonObject obj;
-        obj["direction"] = value["direction"];
 
         QJsonArray inStopPointArray = value["stopPoint"].toArray();
         QJsonArray outStopPointArray;
