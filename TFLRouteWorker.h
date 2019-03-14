@@ -14,6 +14,7 @@ public:
     void downloadAllStopPoints();
 
 protected:
+    void mkDirs();
     void beginWork();
     void storeAllRouteIDsInList(const QByteArray &json);
 

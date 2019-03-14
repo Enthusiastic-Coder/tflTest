@@ -17,13 +17,6 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
 {
     _networkManager = new QNetworkAccessManager(this);
 
-    QDir dir(QDir::current());
-
-    dir.mkdir("Routes");
-    dir.mkdir("Routes/inbound");
-    dir.mkdir("Routes/outbound");
-    dir.mkdir("StopPoints");
-
     connect( _networkManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
     {
         reply->deleteLater();
@@ -73,8 +66,19 @@ void TFLRouteWorker::downloadAllStopPoints()
     beginWork();
 }
 
+void TFLRouteWorker::mkDirs()
+{
+    QDir dir(QDir::current());
+
+    dir.mkdir("Routes");
+    dir.mkdir("Routes/inbound");
+    dir.mkdir("Routes/outbound");
+    dir.mkdir("StopPoints");
+}
+
 void TFLRouteWorker::beginWork()
 {
+    mkDirs();
     QUrl url(rootURL);
     QNetworkRequest request(url);
     _networkManager->get(request);
@@ -145,6 +149,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     }
 
     topObject["stopPointSequences"] = outBranchArray;
+    topObject["orderedLineRoutes"] = rootObj["orderedLineRoutes"];
 
     finalDocument.setObject(topObject);
 
