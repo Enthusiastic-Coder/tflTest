@@ -11,6 +11,12 @@ GPSBoundary::GPSBoundary(const GPSLocation &topLeft, const GPSLocation &bottomRi
 
 }
 
+GPSBoundary::GPSBoundary(const QPair<GPSLocation, GPSLocation> &box)
+   : GPSBoundary( box.first, box.second)
+{
+
+}
+
 bool GPSBoundary::contains(const GPSBoundary &boundary) const
 {
     int X = 0;
@@ -35,5 +41,5 @@ bool GPSBoundary::contains(const GPSBoundary &boundary) const
     else if( boundary._topLeft._lat < this->_bottomRight._lat)
         Y++;
 
-    return X != 0 && Y != 0;
+    return !(X == -2 || Y == -2 || X ==2 || Y ==2);
 }
