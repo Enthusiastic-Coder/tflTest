@@ -29,13 +29,11 @@ INCLUDEPATH += sdk/include
 SOURCES += \
         main.cpp \
         Widget.cpp \
-    TFLRouteWorker.cpp \
-    GPSBoundary.cpp
+    TFLRouteWorker.cpp
 
 HEADERS += \
         Widget.h \
-    TFLRouteWorker.h \
-    GPSBoundary.h
+    TFLRouteWorker.h
 
 FORMS += \
         Widget.ui
