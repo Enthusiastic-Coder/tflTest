@@ -1,6 +1,5 @@
 #include "OSMWorker.h"
 
-#include <iostream>
 #include <QElapsedTimer>
 #include <QFile>
 
@@ -101,8 +100,8 @@ void OSMWorker::process(const QString &filename)
 
     }
 
-    std::cout << "Nodes Counted : " << allNodes.size() << "\n";
-    std::cout << "Waypoints Counted : " << allWayPoints.size() << "\n";
-    std::cout << "Seconds : " << t.elapsed()/1000<< "\n";
+    qDebug() << "Nodes Counted : " << allNodes.size();
+    qDebug() << "Waypoints Counted : " << allWayPoints.size();
+    qDebug() << "Seconds : " << t.elapsed()/1000;
 
 }
