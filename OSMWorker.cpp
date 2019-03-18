@@ -22,9 +22,8 @@ void OSMWorker::process(const QString &filename)
     QElapsedTimer t;
     t.start();
 
-    QMap<qlonglong,NODE> allNodes;
-
-    QMap<qlonglong,WAY> allWayPoints;
+    _allNodes.clear();
+    _allWayPoints.clear();
 
     QTextStream stream(&file);
 
@@ -51,7 +50,7 @@ void OSMWorker::process(const QString &filename)
             node.Lat = sl[2].mid(4).toDouble();
             node.Lng = sl[3].mid(4).toDouble();
 
-            allNodes[nodeId] = node;
+            _allNodes[nodeId] = node;
             currentNodeID = nodeId;
         }
 
@@ -70,7 +69,7 @@ void OSMWorker::process(const QString &filename)
             line.remove(QChar('\''));
             QStringList sl = line.split(" ", QString::SkipEmptyParts);
 
-            WAY& way = allWayPoints[currentWayID];
+            WAY& way = _allWayPoints[currentWayID];
             way.pts << sl[1].mid(4).toLongLong();
         }
         else if( line.startsWith(QLatin1String("<tag")))
@@ -83,12 +82,12 @@ void OSMWorker::process(const QString &filename)
 
             if( bOnNodes)
             {
-                NODE& node = allNodes[currentNodeID];
+                NODE& node = _allNodes[currentNodeID];
                 node.keyValues[key] = value;
             }
             else
             {
-                WAY& way = allWayPoints[currentWayID];
+                WAY& way = _allWayPoints[currentWayID];
                 way.keyValues[key] = value;
             }
         }
@@ -102,8 +101,13 @@ void OSMWorker::process(const QString &filename)
 
     qDebug() << "-------------------------------------";
     qDebug() << "Total Lines : " << lineCount;
-    qDebug() << "Nodes Counted : " << allNodes.size();
-    qDebug() << "Waypoints Counted : " << allWayPoints.size();
+    qDebug() << "Nodes Counted : " << _allNodes.size();
+    qDebug() << "Waypoints Counted : " << _allWayPoints.size();
     qDebug() << "Seconds : " << t.elapsed()/1000.0;
     qDebug() << "-------------------------------------";
+}
+
+void OSMWorker::filter(const QString &key, const QString &value)
+{
+
 }

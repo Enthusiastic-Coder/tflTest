@@ -361,11 +361,8 @@
        </item>
        <item row="1" column="4">
         <widget class="QPushButton" name="pushButtonFileSelect">
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
          <property name="text">
-          <string>...</string>
+          <string>Select File</string>
          </property>
         </widget>
        </item>

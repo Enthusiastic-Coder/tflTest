@@ -24,9 +24,15 @@ public:
     explicit OSMWorker(QObject *parent = nullptr);
 
     void process(const QString& filename);
+    void filter(const QString& key, const QString& value);
 signals:
 
 public slots:
+
+private:
+    QMap<qlonglong,NODE> _allNodes;
+    QMap<qlonglong,WAY> _allWayPoints;
+
 };
 
 #endif // OSMWORKER_H
