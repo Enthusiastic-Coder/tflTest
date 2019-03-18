@@ -28,7 +28,7 @@ void OSMWorker::process(const QString &filename)
 
     QTextStream stream(&file);
 
-    int lineCount(0);
+    qlonglong lineCount(0);
     qlonglong currentWayID = -1;
     qlonglong currentNodeID = -1;
     bool bOnNodes(true);
@@ -100,8 +100,10 @@ void OSMWorker::process(const QString &filename)
 
     }
 
+    qDebug() << "-------------------------------------";
+    qDebug() << "Total Lines : " << lineCount;
     qDebug() << "Nodes Counted : " << allNodes.size();
     qDebug() << "Waypoints Counted : " << allWayPoints.size();
-    qDebug() << "Seconds : " << t.elapsed()/1000;
-
+    qDebug() << "Seconds : " << t.elapsed()/1000.0;
+    qDebug() << "-------------------------------------";
 }
