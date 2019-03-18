@@ -29,11 +29,13 @@ INCLUDEPATH += sdk/include
 SOURCES += \
         main.cpp \
         Widget.cpp \
-    TFLRouteWorker.cpp
+    TFLRouteWorker.cpp \
+    OSMWorker.cpp
 
 HEADERS += \
         Widget.h \
-    TFLRouteWorker.h
+    TFLRouteWorker.h \
+    OSMWorker.h
 
 FORMS += \
         Widget.ui
