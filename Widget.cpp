@@ -184,6 +184,13 @@ Widget::Widget(QWidget *parent) :
     ui->pushButtonFILE->hide();
 #endif
 
+    connect(ui->pushButtonFileSelect, &QPushButton::clicked, this, [this]{
+        QFileDialog *fd = new QFileDialog(this, "OSM file", "/Project/todo/TFL/Tools/data/OSM", "*.*");
+        connect( fd, &QFileDialog::fileSelected, ui->lineEditOSMInputPath, &QLineEdit::setText);
+        fd->exec();
+        fd->deleteLater();
+    });
+
 }
 
 Widget::~Widget()
