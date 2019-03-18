@@ -5,6 +5,8 @@
 #include <QMap>
 #include <QVector>
 
+#include <GPSBoundary.h>
+
 
 struct NODE {
     double Lat;
