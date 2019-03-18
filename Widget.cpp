@@ -12,6 +12,8 @@
 #include <QUrlQuery>
 #include <QFile>
 #include <QFileDialog>
+#include <QMessageBox>
+#include "OSMWorker.h"
 
 #include <QVector>
 
@@ -184,11 +186,22 @@ Widget::Widget(QWidget *parent) :
     ui->pushButtonFILE->hide();
 #endif
 
-    connect(ui->pushButtonFileSelect, &QPushButton::clicked, this, [this]{
-        QFileDialog *fd = new QFileDialog(this, "OSM file", "/Project/todo/TFL/Tools/data/OSM", "*.*");
+    connect(ui->pushButtonFileSelect, &QPushButton::clicked, [this]{
+        QFileDialog *fd = new QFileDialog(this, "OSM file", "/Project/todo/TFL/Tools/data/OSM", "*.osm");
         connect( fd, &QFileDialog::fileSelected, ui->lineEditOSMInputPath, &QLineEdit::setText);
         fd->exec();
         fd->deleteLater();
+    });
+
+    connect(ui->pushButtonOSMprocess, &QPushButton::clicked, [this]
+    {
+        if( ui->lineEditOSMInputPath->text().isEmpty())
+        {
+            QMessageBox::warning(this, "No File Specified", "Make sure to select an OSM file first", QMessageBox::Close);
+            return;
+        }
+        OSMWorker w;
+        w.process(ui->lineEditOSMInputPath->text());
     });
 
 }
