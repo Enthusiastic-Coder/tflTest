@@ -13,7 +13,6 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "OSMWorker.h"
 
 #include <QVector>
 
@@ -200,8 +199,20 @@ Widget::Widget(QWidget *parent) :
             QMessageBox::warning(this, "No File Specified", "Make sure to select an OSM file first", QMessageBox::Close);
             return;
         }
-        OSMWorker w;
-        w.process(ui->lineEditOSMInputPath->text());
+
+        _osmWorker->process(ui->lineEditOSMInputPath->text());
+    });
+
+    connect(ui->pushButtonOSMfilter, &QPushButton::clicked, [this]
+    {
+        if( ui->lineEditOSMKey->text().isEmpty() || ui->lineEditOSMValue->text().isEmpty())
+        {
+            QMessageBox::warning(this, "Key/Value blank", "Make sure to set Key/Value", QMessageBox::Close);
+            return;
+        }
+
+        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text());
+
     });
 
 }

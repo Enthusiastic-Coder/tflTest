@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QVector>
 
-#include <GPSBoundary.h>
+#include <GPSTileContainer.h>
 
 
 struct NODE {
@@ -17,6 +17,17 @@ struct NODE {
 struct WAY {
     QVector<qlonglong> pts;
     QMap<QString,QString> keyValues;
+};
+
+struct WAYPOINT
+{
+    unsigned char tagCount = 0;
+    std::vector<unsigned char> wordCounts;
+    std::vector<QLatin1String> word;
+    unsigned short ptsCount = 0;
+    std::vector<std::pair<double,double>> pt;
+    std::vector<float> distances;
+    std::vector<int> bearings;
 };
 
 class OSMWorker : public QObject
@@ -34,6 +45,7 @@ public slots:
 private:
     QMap<qlonglong,NODE> _allNodes;
     QMap<qlonglong,WAY> _allWayPoints;
+    std::vector<std::unique_ptr<WAYPOINT>> _resultOutput;
 
 };
 

@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QTextBrowser>
 #include "TFLRouteWorker.h"
+#include "OSMWorker.h"
 
 namespace Ui {
 class Widget;
@@ -117,6 +118,7 @@ private:
     QMap<QString, Vehicle> _trains;
     QHash<QString,OldStopPoint> _stations;
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
+    OSMWorker* _osmWorker = new OSMWorker(this);
 };
 
 #endif // WIDGET_H

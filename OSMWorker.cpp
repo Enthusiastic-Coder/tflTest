@@ -109,5 +109,39 @@ void OSMWorker::process(const QString &filename)
 
 void OSMWorker::filter(const QString &key, const QString &value)
 {
+    _resultOutput.clear();
 
+    for( const auto& wayPoint : _allWayPoints)
+    {
+        bool bFound(false);
+
+        for(auto it = wayPoint.keyValues.begin(); bFound || it != wayPoint.keyValues.end(); ++it)
+            bFound = it.key() == key && it.value() == value;
+
+        if( !bFound )
+            continue;
+
+        std::unique_ptr<WAYPOINT> wp( new WAYPOINT);
+
+        auto itName = wayPoint.keyValues.find(QStringLiteral("Name"));
+
+        if( itName != wayPoint.keyValues.end())
+        {
+            wp->tagCount = 1;
+            QLatin1String str(itName.value().toLatin1());
+            wp->word.push_back(str);
+            wp->wordCounts.push_back(str.size());
+        }
+
+        for(const auto& pt : wayPoint.pts)
+        {
+            NODE& node = _allNodes[pt];
+            wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
+        }
+
+        wp->ptsCount = wp->pt.size();
+        _resultOutput.push_back(std::move(wp));
+    }
+
+    qDebug() << "Filter Count : " << _resultOutput.size();
 }
