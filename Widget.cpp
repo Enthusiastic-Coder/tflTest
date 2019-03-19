@@ -211,8 +211,15 @@ Widget::Widget(QWidget *parent) :
             return;
         }
 
-        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), ui->lineEditOSMOutfilename->text(), ui->checkBoxOSMValueStartsWith->isChecked());
+        QFileInfo fi(ui->lineEditOSMInputPath->text());
 
+        QString fullPath = ui->lineEditOSMOutfilename->text();
+        fullPath.append("/");
+        fullPath.append(fi.baseName());
+        fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->text()).arg(ui->lineEditOSMValue->text()));
+
+        ui->labelOSMFilenameResult->setText( "Filename : " + fullPath);
+        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
     });
 
     QSettings s;
