@@ -39,10 +39,12 @@ void OSMWorker::process(const QString &filename)
         lineCount++;
         QString line = stream.readLine().trimmed();
 
+        line.remove(QChar('"'));
+        line.remove(QChar('\''));
+        line.remove("/>");
+
         if( line.startsWith(QLatin1String("<node")))
         {
-            line.remove(QChar('"'));
-            line.remove(QChar('\''));
             QStringList sl = line.split(QStringLiteral(" "), QString::SkipEmptyParts);
 
             NODE node;
@@ -57,16 +59,12 @@ void OSMWorker::process(const QString &filename)
         if( line.startsWith(QLatin1String("<way")))
         {
             bOnNodes = false;
-            line.remove(QChar('"'));
-            line.remove(QChar('\''));
             QStringList sl = line.split(" ", QString::SkipEmptyParts);
 
             currentWayID = sl[1].mid(3).toLongLong();
         }
         else if( line.startsWith(QLatin1String("<nd ref")))
         {
-            line.remove(QChar('"'));
-            line.remove(QChar('\''));
             QStringList sl = line.split(" ", QString::SkipEmptyParts);
 
             WAY& way = _allWayPoints[currentWayID];
@@ -74,11 +72,11 @@ void OSMWorker::process(const QString &filename)
         }
         else if( line.startsWith(QLatin1String("<tag")))
         {
-            line.remove(QChar('"'));
-            line.remove(QChar('\''));
             QStringList sl = line.split(" ", QString::SkipEmptyParts);
             QString key = sl[1].mid(2);
             QString value = sl[2].mid(2);
+
+//            qDebug() << "KEY : " << key << ", VALUE : " << value;
 
             if( bOnNodes)
             {
