@@ -144,8 +144,8 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
         {
             wp->tagCount = 1;
             QLatin1String str(itName.value().toLatin1());
-            wp->words.push_back(str);
-            wp->wordCounts.push_back(str.size());
+            wp->singleTag.push_back(str);
+            wp->singleTagCounts.push_back(str.size());
         }
 
         int ptsSize = wayPoint.pts.size();
@@ -170,6 +170,7 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
         _resultOutput.push_back(std::move(wp));
     }
 
+    qDebug() << "--------------------------------";
     qDebug() << "Filter Count : " << _resultOutput.size();
     qDebug() << "Key : " << key;
     qDebug() << "Value : " << value;
@@ -186,10 +187,10 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
     {
         stream << item->tagCount;
 
-        for( const auto& wordCount : item->wordCounts)
+        for( const auto& wordCount : item->singleTagCounts)
             stream << wordCount;
 
-        for( const auto& word : item->words)
+        for( const auto& word : item->singleTag)
             stream << word.data();
 
         stream << item->ptsCount;
