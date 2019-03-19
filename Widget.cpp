@@ -13,6 +13,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDesktopServices>
 #include <QSettings>
 #include <QVector>
 
@@ -218,8 +219,17 @@ Widget::Widget(QWidget *parent) :
         fullPath.append(fi.baseName());
         fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->text()).arg(ui->lineEditOSMValue->text()));
 
-        ui->labelOSMFilenameResult->setText( "Filename : " + fullPath);
+        ui->labelOSMFilenameResult->setText( fullPath);
         _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
+    });
+
+    connect( ui->pushButtonExploreToOSMPath, &QPushButton::clicked, [this]
+    {
+        if( ui->labelOSMFilenameResult->text().isEmpty())
+            return;
+
+        QFileInfo fi(ui->labelOSMFilenameResult->text());
+        QDesktopServices::openUrl(QUrl::fromLocalFile(fi.path()));
     });
 
     QSettings s;
