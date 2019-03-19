@@ -42,15 +42,42 @@ void OSMWorker::process(const QString &filename)
         line.remove(QChar('"'));
         line.remove(QChar('\''));
         line.remove("/>");
+        line.remove(">");
 
         if( line.startsWith(QLatin1String("<node")))
         {
             QStringList sl = line.split(QStringLiteral(" "), QString::SkipEmptyParts);
 
             NODE node;
-            qlonglong nodeId = sl[1].mid(3).toLongLong();
-            node.Lat = sl[2].mid(4).toDouble();
-            node.Lng = sl[3].mid(4).toDouble();
+            qlonglong nodeId=0;
+
+            int itemsObtained(0);
+
+            for(const QString& item : sl)
+            {
+                if( item.startsWith(QStringLiteral("id=")))
+                {
+                    nodeId = item.mid(3).toLongLong();
+                    itemsObtained++;
+                }
+                if( item.startsWith(QStringLiteral("lat=")))
+                {
+                    node.Lat = item.mid(4).toDouble();
+                    itemsObtained++;
+                }
+                if( item.startsWith(QStringLiteral("lon=")))
+                {
+                    node.Lng = item.mid(4).toDouble();
+
+                    if( node.Lng == 0)
+                    {
+                        qDebug() << "HELLO";
+                    }
+                    itemsObtained++;
+                }
+                if( itemsObtained == 3)
+                    break;
+            }
 
             _allNodes[nodeId] = node;
             currentNodeID = nodeId;
@@ -159,7 +186,7 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
                 NODE& prevNode = _allNodes[wayPoint.pts[i-1]];
 
                 GPSLocation from(prevNode.Lat, prevNode. Lng);
-                GPSLocation to(prevNode.Lat, prevNode. Lng);
+                GPSLocation to(node.Lat, node. Lng);
 
                 wp->bearings.push_back(from.bearingTo(to));
                 wp->distances.push_back( from.distanceTo(to));
