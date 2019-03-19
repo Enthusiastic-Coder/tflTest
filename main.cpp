@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
 //    QLibrary crypto;
 //    crypto.setFileName("cryptoa");
 
+    a.setOrganizationName("com.enthusiasticcoder.tfltest");
+    a.setOrganizationDomain("enthusiasticcoder");
+    a.setApplicationName("TFLTest");
+
     qDebug() << QApplication::libraryPaths();
     qDebug() << QDir::currentPath();
     qDebug() << QSslSocket::sslLibraryVersionString();

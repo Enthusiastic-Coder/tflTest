@@ -112,6 +112,7 @@ protected:
     void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
     void updateTextBrowserWithStations(QTextBrowser *textBrowser);
 
+
 private:
     Ui::Widget *ui;
     QNetworkAccessManager* _manager;

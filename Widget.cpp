@@ -13,7 +13,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
-
+#include <QSettings>
 #include <QVector>
 
 
@@ -215,10 +215,25 @@ Widget::Widget(QWidget *parent) :
 
     });
 
+    QSettings s;
+
+    ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());
+    ui->lineEditOSMKey->setText(s.value("OSMKey").toString());
+    ui->lineEditOSMValue->setText(s.value("OSMValue").toString());
+    ui->comboBoxLines->setCurrentText(s.value("CurrentLine").toString());
+    ui->tabWidget->setCurrentIndex(s.value("MainTabIndex").toInt());
 }
 
 Widget::~Widget()
 {
+    QSettings s;
+
+    s.setValue("OSMInputPath", ui->lineEditOSMInputPath->text());
+    s.setValue("OSMKey", ui->lineEditOSMKey->text());
+    s.setValue("OSMValue", ui->lineEditOSMValue->text());
+    s.setValue("CurrentLine", ui->comboBoxLines->currentText());
+    s.setValue("MainTabIndex", ui->tabWidget->currentIndex());
+
     delete ui;
 }
 
