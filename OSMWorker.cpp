@@ -198,7 +198,6 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
             }
         }
 
-        wp->ptsCount = wp->pt.size();
         _resultOutput.push_back(std::move(wp));
     }
 
@@ -223,7 +222,7 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
             for( const auto& tag : item->tags)
                 stream << tag.first << tag.second.data();
 
-            stream << item->ptsCount;
+            stream << item->pt.size();
 
             for( const auto& pt : item->pt)
                 stream << pt.first << pt.second;
@@ -271,20 +270,23 @@ void OSMWorker::testOSMBin(const QString &filename)
             wp->tags[i].second = QLatin1String(buffer);
         }
 
-        unsigned short ptsCount;
+        size_t ptsCount;
         stream >> ptsCount;
 
         wp->pt.resize(ptsCount);
-        wp->bearings.resize(ptsCount);
-        wp->distances.resize(ptsCount);
+        if( ptsCount > 1)
+        {
+            wp->bearings.resize(ptsCount-1);
+            wp->distances.resize(ptsCount-1);
+        }
 
         for( int i = 0; i < ptsCount; ++i)
             stream >> wp->pt[i].first >> wp->pt[i].second;
 
-        for( int i = 0; i < ptsCount; ++i)
+        for( int i = 0; i < ptsCount-1; ++i)
             stream >> wp->distances[i];
 
-        for( int i = 0; i < ptsCount; ++i)
+        for( int i = 0; i < ptsCount-1; ++i)
             stream >> wp->bearings[i];
 
         _resultOutput.push_back(std::move(wp));

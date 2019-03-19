@@ -22,7 +22,6 @@ struct WAY {
 struct WAYPOINT
 {
     std::vector<std::pair<unsigned char,QLatin1String>> tags;
-    unsigned short ptsCount = 0;
     std::vector<std::pair<double,double>> pt;
     std::vector<float> distances;
     std::vector<int> bearings;
