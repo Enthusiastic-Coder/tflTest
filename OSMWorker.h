@@ -23,7 +23,7 @@ struct WAYPOINT
 {
     unsigned char tagCount = 0;
     std::vector<unsigned char> wordCounts;
-    std::vector<QLatin1String> word;
+    std::vector<QLatin1String> words;
     unsigned short ptsCount = 0;
     std::vector<std::pair<double,double>> pt;
     std::vector<float> distances;

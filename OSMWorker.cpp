@@ -2,7 +2,7 @@
 
 #include <QElapsedTimer>
 #include <QFile>
-
+#include <QDataStream>
 #include <QDebug>
 
 OSMWorker::OSMWorker(QObject *parent) : QObject(parent)
@@ -129,7 +129,7 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
         {
             wp->tagCount = 1;
             QLatin1String str(itName.value().toLatin1());
-            wp->word.push_back(str);
+            wp->words.push_back(str);
             wp->wordCounts.push_back(str.size());
         }
 
@@ -144,4 +144,25 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
     }
 
     qDebug() << "Filter Count : " << _resultOutput.size();
+
+    QFile output(filename);
+    output.open(QIODevice::WriteOnly);
+
+    QDataStream stream(&output);
+
+    for(const auto& item : _resultOutput)
+    {
+        stream << item->tagCount;
+
+        for( const auto& wordCount : item->wordCounts)
+            stream << wordCount;
+
+        for( const auto& word : item->words)
+            stream << word.data();
+
+        stream << item->ptsCount;
+
+        for( const auto& pt : item->pt)
+            stream << pt.first << pt.second;
+    }
 }
