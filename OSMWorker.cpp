@@ -137,7 +137,7 @@ qlonglong OSMWorker::process(const QString &filename)
     return lineCount;
 }
 
-size_t OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith)
+size_t OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith, bool bFilterOn)
 {
     _resultOutput.clear();
 
@@ -160,13 +160,16 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
 
     for( const auto& wayPoint : _allWayPoints)
     {
-        bool bFound(false);
+        if( bFilterOn )
+        {
+            bool bFound(false);
 
-        for(auto it = wayPoint.keyValues.begin(); !bFound && it != wayPoint.keyValues.end(); ++it)
-            bFound = comparerFunction(it);
+            for(auto it = wayPoint.keyValues.begin(); !bFound && it != wayPoint.keyValues.end(); ++it)
+                bFound = comparerFunction(it);
 
-        if( !bFound )
-            continue;
+            if( !bFound )
+                continue;
+        }
 
         std::unique_ptr<WAYPOINT> wp( new WAYPOINT);
 

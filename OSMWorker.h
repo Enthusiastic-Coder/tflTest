@@ -34,7 +34,7 @@ public:
     explicit OSMWorker(QObject *parent = nullptr);
 
     qlonglong process(const QString& filename);
-    size_t filter(const QString& key, const QString& value, const QString &filename, bool bStartsWith);
+    size_t filter(const QString& key, const QString& value, const QString &filename, bool bStartsWith, bool bFilterOn);
     void testOSMBin( const QString& filename);
 signals:
 

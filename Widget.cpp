@@ -222,7 +222,12 @@ Widget::Widget(QWidget *parent) :
         fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->currentText()).arg(ui->lineEditOSMValue->currentText()));
 
         ui->labelOSMFilenameResult->setText( fullPath);
-        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(), ui->lineEditOSMValue->currentText(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
+        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(),
+                                                    ui->lineEditOSMValue->currentText(),
+                                                fullPath,
+                                                ui->checkBoxOSMValueStartsWith->isChecked(),
+                                                ui->checkBoxOSMFilterOn->isChecked()
+                                                );
 
         ui->labelOSMProcessFilterCount->setText(QString::number(filterCount) + " objects processed.");
     });
@@ -251,6 +256,7 @@ Widget::Widget(QWidget *parent) :
     ui->lineEdit_VehicleID->setText(s.value("VehicleID").toString());
     ui->lineEditOSMOutfilename->setText(s.value("OSMOutfilename").toString());
     ui->checkBoxOSMValueStartsWith->setChecked(s.value("OSMValueStarsWith").toBool());
+    ui->checkBoxOSMFilterOn->setChecked(s.value("OSMFilterOn").toBool());
 }
 
 Widget::~Widget()
@@ -265,6 +271,7 @@ Widget::~Widget()
     s.setValue("VehicleID", ui->lineEdit_VehicleID->text());
     s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
     s.setValue("OSMValueStarsWith", ui->checkBoxOSMValueStartsWith->isChecked());
+    s.setValue("OSMFilterOn", ui->checkBoxOSMFilterOn->isChecked());
 
     delete ui;
 }
