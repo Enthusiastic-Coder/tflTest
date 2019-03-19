@@ -63,6 +63,11 @@ qlonglong OSMWorker::process(const QString &filename)
                 if( item.startsWith(QStringLiteral("lat=")))
                 {
                     node.Lat = item.mid(4).toDouble();
+
+                    if( node.Lat == 0)
+                    {
+                        qDebug() << "Lat=0 : " << item;
+                    }
                     itemsObtained++;
                 }
                 if( item.startsWith(QStringLiteral("lon=")))
@@ -71,7 +76,7 @@ qlonglong OSMWorker::process(const QString &filename)
 
                     if( node.Lng == 0)
                     {
-                        qDebug() << "HELLO";
+                        qDebug() << "Lng=0 : " << item;
                     }
                     itemsObtained++;
                 }

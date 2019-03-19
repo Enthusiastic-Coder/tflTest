@@ -497,6 +497,11 @@
          </item>
          <item>
           <property name="text">
+           <string>signal</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>traffic_signals</string>
           </property>
          </item>
