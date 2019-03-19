@@ -36,8 +36,8 @@ class OSMWorker : public QObject
 public:
     explicit OSMWorker(QObject *parent = nullptr);
 
-    void process(const QString& filename);
-    void filter(const QString& key, const QString& value, const QString &filename, bool bStartsWith);
+    qlonglong process(const QString& filename);
+    size_t filter(const QString& key, const QString& value, const QString &filename, bool bStartsWith);
 signals:
 
 public slots:

@@ -10,13 +10,13 @@ OSMWorker::OSMWorker(QObject *parent) : QObject(parent)
 
 }
 
-void OSMWorker::process(const QString &filename)
+qlonglong OSMWorker::process(const QString &filename)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly))
     {
         qWarning("File %s not found", file.fileName().toLocal8Bit().data());
-        return;
+        return 0;
     }
 
     QElapsedTimer t;
@@ -130,9 +130,11 @@ void OSMWorker::process(const QString &filename)
     qDebug() << "Waypoints Counted : " << _allWayPoints.size();
     qDebug() << "Seconds : " << t.elapsed()/1000.0;
     qDebug() << "-------------------------------------";
+
+    return lineCount;
 }
 
-void OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith)
+size_t OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith)
 {
     _resultOutput.clear();
 
@@ -202,33 +204,35 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
     qDebug() << "Key : " << key;
     qDebug() << "Value : " << value;
 
-    if( _resultOutput.size() == 0)
-        return;
-
-    QFile output(filename);
-    output.open(QIODevice::WriteOnly);
-
-    QDataStream stream(&output);
-
-    for(const auto& item : _resultOutput)
+    if( _resultOutput.size())
     {
-        stream << item->totalTagCount;
+        QFile output(filename);
+        output.open(QIODevice::WriteOnly);
 
-        for( const auto& tagLength : item->tagWordsLengths)
-            stream << tagLength;
+        QDataStream stream(&output);
 
-        for( const auto& tagWord : item->tagWords)
-            stream << tagWord.data();
+        for(const auto& item : _resultOutput)
+        {
+            stream << item->totalTagCount;
 
-        stream << item->ptsCount;
+            for( const auto& tagLength : item->tagWordsLengths)
+                stream << tagLength;
 
-        for( const auto& pt : item->pt)
-            stream << pt.first << pt.second;
+            for( const auto& tagWord : item->tagWords)
+                stream << tagWord.data();
 
-        for( const auto& pt : item->distances)
-            stream << pt;
+            stream << item->ptsCount;
 
-        for( const auto& pt : item->bearings)
-            stream << pt;
+            for( const auto& pt : item->pt)
+                stream << pt.first << pt.second;
+
+            for( const auto& pt : item->distances)
+                stream << pt;
+
+            for( const auto& pt : item->bearings)
+                stream << pt;
+        }
     }
+
+    return _resultOutput.size();
 }

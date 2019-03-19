@@ -201,7 +201,9 @@ Widget::Widget(QWidget *parent) :
             return;
         }
 
-        _osmWorker->process(ui->lineEditOSMInputPath->text());
+        qlonglong lineCount = _osmWorker->process(ui->lineEditOSMInputPath->text());
+
+        ui->labelOSMProcessLineCount->setText(QString::number(lineCount) + " lines processed.");
     });
 
     connect(ui->pushButtonOSMfilter, &QPushButton::clicked, [this]
@@ -220,7 +222,9 @@ Widget::Widget(QWidget *parent) :
         fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->text()).arg(ui->lineEditOSMValue->text()));
 
         ui->labelOSMFilenameResult->setText( fullPath);
-        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
+        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
+
+        ui->labelOSMProcessFilterCount->setText(QString::number(filterCount) + " objects processed.");
     });
 
     connect( ui->pushButtonExploreToOSMPath, &QPushButton::clicked, [this]
