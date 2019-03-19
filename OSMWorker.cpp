@@ -108,8 +108,6 @@ qlonglong OSMWorker::process(const QString &filename)
             QString key = sl[1].mid(2);
             QString value = sl[2].mid(2);
 
-//            qDebug() << "KEY : " << key << ", VALUE : " << value;
-
             if( bOnNodes)
             {
                 NODE& node = _allNodes[currentNodeID];
@@ -172,13 +170,10 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
 
         std::unique_ptr<WAYPOINT> wp( new WAYPOINT);
 
-        auto itName = wayPoint.keyValues.find(QStringLiteral("Name"));
+        auto itName = wayPoint.keyValues.find(QStringLiteral("name"));
 
         if( itName != wayPoint.keyValues.end())
-        {
-            QLatin1String str(itName.value().toLatin1());
-            wp->tags.push_back(std::make_pair(str.size(), str));
-        }
+            wp->tags.push_back(std::make_pair(itName.value().length(), itName.value()));
 
         int ptsSize = wayPoint.pts.size();
         for(int i =0; i < ptsSize; ++i)
@@ -220,7 +215,7 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
             stream << item->tags.size();
 
             for( const auto& tag : item->tags)
-                stream << tag.first << tag.second.data();
+                stream << tag.first << tag.second.toLatin1().data();
 
             stream << item->pt.size();
 
@@ -260,14 +255,14 @@ void OSMWorker::testOSMBin(const QString &filename)
 
         wp->tags.resize(tagCount);
 
-        for(int i = 0; i < tagCount; ++i)
+        for(size_t i = 0; i < tagCount; ++i)
         {
-            size_t len;
+            int len;
             stream >> len;
             QByteArray buffer(len, Qt::Uninitialized);
             stream >> buffer;
             wp->tags[i].first = len;
-            wp->tags[i].second = QLatin1String(buffer);
+            wp->tags[i].second = buffer;
         }
 
         size_t ptsCount;
@@ -280,13 +275,13 @@ void OSMWorker::testOSMBin(const QString &filename)
             wp->distances.resize(ptsCount-1);
         }
 
-        for( int i = 0; i < ptsCount; ++i)
+        for( size_t i = 0; i < ptsCount; ++i)
             stream >> wp->pt[i].first >> wp->pt[i].second;
 
-        for( int i = 0; i < ptsCount-1; ++i)
+        for( size_t i = 0; i < ptsCount-1; ++i)
             stream >> wp->distances[i];
 
-        for( int i = 0; i < ptsCount-1; ++i)
+        for( size_t i = 0; i < ptsCount-1; ++i)
             stream >> wp->bearings[i];
 
         _resultOutput.push_back(std::move(wp));
