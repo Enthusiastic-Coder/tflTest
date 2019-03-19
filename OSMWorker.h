@@ -21,9 +21,9 @@ struct WAY {
 
 struct WAYPOINT
 {
-    unsigned char tagCount = 0;
-    std::vector<unsigned char> singleTagCounts;
-    std::vector<QLatin1String> singleTag;
+    unsigned char totalTagCount = 0;
+    std::vector<unsigned char> tagWordsLengths;
+    std::vector<QLatin1String> tagWords;
     unsigned short ptsCount = 0;
     std::vector<std::pair<double,double>> pt;
     std::vector<float> distances;
