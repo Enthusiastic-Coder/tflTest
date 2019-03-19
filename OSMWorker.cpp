@@ -148,10 +148,22 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
             wp->wordCounts.push_back(str.size());
         }
 
-        for(const auto& pt : wayPoint.pts)
+        int ptsSize = wayPoint.pts.size();
+        for(int i =0; i < ptsSize; ++i)
         {
-            NODE& node = _allNodes[pt];
+            NODE& node = _allNodes[wayPoint.pts[i]];
             wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
+
+            if( i )
+            {
+                NODE& prevNode = _allNodes[wayPoint.pts[i-1]];
+
+                GPSLocation from(prevNode.Lat, prevNode. Lng);
+                GPSLocation to(prevNode.Lat, prevNode. Lng);
+
+                wp->bearings.push_back(from.bearingTo(to));
+                wp->distances.push_back( from.distanceTo(to));
+            }
         }
 
         wp->ptsCount = wp->pt.size();
@@ -179,5 +191,11 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
 
         for( const auto& pt : item->pt)
             stream << pt.first << pt.second;
+
+        for( const auto& pt : item->distances)
+            stream << pt;
+
+        for( const auto& pt : item->bearings)
+            stream << pt;
     }
 }
