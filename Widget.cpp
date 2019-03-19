@@ -222,6 +222,7 @@ Widget::Widget(QWidget *parent) :
     ui->lineEditOSMValue->setText(s.value("OSMValue").toString());
     ui->comboBoxLines->setCurrentText(s.value("CurrentLine").toString());
     ui->tabWidget->setCurrentIndex(s.value("MainTabIndex").toInt());
+    ui->lineEdit_VehicleID->setText(s.value("VehicleID").toString());
 }
 
 Widget::~Widget()
@@ -233,6 +234,7 @@ Widget::~Widget()
     s.setValue("OSMValue", ui->lineEditOSMValue->text());
     s.setValue("CurrentLine", ui->comboBoxLines->currentText());
     s.setValue("MainTabIndex", ui->tabWidget->currentIndex());
+    s.setValue("VehicleID", ui->lineEdit_VehicleID->text());
 
     delete ui;
 }
