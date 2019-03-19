@@ -115,7 +115,7 @@ void OSMWorker::filter(const QString &key, const QString &value)
     {
         bool bFound(false);
 
-        for(auto it = wayPoint.keyValues.begin(); bFound || it != wayPoint.keyValues.end(); ++it)
+        for(auto it = wayPoint.keyValues.begin(); !bFound && it != wayPoint.keyValues.end(); ++it)
             bFound = it.key() == key && it.value() == value;
 
         if( !bFound )
