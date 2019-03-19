@@ -171,6 +171,11 @@ void OSMWorker::filter(const QString &key, const QString &value, const QString& 
     }
 
     qDebug() << "Filter Count : " << _resultOutput.size();
+    qDebug() << "Key : " << key;
+    qDebug() << "Value : " << value;
+
+    if( _resultOutput.size() == 0)
+        return;
 
     QFile output(filename);
     output.open(QIODevice::WriteOnly);
