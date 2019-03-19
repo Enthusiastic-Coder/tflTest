@@ -208,7 +208,7 @@ Widget::Widget(QWidget *parent) :
 
     connect(ui->pushButtonOSMfilter, &QPushButton::clicked, [this]
     {
-        if( ui->lineEditOSMKey->text().isEmpty() || ui->lineEditOSMValue->text().isEmpty() || ui->lineEditOSMOutfilename->text().isEmpty())
+        if( ui->lineEditOSMKey->currentText().isEmpty() || ui->lineEditOSMValue->text().isEmpty() || ui->lineEditOSMOutfilename->text().isEmpty())
         {
             QMessageBox::warning(this, "Key/Value blank", "Make sure to set Key/Value", QMessageBox::Close);
             return;
@@ -219,10 +219,10 @@ Widget::Widget(QWidget *parent) :
         QString fullPath = ui->lineEditOSMOutfilename->text();
         fullPath.append("/");
         fullPath.append(fi.baseName());
-        fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->text()).arg(ui->lineEditOSMValue->text()));
+        fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->currentText()).arg(ui->lineEditOSMValue->text()));
 
         ui->labelOSMFilenameResult->setText( fullPath);
-        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
+        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(), ui->lineEditOSMValue->text(), fullPath, ui->checkBoxOSMValueStartsWith->isChecked());
 
         ui->labelOSMProcessFilterCount->setText(QString::number(filterCount) + " objects processed.");
     });
@@ -239,7 +239,7 @@ Widget::Widget(QWidget *parent) :
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());
-    ui->lineEditOSMKey->setText(s.value("OSMKey").toString());
+    ui->lineEditOSMKey->setCurrentText(s.value("OSMKey").toString());
     ui->lineEditOSMValue->setText(s.value("OSMValue").toString());
     ui->comboBoxLines->setCurrentText(s.value("CurrentLine").toString());
     ui->tabWidget->setCurrentIndex(s.value("MainTabIndex").toInt());
@@ -253,7 +253,7 @@ Widget::~Widget()
     QSettings s;
 
     s.setValue("OSMInputPath", ui->lineEditOSMInputPath->text());
-    s.setValue("OSMKey", ui->lineEditOSMKey->text());
+    s.setValue("OSMKey", ui->lineEditOSMKey->currentText());
     s.setValue("OSMValue", ui->lineEditOSMValue->text());
     s.setValue("CurrentLine", ui->comboBoxLines->currentText());
     s.setValue("MainTabIndex", ui->tabWidget->currentIndex());

@@ -284,9 +284,6 @@
        <item row="5" column="1" colspan="3">
         <widget class="QLineEdit" name="lineEditOSMValue"/>
        </item>
-       <item row="4" column="1" colspan="3">
-        <widget class="QLineEdit" name="lineEditOSMKey"/>
-       </item>
        <item row="1" column="1" colspan="3">
         <widget class="QLineEdit" name="lineEditOSMInputPath"/>
        </item>
@@ -447,6 +444,18 @@
          <property name="wordWrap">
           <bool>true</bool>
          </property>
+        </widget>
+       </item>
+       <item row="4" column="1" colspan="3">
+        <widget class="QComboBox" name="lineEditOSMKey">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>highway</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
