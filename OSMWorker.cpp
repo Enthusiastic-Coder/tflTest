@@ -176,10 +176,8 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
 
         if( itName != wayPoint.keyValues.end())
         {
-            wp->totalTagCount = 1;
             QLatin1String str(itName.value().toLatin1());
-            wp->tagWords.push_back(str);
-            wp->tagWordsLengths.push_back(str.size());
+            wp->tags.push_back(std::make_pair(str.size(), str));
         }
 
         int ptsSize = wayPoint.pts.size();
@@ -216,15 +214,14 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
 
         QDataStream stream(&output);
 
+        stream << _resultOutput.size();
+
         for(const auto& item : _resultOutput)
         {
-            stream << item->totalTagCount;
+            stream << item->tags.size();
 
-            for( const auto& tagLength : item->tagWordsLengths)
-                stream << tagLength;
-
-            for( const auto& tagWord : item->tagWords)
-                stream << tagWord.data();
+            for( const auto& tag : item->tags)
+                stream << tag.first << tag.second.data();
 
             stream << item->ptsCount;
 
@@ -240,4 +237,57 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
     }
 
     return _resultOutput.size();
+}
+
+void OSMWorker::testOSMBin(const QString &filename)
+{
+    _resultOutput.clear();
+
+    QFile input(filename);
+    input.open(QIODevice::ReadOnly);
+
+    QDataStream stream(&input);
+
+    size_t count;
+    stream >> count;
+
+
+    for( size_t i = 0; i < count; ++i)
+    {
+        std::unique_ptr<WAYPOINT> wp(new WAYPOINT);
+
+        size_t tagCount;
+        stream >> tagCount;
+
+        wp->tags.resize(tagCount);
+
+        for(int i = 0; i < tagCount; ++i)
+        {
+            size_t len;
+            stream >> len;
+            QByteArray buffer(len, Qt::Uninitialized);
+            stream >> buffer;
+            wp->tags[i].first = len;
+            wp->tags[i].second = QLatin1String(buffer);
+        }
+
+        unsigned short ptsCount;
+        stream >> ptsCount;
+
+        wp->pt.resize(ptsCount);
+        wp->bearings.resize(ptsCount);
+        wp->distances.resize(ptsCount);
+
+        for( int i = 0; i < ptsCount; ++i)
+            stream >> wp->pt[i].first >> wp->pt[i].second;
+
+        for( int i = 0; i < ptsCount; ++i)
+            stream >> wp->distances[i];
+
+        for( int i = 0; i < ptsCount; ++i)
+            stream >> wp->bearings[i];
+
+        _resultOutput.push_back(std::move(wp));
+    }
+
 }

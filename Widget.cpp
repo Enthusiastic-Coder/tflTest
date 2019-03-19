@@ -236,6 +236,11 @@ Widget::Widget(QWidget *parent) :
         QDesktopServices::openUrl(QUrl::fromLocalFile(fi.path()));
     });
 
+    connect(ui->pushButtonExploreToOSMBIN, &QPushButton::clicked, [this]
+    {
+        _osmWorker->testOSMBin(ui->labelOSMFilenameResult->text());
+    });
+
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());

@@ -21,9 +21,7 @@ struct WAY {
 
 struct WAYPOINT
 {
-    unsigned char totalTagCount = 0;
-    std::vector<unsigned char> tagWordsLengths;
-    std::vector<QLatin1String> tagWords;
+    std::vector<std::pair<unsigned char,QLatin1String>> tags;
     unsigned short ptsCount = 0;
     std::vector<std::pair<double,double>> pt;
     std::vector<float> distances;
@@ -38,6 +36,7 @@ public:
 
     qlonglong process(const QString& filename);
     size_t filter(const QString& key, const QString& value, const QString &filename, bool bStartsWith);
+    void testOSMBin( const QString& filename);
 signals:
 
 public slots:
