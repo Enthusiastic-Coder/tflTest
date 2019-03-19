@@ -205,13 +205,13 @@ Widget::Widget(QWidget *parent) :
 
     connect(ui->pushButtonOSMfilter, &QPushButton::clicked, [this]
     {
-        if( ui->lineEditOSMKey->text().isEmpty() || ui->lineEditOSMValue->text().isEmpty())
+        if( ui->lineEditOSMKey->text().isEmpty() || ui->lineEditOSMValue->text().isEmpty() || ui->lineEditOSMOutfilename->text().isEmpty())
         {
             QMessageBox::warning(this, "Key/Value blank", "Make sure to set Key/Value", QMessageBox::Close);
             return;
         }
 
-        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text());
+        _osmWorker->filter(ui->lineEditOSMKey->text(), ui->lineEditOSMValue->text(), ui->lineEditOSMOutfilename->text());
 
     });
 
@@ -223,6 +223,7 @@ Widget::Widget(QWidget *parent) :
     ui->comboBoxLines->setCurrentText(s.value("CurrentLine").toString());
     ui->tabWidget->setCurrentIndex(s.value("MainTabIndex").toInt());
     ui->lineEdit_VehicleID->setText(s.value("VehicleID").toString());
+    ui->lineEditOSMOutfilename->setText(s.value("OSMOutfilename").toString());
 }
 
 Widget::~Widget()
@@ -235,6 +236,7 @@ Widget::~Widget()
     s.setValue("CurrentLine", ui->comboBoxLines->currentText());
     s.setValue("MainTabIndex", ui->tabWidget->currentIndex());
     s.setValue("VehicleID", ui->lineEdit_VehicleID->text());
+    s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
 
     delete ui;
 }

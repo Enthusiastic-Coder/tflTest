@@ -37,7 +37,7 @@ public:
     explicit OSMWorker(QObject *parent = nullptr);
 
     void process(const QString& filename);
-    void filter(const QString& key, const QString& value);
+    void filter(const QString& key, const QString& value, const QString &filename);
 signals:
 
 public slots:

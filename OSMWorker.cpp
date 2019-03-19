@@ -107,7 +107,7 @@ void OSMWorker::process(const QString &filename)
     qDebug() << "-------------------------------------";
 }
 
-void OSMWorker::filter(const QString &key, const QString &value)
+void OSMWorker::filter(const QString &key, const QString &value, const QString& filename)
 {
     _resultOutput.clear();
 
