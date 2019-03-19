@@ -399,6 +399,13 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="4">
+        <widget class="QCheckBox" name="checkBoxOSMValueStartsWith">
+         <property name="text">
+          <string>StartWith</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>

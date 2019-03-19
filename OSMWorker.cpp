@@ -105,16 +105,33 @@ void OSMWorker::process(const QString &filename)
     qDebug() << "-------------------------------------";
 }
 
-void OSMWorker::filter(const QString &key, const QString &value, const QString& filename)
+void OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith)
 {
     _resultOutput.clear();
+
+    auto comparerStartsWith = [key, value](const QMap<QString,QString>::const_iterator& it)
+    {
+        return it.key() == key && it.value().startsWith(value, Qt::CaseInsensitive);
+    };
+
+    auto comparerEquals = [key, value](const QMap<QString,QString>::const_iterator& it)
+    {
+        return it.key() == key && it.value() == value;
+    };
+
+    std::function<bool(const QMap<QString,QString>::const_iterator&)> comparerFunction;
+
+    if( bStartsWith )
+        comparerFunction = comparerStartsWith;
+    else
+        comparerFunction = comparerEquals;
 
     for( const auto& wayPoint : _allWayPoints)
     {
         bool bFound(false);
 
         for(auto it = wayPoint.keyValues.begin(); !bFound && it != wayPoint.keyValues.end(); ++it)
-            bFound = it.key() == key && it.value() == value;
+            bFound = comparerFunction(it);
 
         if( !bFound )
             continue;
