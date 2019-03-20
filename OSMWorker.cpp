@@ -41,6 +41,7 @@ qlonglong OSMWorker::process(const QString &filename)
 
         line.remove(QChar('"'));
         line.remove(QChar('\''));
+        line.remove(" />");
         line.remove("/>");
         line.remove(">");
 
@@ -106,7 +107,7 @@ qlonglong OSMWorker::process(const QString &filename)
         {
             QStringList sl = line.split(" ", QString::SkipEmptyParts);
             QString key = sl[1].mid(2);
-            QString value = sl[2].mid(2);
+            QString value = line.mid(line.indexOf("v=") + 2);
 
             if( bOnNodes)
             {
