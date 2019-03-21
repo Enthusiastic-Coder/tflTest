@@ -455,6 +455,11 @@
          </item>
          <item>
           <property name="text">
+           <string>place</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>leisure</string>
           </property>
          </item>
@@ -493,6 +498,11 @@
          <item>
           <property name="text">
            <string>trunk</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>suburb</string>
           </property>
          </item>
          <item>

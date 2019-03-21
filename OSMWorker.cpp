@@ -200,6 +200,28 @@ size_t OSMWorker::filter(const QString &key, const QString &value, const QString
         _resultOutput.push_back(std::move(wp));
     }
 
+    for( const auto& node : _allNodes)
+    {
+        bool bFound(false);
+
+        for(auto it = node.keyValues.begin(); !bFound && it != node.keyValues.end(); ++it)
+            bFound = comparerFunction(it);
+
+        if( !bFound )
+            continue;
+
+        std::unique_ptr<WAYPOINT> wp( new WAYPOINT);
+
+        auto itName = node.keyValues.find(QStringLiteral("name"));
+
+        if( itName != node.keyValues.end())
+            wp->tags.push_back(std::make_pair(itName.value().length(), itName.value()));
+
+        wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
+
+        _resultOutput.push_back(std::move(wp));
+    }
+
     qDebug() << "--------------------------------";
     qDebug() << "Filter Count : " << _resultOutput.size();
     qDebug() << "Key : " << key;
