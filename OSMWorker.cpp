@@ -244,6 +244,12 @@ void OSMWorker::testOSMBin(const QString &filename)
     QFile input(filename);
     input.open(QIODevice::ReadOnly);
 
+    if(!input.isOpen())
+    {
+        qDebug() << input.fileName() << ": NOT FOUND!";
+        return;
+    }
+
     QDataStream stream(&input);
 
     size_t count;
