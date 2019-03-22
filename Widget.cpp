@@ -246,6 +246,11 @@ Widget::Widget(QWidget *parent) :
         _osmWorker->testOSMBin(ui->labelOSMFilenameResult->text());
     });
 
+    connect(ui->pushButtonAllStopPointsFromRoutes, &QPushButton::clicked, [this]
+    {
+        _tflWorker->buildAllStopPointsFromRoutes();
+    });
+
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());

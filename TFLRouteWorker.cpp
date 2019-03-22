@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QDir>
+#include <QDirIterator>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -64,6 +65,69 @@ void TFLRouteWorker::downloadAllStopPoints()
 {
     _bDownloadRoutes = false;
     beginWork();
+}
+
+
+void TFLRouteWorker::buildAllStopPointsFromRoute(const QByteArray &json, std::map<QString,std::unique_ptr<StopPoint>>& stops)
+{
+    QJsonDocument document = QJsonDocument::fromJson(json);
+    QJsonObject rootObj = document.object();
+
+    QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
+
+    for(QJsonValue value : inBranchArray)
+    {
+        QJsonObject obj;
+
+        QJsonArray inStopPointArray = value["stopPoint"].toArray();
+        QJsonArray outStopPointArray;
+        for(QJsonValue value : inStopPointArray)
+        {
+            std::unique_ptr<StopPoint> stopPoint(new StopPoint);
+
+            QJsonObject obj;
+
+            stopPoint->stationId = value["stationId"].toString();
+
+            stopPoint->icsId = value["icsId"].toString();
+            stopPoint->stopLetter = value["stopLetter"].toString();
+
+            stopPoint->id = value["id"].toString();
+            stopPoint->name = value["name"].toString();
+            stopPoint->lat = value["lat"].toDouble();
+            stopPoint->lon = value["lon"].toDouble();
+
+            stops[stopPoint->id] = std::move(stopPoint);
+        }
+    }
+}
+
+void TFLRouteWorker::buildAllStopPointsFromRoutes()
+{
+    std::map<QString,std::unique_ptr<StopPoint>> allStops;
+
+    QStringList folderList;
+    folderList << "inbound" << "outbound";
+
+    for( QString folder : folderList)
+    {
+        QDirIterator dir("Routes/" + folder + "/", QDir::Files);
+        qDebug() << dir.path();
+
+        while( dir.hasNext())
+        {
+            QString filename = dir.next();
+
+            QFile file(filename);
+            file.open(QIODevice::ReadOnly);
+
+            QByteArray json = file.readAll();
+
+            buildAllStopPointsFromRoute(json, allStops);
+        }
+    }
+
+    qDebug() << "Stops scanned : " << allStops.size();
 }
 
 void TFLRouteWorker::mkDirs()
@@ -261,3 +325,4 @@ void TFLRouteWorker::downloadNextStops()
     QNetworkRequest request(url);
     _networkManager->get(request);
 }
+

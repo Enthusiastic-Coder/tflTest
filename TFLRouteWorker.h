@@ -4,6 +4,17 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 
+struct StopPoint
+{
+    QString icsId;
+    QString id;
+    float lat;
+    float lon;
+    QString name;
+    QString stationId;
+    QString stopLetter;
+};
+
 class TFLRouteWorker : public QObject
 {
     Q_OBJECT
@@ -12,6 +23,8 @@ public:
 
     void downloadAllRoutesList(bool bInbound=false);
     void downloadAllStopPoints();
+
+    void buildAllStopPointsFromRoutes();
 
 protected:
     void mkDirs();
@@ -23,6 +36,8 @@ protected:
 
     void processStops(const QByteArray &json);
     void downloadNextStops();
+
+    void buildAllStopPointsFromRoute(const QByteArray& json, std::map<QString, std::unique_ptr<StopPoint> > &stops);
 
 signals:
     void finished();

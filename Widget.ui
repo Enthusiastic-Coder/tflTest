@@ -108,7 +108,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -251,6 +251,13 @@
         <widget class="QCheckBox" name="checkBoxInBound">
          <property name="text">
           <string>InBound</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButtonAllStopPointsFromRoutes">
+         <property name="text">
+          <string>Build Stop Points from 'Routes'</string>
          </property>
         </widget>
        </item>
