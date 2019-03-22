@@ -50,7 +50,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QString urlText = QString("https://api.tfl.gov.uk/line/%1/stoppoints").arg(ui->comboBoxLines->currentText());
+        QString urlText = lineStopPointsURL.arg(ui->comboBoxLines->currentText());
 
         QUrl url(urlText);
         url.setQuery(query);
@@ -81,7 +81,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QString urlText = QString("https://api.tfl.gov.uk/line/%1/arrivals").arg(ui->comboBoxLines->currentText());
+        QString urlText = lineArrivalsURL.arg(ui->comboBoxLines->currentText());
 
         QUrl url(urlText);
         url.setQuery(query);
@@ -113,7 +113,7 @@ Widget::Widget(QWidget *parent) :
         query.addQueryItem("app_id", appID);
         query.addQueryItem("app_key", key);
 
-        QString urlText = QString("https://api.tfl.gov.uk/vehicle/%1/arrivals").arg(ui->lineEdit_VehicleID->text());
+        QString urlText = vehicleArrivalsURL.arg(ui->lineEdit_VehicleID->text());
 
         QUrl url(urlText);
         url.setQuery(query);

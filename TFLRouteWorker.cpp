@@ -189,7 +189,7 @@ void TFLRouteWorker::downloadNextLine()
     _currentLineId = _allRoutesList.front();
     _allRoutesList.pop_front();
 
-    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/Route/sequence/%2").arg(_currentLineId).arg(_bInbound?"Inbound":"Outbound")));
+    QUrl url((routeSequence.arg(_currentLineId).arg(_bInbound?"Inbound":"Outbound")));
     url.setQuery(query);
     QNetworkRequest request(url);
     _networkManager->get(request);
@@ -256,7 +256,7 @@ void TFLRouteWorker::downloadNextStops()
     _currentLineId = _allRoutesList.front();
     _allRoutesList.pop_front();
 
-    QUrl url((QString("https://api.tfl.gov.uk/Line/%1/stoppoints").arg(_currentLineId)));
+    QUrl url((lineStopPoints.arg(_currentLineId)));
     url.setQuery(query);
     QNetworkRequest request(url);
     _networkManager->get(request);

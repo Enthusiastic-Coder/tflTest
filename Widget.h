@@ -114,6 +114,10 @@ protected:
 
 
 private:
+    const QString lineStopPointsURL = "https://api.tfl.gov.uk/line/%1/stoppoints";
+    const QString lineArrivalsURL = "https://api.tfl.gov.uk/line/%1/arrivals";
+    const QString vehicleArrivalsURL = "https://api.tfl.gov.uk/vehicle/%1/arrivals";
+
     Ui::Widget *ui;
     QNetworkAccessManager* _manager;
     QMap<QString, Vehicle> _trains;

@@ -33,6 +33,8 @@ public slots:
 private:
     QNetworkAccessManager* _networkManager = nullptr;
     const QString rootURL = "https://api.tfl.gov.uk/Line/Route/";
+    const QString routeSequence = "https://api.tfl.gov.uk/Line/%1/Route/sequence/%2";
+    const QString lineStopPoints = "https://api.tfl.gov.uk/Line/%1/stoppoints";
     QStringList _allRoutesList;
     bool _bInbound = false;
     QString _currentLineId;
