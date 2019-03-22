@@ -92,14 +92,11 @@ void TFLRouteWorker::buildAllStopPointsFromRoute(const QString& line, const QByt
 
             auto& stopPoint = stops[id];
 
-            QJsonObject obj;
-
             stopPoint->id = value["id"].toString();
             stopPoint->stationId = value["stationId"].toString();
 
             stopPoint->icsId = value["icsId"].toString();
             stopPoint->stopLetter = value["stopLetter"].toString();
-
 
             stopPoint->name = value["name"].toString();
             stopPoint->lat = value["lat"].toDouble();
