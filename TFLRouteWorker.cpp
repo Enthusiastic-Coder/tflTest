@@ -68,7 +68,7 @@ void TFLRouteWorker::downloadAllStopPoints()
 }
 
 
-void TFLRouteWorker::buildAllStopPointsFromRoute(const QByteArray &json, std::map<QString,std::unique_ptr<StopPoint>>& stops)
+void TFLRouteWorker::buildAllStopPointsFromRoute(const QString& line, const QByteArray &json, std::map<QString,std::unique_ptr<StopPoint>>& stops)
 {
     QJsonDocument document = QJsonDocument::fromJson(json);
     QJsonObject rootObj = document.object();
@@ -83,21 +83,29 @@ void TFLRouteWorker::buildAllStopPointsFromRoute(const QByteArray &json, std::ma
         QJsonArray outStopPointArray;
         for(QJsonValue value : inStopPointArray)
         {
-            std::unique_ptr<StopPoint> stopPoint(new StopPoint);
+            QString id = value["id"].toString();
+
+            auto it = stops.find(id);
+
+            if( it == stops.end())
+                stops[id] = std::unique_ptr<StopPoint>(new StopPoint);
+
+            auto& stopPoint = stops[id];
 
             QJsonObject obj;
 
+            stopPoint->id = value["id"].toString();
             stopPoint->stationId = value["stationId"].toString();
 
             stopPoint->icsId = value["icsId"].toString();
             stopPoint->stopLetter = value["stopLetter"].toString();
 
-            stopPoint->id = value["id"].toString();
+
             stopPoint->name = value["name"].toString();
             stopPoint->lat = value["lat"].toDouble();
             stopPoint->lon = value["lon"].toDouble();
 
-            stops[stopPoint->id] = std::move(stopPoint);
+            stopPoint->lines.push_back(line);
         }
     }
 }
@@ -123,7 +131,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoutes()
 
             QByteArray json = file.readAll();
 
-            buildAllStopPointsFromRoute(json, allStops);
+            buildAllStopPointsFromRoute(dir.fileInfo().baseName(), json, allStops);
         }
     }
 

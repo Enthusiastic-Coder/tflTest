@@ -13,6 +13,7 @@ struct StopPoint
     QString name;
     QString stationId;
     QString stopLetter;
+    QVector<QString> lines;
 };
 
 class TFLRouteWorker : public QObject
@@ -37,7 +38,7 @@ protected:
     void processStops(const QByteArray &json);
     void downloadNextStops();
 
-    void buildAllStopPointsFromRoute(const QByteArray& json, std::map<QString, std::unique_ptr<StopPoint> > &stops);
+    void buildAllStopPointsFromRoute(const QString &line, const QByteArray& json, std::map<QString, std::unique_ptr<StopPoint> > &stops);
 
 signals:
     void finished();
