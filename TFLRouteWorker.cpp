@@ -85,12 +85,13 @@ void TFLRouteWorker::buildAllStopPointsFromRoute(const QString& line, const QByt
         {
             QString id = value["id"].toString();
 
+            StopPoint* stopPoint = nullptr;
             auto it = stops.find(id);
 
             if( it == stops.end())
-                stops[id] = std::unique_ptr<StopPoint>(new StopPoint);
-
-            auto& stopPoint = stops[id];
+                stopPoint = (stops[id] = std::unique_ptr<StopPoint>(new StopPoint)).get();
+            else
+                stopPoint = it->second.get();
 
             stopPoint->id = value["id"].toString();
             stopPoint->stationId = value["stationId"].toString();
