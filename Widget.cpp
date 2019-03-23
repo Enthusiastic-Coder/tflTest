@@ -222,7 +222,7 @@ Widget::Widget(QWidget *parent) :
         fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->currentText()).arg(ui->lineEditOSMValue->currentText()));
 
         ui->labelOSMFilenameResult->setText( fullPath);
-        size_t filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(),
+        quint64 filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(),
                                                     ui->lineEditOSMValue->currentText(),
                                                 fullPath,
                                                 ui->checkBoxOSMValueStartsWith->isChecked(),

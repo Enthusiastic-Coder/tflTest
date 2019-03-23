@@ -138,7 +138,7 @@ qlonglong OSMWorker::process(const QString &filename)
     return lineCount;
 }
 
-size_t OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith, bool bFilterOn)
+quint64 OSMWorker::filter(const QString &key, const QString &value, const QString& filename, bool bStartsWith, bool bFilterOn)
 {
     _resultOutput.clear();
 
@@ -274,20 +274,20 @@ void OSMWorker::testOSMBin(const QString &filename)
 
     QDataStream stream(&input);
 
-    size_t count;
+    quint64 count;
     stream >> count;
 
 
-    for( size_t i = 0; i < count; ++i)
+    for( quint64 i = 0; i < count; ++i)
     {
         std::unique_ptr<WAYPOINT> wp(new WAYPOINT);
 
-        size_t tagCount;
+        quint64 tagCount;
         stream >> tagCount;
 
         wp->tags.resize(tagCount);
 
-        for(size_t i = 0; i < tagCount; ++i)
+        for(quint64 i = 0; i < tagCount; ++i)
         {
             int len;
             stream >> len;
@@ -297,7 +297,7 @@ void OSMWorker::testOSMBin(const QString &filename)
             wp->tags[i].second = buffer;
         }
 
-        size_t ptsCount;
+        quint64 ptsCount;
         stream >> ptsCount;
 
         wp->pt.resize(ptsCount);
@@ -307,13 +307,13 @@ void OSMWorker::testOSMBin(const QString &filename)
             wp->distances.resize(ptsCount-1);
         }
 
-        for( size_t i = 0; i < ptsCount; ++i)
+        for( quint64 i = 0; i < ptsCount; ++i)
             stream >> wp->pt[i].first >> wp->pt[i].second;
 
-        for( size_t i = 0; i < ptsCount-1; ++i)
+        for( quint64 i = 0; i < ptsCount-1; ++i)
             stream >> wp->distances[i];
 
-        for( size_t i = 0; i < ptsCount-1; ++i)
+        for( quint64 i = 0; i < ptsCount-1; ++i)
             stream >> wp->bearings[i];
 
         _resultOutput.push_back(std::move(wp));
