@@ -117,7 +117,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoutes()
 
     for( QString folder : folderList)
     {
-        QDirIterator dir("Routes/" + folder + "/", QDir::Files);
+        QDirIterator dir("data/Routes/" + folder + "/", QDir::Files);
         qDebug() << dir.path();
 
         while( dir.hasNext())

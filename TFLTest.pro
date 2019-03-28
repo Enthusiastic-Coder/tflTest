@@ -40,6 +40,10 @@ HEADERS += \
 FORMS += \
         Widget.ui
 
+data.files += data/*
+data.path = $$DEPLOY_DIR/data
+INSTALLS += data
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
