@@ -105,6 +105,7 @@ public:
 protected slots:
     void startTFLRoutesDownload();
     void startTFLStopPointDownload();
+    void processUSStates();
 
 protected:
     void parseLineArrival(const QJsonDocument& doc, bool bMinimize=true);

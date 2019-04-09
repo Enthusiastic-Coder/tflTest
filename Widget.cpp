@@ -251,6 +251,8 @@ Widget::Widget(QWidget *parent) :
         _tflWorker->buildAllStopPointsFromRoutes();
     });
 
+    connect(ui->pushButtonUSStates, &QPushButton::clicked, this, &Widget::processUSStates);
+
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());
@@ -389,4 +391,70 @@ void Widget::startTFLStopPointDownload()
     ui->pushButtonTFLDownload->setEnabled(false);
     ui->pushButtonStopPoint->setEnabled(false);
     _tflWorker->downloadAllStopPoints();
+}
+
+void Widget::processUSStates()
+{
+    QString str;
+    QFile file("data/USAStates/gz_2010_us_040_00_20m.json");
+
+    if( !file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << file.fileName() << " -- NOT FOUND!";
+        return;
+    }
+
+    str = file.readAll();
+
+    QJsonDocument doc = QJsonDocument::fromJson(str.toLatin1());
+
+    QJsonObject rootObj = doc.object();
+    QJsonArray states = rootObj["features"].toArray();
+
+    QFile outFile("data/USAStates/USAStates.out");
+    qDebug() << "Out file : " << outFile.open(QIODevice::WriteOnly);
+    QTextStream stream(&outFile);
+    const int jumpSize = 10;
+
+    for( QJsonValue value : states)
+    {
+        QJsonObject geometry = value["geometry"].toObject();
+        QJsonArray coords = geometry["coordinates"].toArray();
+
+        for(QJsonValue value : coords)
+        {
+            QJsonArray polygon = value.toArray();
+            int outCount = 0;
+
+            for(QJsonValue value:polygon)
+            {
+                QJsonArray latLngGroup = value.toArray();
+                if( latLngGroup.size() == 2)
+                {
+                    double lng = latLngGroup.at(0).toDouble();
+                    double lat = latLngGroup.at(1).toDouble();
+
+                    stream << QString("%1+%2\r\n").arg(lat).arg(lng);
+                    outCount++;
+                    if( outCount % jumpSize ==0)
+                        stream << "-1\r\n";
+                    continue;
+                }
+
+                int count = 0;
+                for(QJsonValue value : latLngGroup)
+                {
+                    QJsonArray latLng = value.toArray();
+                    double lng = latLng.at(0).toDouble();
+                    double lat = latLng.at(1).toDouble();
+
+                    stream << QString("%1+%2\r\n").arg(lat).arg(lng);
+                    count++;
+                    if( count % jumpSize == 0)
+                        stream << "-1\r\n";
+                }
+            }
+        }
+        stream << "-1\r\n";
+    }
 }
