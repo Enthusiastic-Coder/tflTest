@@ -437,7 +437,10 @@ void Widget::processUSStates()
                     stream << QString("%1+%2\r\n").arg(lat).arg(lng);
                     outCount++;
                     if( outCount % jumpSize ==0)
+                    {
                         stream << "-1\r\n";
+                        stream << QString("%1+%2\r\n").arg(lat).arg(lng);
+                    }
                     continue;
                 }
 
@@ -451,9 +454,15 @@ void Widget::processUSStates()
                     stream << QString("%1+%2\r\n").arg(lat).arg(lng);
                     count++;
                     if( count % jumpSize == 0)
+                    {
                         stream << "-1\r\n";
+                        stream << QString("%1+%2\r\n").arg(lat).arg(lng);
+                    }
                 }
+                stream << "-1\r\n";
             }
+            if( outCount > 0)
+                stream << "-1\r\n";
         }
         stream << "-1\r\n";
     }
