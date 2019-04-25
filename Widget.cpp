@@ -21,6 +21,34 @@
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
+const QString ADSBExchange_URL = "https://flighttracker-app.adsbexchange.com/VirtualRadar/AircraftList.json";
+
+
+std::string encryptDecrypt(const std::string& toEncrypt, const std::string& salt)
+{
+    std::string output = toEncrypt;
+
+    for (int i = 0; i < toEncrypt.size(); i++)
+        output[i] = toEncrypt[i] ^ salt[i];
+
+    return output;
+}
+
+
+QString GetRandomString(int randomStringLength)
+{
+   const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+//       int index = qrand() % 128+33;
+       int index = qrand() % possibleCharacters.size();
+       QChar nextChar = QChar(possibleCharacters.at(index));
+       randomString.append(nextChar);
+   }
+   return randomString;
+}
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -252,6 +280,18 @@ Widget::Widget(QWidget *parent) :
     });
 
     connect(ui->pushButtonUSStates, &QPushButton::clicked, this, &Widget::processUSStates);
+
+    connect(ui->pushButtonXOR, &QPushButton::clicked, [this]
+    {
+        std::string encryString = encryptDecrypt(ui->lineEditXORText->text().toStdString(),
+                                                 ui->lineEditXORSalt->text().toStdString());
+
+        ui->lineEditXORResult->setText(QString::fromStdString(encryString));
+    });
+
+    connect(ui->pushButtonXORRandomString, &QPushButton::clicked, [this] {
+        ui->lineEditXORRandomString->setText(GetRandomString(ADSBExchange_URL.length()));
+    });
 
     QSettings s;
 
