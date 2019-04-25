@@ -21,7 +21,9 @@
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
-const QString ADSBExchange_URL = "https://flighttracker-app.adsbexchange.com/VirtualRadar/AircraftList.json";
+//const QString ADSBExchange_URL = "https://flighttracker-app.adsbexchange.com/VirtualRadar/AircraftList.json";
+
+const QString ADSBExchange_URL = "adsbexchange.com/VirtualRadar/AircraftList.json";
 
 
 std::string encryptDecrypt(const std::string& toEncrypt, const std::string& salt)
@@ -289,8 +291,26 @@ Widget::Widget(QWidget *parent) :
         ui->lineEditXORResult->setText(QString::fromStdString(encryString));
     });
 
+    ui->lineEditXORText->setText(ADSBExchange_URL);
     connect(ui->pushButtonXORRandomString, &QPushButton::clicked, [this] {
         ui->lineEditXORRandomString->setText(GetRandomString(ADSBExchange_URL.length()));
+    });
+
+    connect(ui->pushButtonXORSave, &QPushButton::clicked, [this] {
+        QFile f;
+        f.setFileName("old.bin");
+        f.open(QIODevice::WriteOnly);
+        QByteArray array = ui->lineEditXORResult->text().toLatin1();
+        f.write(array);
+
+    });
+
+    connect(ui->pushButtonXORLoad, &QPushButton::clicked, [this] {
+        QFile f;
+        f.setFileName("old.bin");
+        f.open(QIODevice::ReadOnly);
+        QByteArray array = f.readAll();
+        ui->lineEditXORText->setText(array);
     });
 
     QSettings s;
