@@ -234,22 +234,33 @@ Widget::Widget(QWidget *parent) :
         qlonglong lineCount = _osmWorker->process(ui->lineEditOSMInputPath->text());
 
         ui->labelOSMProcessLineCount->setText(QString::number(lineCount) + " lines processed.");
+        QMessageBox::information(this, "OSM Process", "Complete");
     });
 
     connect(ui->pushButtonOSMfilter, &QPushButton::clicked, [this]
     {
-        if( ui->lineEditOSMKey->currentText().isEmpty() || ui->lineEditOSMValue->currentText().isEmpty() || ui->lineEditOSMOutfilename->text().isEmpty())
+        if( ui->lineEditOSMOutfilename->text().isEmpty())
         {
-            QMessageBox::warning(this, "Key/Value blank", "Make sure to set Key/Value", QMessageBox::Close);
+            QMessageBox::warning(this, "Output folder", "Make sure to set destination folder.", QMessageBox::Close);
             return;
         }
 
         QFileInfo fi(ui->lineEditOSMInputPath->text());
 
+        QString osmKey = ui->lineEditOSMKey->currentText();
+        QString osmValue = ui->lineEditOSMValue->currentText();
+
         QString fullPath = ui->lineEditOSMOutfilename->text();
         fullPath.append("/");
         fullPath.append(fi.baseName());
-        fullPath.append(QString("_%1_%2.bin").arg(ui->lineEditOSMKey->currentText()).arg(ui->lineEditOSMValue->currentText()));
+
+        if( !osmKey.isEmpty())
+            fullPath.append(QString("_%1").arg(osmKey));
+
+        if( !osmValue.isEmpty())
+            fullPath.append(QString("_%1").arg(osmValue));
+
+        fullPath.append(".bin");
 
         ui->labelOSMFilenameResult->setText( fullPath);
         quint64 filterCount = _osmWorker->filter(ui->lineEditOSMKey->currentText(),
@@ -260,6 +271,8 @@ Widget::Widget(QWidget *parent) :
                                                 );
 
         ui->labelOSMProcessFilterCount->setText(QString::number(filterCount) + " objects processed.");
+
+        QMessageBox::information(this, "OSM Filter", "Complete");
     });
 
     connect( ui->pushButtonExploreToOSMPath, &QPushButton::clicked, [this]
