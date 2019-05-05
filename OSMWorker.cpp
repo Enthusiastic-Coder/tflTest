@@ -200,15 +200,22 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
         _resultOutput.push_back(std::move(wp));
     }
 
+    int skipped = 0;
     for( const auto& node : _allNodes)
     {
-        bool bFound(false);
+        if( bFilterOn )
+        {
+            bool bFound(false);
 
-        for(auto it = node.keyValues.begin(); !bFound && it != node.keyValues.end(); ++it)
-            bFound = comparerFunction(it);
+            for(auto it = node.keyValues.begin(); !bFound && it != node.keyValues.end(); ++it)
+                bFound = comparerFunction(it);
 
-        if( !bFound )
-            continue;
+            if( !bFound )
+            {
+                skipped++;
+                continue;
+            }
+        }
 
         std::unique_ptr<WAYPOINT> wp( new WAYPOINT);
 
@@ -224,6 +231,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
 
     qDebug() << "--------------------------------";
     qDebug() << "Filter Count : " << _resultOutput.size();
+    qDebug() << "Skipped : " << skipped;
     qDebug() << "Key : " << key;
     qDebug() << "Value : " << value;
 
