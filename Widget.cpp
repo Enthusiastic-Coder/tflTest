@@ -94,11 +94,19 @@ Widget::Widget(QWidget *parent) :
         {
             QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
 
-            QByteArray str = reply->readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(str);
+            if( reply->error() == QNetworkReply::NoError)
+            {
+                QByteArray str = reply->readAll();
+                QJsonDocument doc = QJsonDocument::fromJson(str);
 
-            parseStopPoints(doc);
-            updateTextBrowserWithStations(ui->textBrowser_2);
+                parseStopPoints(doc);
+                updateTextBrowserWithStations(ui->textBrowser_2);
+            }
+            else
+            {
+                ui->textBrowser_2->setText(reply->errorString());
+            }
+
             reply->deleteLater();
         });
     });
@@ -125,11 +133,19 @@ Widget::Widget(QWidget *parent) :
         {
             QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
 
-            QByteArray str = reply->readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(str);
+            if( reply->error() == QNetworkReply::NoError)
+            {
+                QByteArray str = reply->readAll();
+                QJsonDocument doc = QJsonDocument::fromJson(str);
 
-            parseLineArrival(doc);
-            updateTextBrowserWithArrivals(ui->textBrowser);
+                parseLineArrival(doc);
+                updateTextBrowserWithArrivals(ui->textBrowser);
+            }
+            else
+            {
+                ui->textBrowser->setText(reply->errorString());
+            }
+
             reply->deleteLater();
         });
 
@@ -157,11 +173,19 @@ Widget::Widget(QWidget *parent) :
         {
             QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
 
-            QByteArray str = reply->readAll();
-            QJsonDocument doc = QJsonDocument::fromJson(str);
+            if( reply->error() == QNetworkReply::NoError)
+            {
+                QByteArray str = reply->readAll();
+                QJsonDocument doc = QJsonDocument::fromJson(str);
 
-            parseLineArrival(doc, false);
-            updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
+                parseLineArrival(doc, false);
+                updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
+            }
+            else
+            {
+                ui->textBrowser_Vehicle->setText(reply->errorString());
+            }
+
             reply->deleteLater();
         });
 
