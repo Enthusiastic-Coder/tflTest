@@ -51,6 +51,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 include(sdk/qMake/qMakeDestination.pri)
 
+win32 {
+openssl.files += openssl/win64/*
+openssl.path = $$DEPLOY_DIR
+INSTALLS += openssl
+}
+
 DISTFILES += \
     android/AndroidManifest.xml \
     android/gradle/wrapper/gradle-wrapper.jar \
