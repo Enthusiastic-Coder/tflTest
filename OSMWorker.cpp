@@ -249,7 +249,10 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
             stream << item->tags.size();
 
             for( const auto& tag : item->tags)
-                stream << tag.first << tag.second.toLatin1().data();
+            {
+                QByteArray ar = tag.second.toLatin1().replace("&#39;", "'");
+                stream << ar.length() << ar.data();
+            }
 
             stream << item->pt.size();
 
