@@ -20,6 +20,19 @@ int main(int argc, char *argv[])
 //    QLibrary crypto;
 //    crypto.setFileName("cryptoa");
 
+    float fAlt = 17200;
+
+    int tAlt = fAlt/100;
+    int roundedAlt = qRound(fAlt/1000.0f);
+    roundedAlt *= 10;
+
+    QString strTAlt;
+    if( std::abs(roundedAlt - tAlt) < 2 )
+        strTAlt = QString("FL%0").arg(roundedAlt);
+    else
+        strTAlt = QString("FL%0").arg(tAlt);
+
+
     a.setOrganizationName("com.enthusiasticcoder.tfltest");
     a.setOrganizationDomain("enthusiasticcoder");
     a.setApplicationName("TFLTest");
