@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
+#include <memory>
 
 struct StopPoint
 {
