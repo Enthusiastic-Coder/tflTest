@@ -411,6 +411,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
         {
             v.vehicleId = vehicleId;
             v.currentLocation = currentLocation;
+            v.originalLocation = currentLocation;
             v.towards = towards;
             v.timeToStation = timeToStation;
             v.stationName = stationName;
@@ -419,7 +420,8 @@ void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
             v.direction = direction;
             v.naptanId = naptanId;
             v.lineId = lineId;
-//            v.formatCurrentLocation();
+            v._modeName = obj["modeName"].toString();
+            v.formatCurrentLocation();
         }
     }
 }

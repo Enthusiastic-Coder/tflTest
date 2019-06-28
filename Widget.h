@@ -15,48 +15,163 @@ class Widget;
 
 struct Vehicle
 {
+
+    enum CurrentBehaviour
+    {
+        Unknown,
+        At,
+        Approaching,
+        Between,
+        Left,
+        Departed
+    };
+
     Vehicle() {}
 
     QString vehicleId;
     QString stationName;
+    QString originalLocation;
     QString currentLocation;
     QString towards;
+    QString _modeName;
     QString direction;
     int timeToStation = 0;
     QString destinationName;
     QString platformName;
     QString naptanId;
     QString lineId;
+    CurrentBehaviour _behaviour = Unknown;
+
+    bool Vehicle::isBus() const
+    {
+        return _modeName == QStringLiteral("bus");
+    }
+
+    bool Vehicle::isDLR() const
+    {
+        return _modeName == QStringLiteral("dlr");
+    }
+
+    bool Vehicle::isTube() const
+    {
+        return _modeName == QStringLiteral("tube");
+    }
+
 
     void formatCurrentLocation()
     {
+        if( currentLocation.isEmpty())
+        {
+            _behaviour = Unknown;
+            return;
+        }
+
         if( currentLocation.startsWith("Approaching"))
         {
             currentLocation = currentLocation.mid(QString("Approaching").length()+1);
+            _behaviour = Approaching;
         }
-        else if( currentLocation.startsWith("At"))
+        else if( currentLocation.startsWith(QLatin1String("At")))
         {
-            int idx = currentLocation.lastIndexOf("Platform");
-            currentLocation = currentLocation.mid(3, idx-4);
+            currentLocation = currentLocation.mid(3);
+            _behaviour = At;
         }
-        else if( currentLocation.startsWith("Between"))
-        {
-            int idx = currentLocation.lastIndexOf("and");
-            currentLocation = currentLocation.mid(8, idx-9);
-        }
-        else if( currentLocation.startsWith("Left"))
+        else if( currentLocation.startsWith(QLatin1String("Left")))
         {
             currentLocation = currentLocation.mid(QString("Left").length()+1);
+            _behaviour = Left;
         }
-        else if( currentLocation.startsWith("Departed"))
+        else if( currentLocation.startsWith(QLatin1String("Leaving")))
+        {
+            currentLocation = currentLocation.mid(QString("Leaving").length()+1);
+            _behaviour = Left;
+        }
+        else if( currentLocation.startsWith(QLatin1String("Departed")))
         {
             currentLocation = currentLocation.mid(QString("Departed").length()+1);
+            _behaviour = Departed;
         }
+        else if( currentLocation.startsWith(QLatin1String("Between")))
+        {
+            int idx = currentLocation.indexOf(QLatin1String(" and"));
+            currentLocation = currentLocation.mid(idx+5);
+            _behaviour = Between;
+        }
+        else if( currentLocation.startsWith(QLatin1String("In between")))
+        {
+            int idx = currentLocation.indexOf(QLatin1String(" and"));
+            currentLocation = currentLocation.mid(idx+5);
+            _behaviour = Between;
+        }
+        else if( currentLocation.startsWith(QLatin1String("Near")))
+        {
+            currentLocation = currentLocation.mid(QString("Near").length()+1);
+            _behaviour = Approaching;
+        }
+
+        {
+            int idx = currentLocation.lastIndexOf(QLatin1String(" Platform"));
+            if( idx != -1)
+                currentLocation = currentLocation.left(idx);
+        }
+
+        currentLocation = currentLocation.trimmed();
+
+        if( currentLocation.startsWith(QStringLiteral("Kings Cross")))
+            currentLocation = QStringLiteral("King's Cross");
+
+        else if( currentLocation == QStringLiteral("Castle and Kennington"))
+            currentLocation = QStringLiteral("Elephant & Castle");
+
+        else if( currentLocation == QStringLiteral("Elephant and Castle"))
+            currentLocation = QStringLiteral("Elephant & Castle");
+
+        else if( currentLocation.startsWith(QStringLiteral("Earls Court")))
+            currentLocation = QStringLiteral("Earl's Court");
+
+        else if( currentLocation.startsWith(QStringLiteral("Paddington (Suburban)")))
+            currentLocation = QStringLiteral("Paddington");
+
+        else if( currentLocation.startsWith(QStringLiteral("Heathrow Terminal 1")))
+            currentLocation = QStringLiteral("Heathrow Terminals 2");
+
+        else if( currentLocation.startsWith(QStringLiteral("Chalfont and Latimer")))
+            currentLocation = QStringLiteral("Chalfont & Latimer");
+
+        else if( currentLocation.startsWith(QStringLiteral("Shepherds Bush")))
+            currentLocation = QStringLiteral("Shepherd's Bush");
+
+        else if( currentLocation.startsWith(QStringLiteral("Regents Park")))
+            currentLocation = QStringLiteral("Regent's Park");
+
+        else if( currentLocation.startsWith(QStringLiteral("Angel")))
+            currentLocation = QStringLiteral("Angel");
+
+        else if( currentLocation.startsWith(QStringLiteral("White City")))
+            currentLocation = QStringLiteral("White City");
+
+        else if( currentLocation.startsWith(QStringLiteral("London Bridge")))
+            currentLocation = QStringLiteral("London Bridge");
+
+        else if( currentLocation.startsWith(QStringLiteral("East Finchley")))
+            currentLocation = QStringLiteral("East Finchley");
+
+        else if( currentLocation.startsWith(QStringLiteral("Turnham Green")))
+            currentLocation = QStringLiteral("Turnham Green");
+
+        else if( currentLocation.startsWith(QStringLiteral("Heathrow T2")))
+            currentLocation = QStringLiteral("Heathrow Terminals 2");
+
+        else if( currentLocation.startsWith(QStringLiteral("Camden Town")))
+            currentLocation = QStringLiteral("Camden Town");
+
+        else if( currentLocation == QStringLiteral("Upminster") && isTube())
+            currentLocation += QStringLiteral(" Under");
     }
 
     QString toString() const
     {
-        return QString("vehicleID:%1 [%12]\nStn:%2\nPlat:%7\nNaptanId:%3\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5 [%10m][%11mins]\nDest:%6")
+        return QString("vehicleID:%1 [%12]\nStn:%2\nPlat:%7\nNaptanId:%3\nOrigCurr:[%13]\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5 [%10m][%11mins]\nDest:%6")
                 .arg(vehicleId)
                 .arg(stationName)
                 .arg(naptanId)
@@ -68,7 +183,8 @@ struct Vehicle
                 .arg(towards)
                 .arg(timeToStation/100.0/1.609334, 0,'f', 2)
                 .arg(int(timeToStation/60.0))
-                .arg(lineId);
+                .arg(lineId)
+                .arg(originalLocation);
     }
 };
 
