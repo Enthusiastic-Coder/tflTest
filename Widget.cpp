@@ -466,6 +466,8 @@ void Widget::updateTextBrowserWithArrivals(QTextBrowser* textBrowser)
     }
 
     textBrowser->append(QString("COUNT:%1").arg(trains.size()));
+    textBrowser -> moveCursor (QTextCursor::Start) ;
+    textBrowser -> ensureCursorVisible() ;
 }
 
 void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
@@ -476,6 +478,9 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
         textBrowser->append(item.toString());
 
     textBrowser->append(QString("COUNT:%1").arg(_stations.size()));
+
+    textBrowser -> moveCursor (QTextCursor::Start) ;
+    textBrowser -> ensureCursorVisible() ;
 }
 
 void Widget::startTFLRoutesDownload()
