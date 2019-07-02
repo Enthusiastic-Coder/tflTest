@@ -183,6 +183,10 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
         for(int i =0; i < ptsSize; ++i)
         {
             NODE& node = _allNodes[wayPoint.pts[i]];
+
+            if( node.Lat == 0.0 || node.Lng == 0.0)
+                continue;
+
             wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
 
             if( i )
