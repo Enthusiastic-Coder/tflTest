@@ -69,7 +69,8 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 android {
-    WANTSSL10 {
+
+    versionAtMost(QT_VERSION, 5.11.3) {
         OPENSSLFOLDER = "1.0"
     } else  {
         OPENSSLFOLDER = "1.1"

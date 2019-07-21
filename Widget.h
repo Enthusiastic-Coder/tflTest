@@ -42,17 +42,17 @@ struct Vehicle
     QString lineId;
     CurrentBehaviour _behaviour = Unknown;
 
-    bool Vehicle::isBus() const
+    bool isBus() const
     {
         return _modeName == QStringLiteral("bus");
     }
 
-    bool Vehicle::isDLR() const
+    bool isDLR() const
     {
         return _modeName == QStringLiteral("dlr");
     }
 
-    bool Vehicle::isTube() const
+    bool isTube() const
     {
         return _modeName == QStringLiteral("tube");
     }
