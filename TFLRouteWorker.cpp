@@ -206,7 +206,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
             QJsonObject obj;
 
             obj["parentId"] = value["parentId"];
-            obj["stationId"] = value["stationId"];;
+            obj["stationId"] = value["stationId"];
             obj["icsId"] = value["icsId"];
             obj["topMostParentId"] = value["topMostParentId"];
             obj["stopLetter"] = value["stopLetter"];
