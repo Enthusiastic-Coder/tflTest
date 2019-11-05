@@ -355,8 +355,15 @@ Widget::Widget(QWidget *parent) :
         _tflRouteCompress->produceCompressedOutput();
     });
 
-    connect(_tflRouteCompress, &TFLRouteCompression::finished, this, [this] {
+    connect(_tflRouteCompress, &TFLRouteCompression::finished, this, [this](QString output) {
         ui->pushButtonTflRouteGen->setEnabled(true);
+
+        QFile f("TFLCompressed.txt");
+        if( f.open(QIODevice::WriteOnly))
+        {
+            f.write(output.toLatin1());
+            QMessageBox::information(this, "TFL Compress done", "TFL compress");
+        }
     });
 
     QSettings s;

@@ -2,6 +2,7 @@
 #define TFLROUTECOMPRESSION_H
 
 #include <QObject>
+#include <QJsonDocument>
 
 class TFLRouteCompression : public QObject
 {
@@ -12,8 +13,11 @@ public:
 
     void produceCompressedOutput();
 
+private:
+    QString processLineObject(QJsonDocument document);
+
 signals:
-    void finished();
+    void finished(QString output);
 };
 
 #endif // TFLROUTECOMPRESSION_H
