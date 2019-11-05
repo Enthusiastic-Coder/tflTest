@@ -27,12 +27,14 @@ include(sdk/qMake/qMakeDestination.pri)
 INCLUDEPATH += sdk/include
 
 SOURCES += \
+    TFLRouteCompression.cpp \
         main.cpp \
         Widget.cpp \
     TFLRouteWorker.cpp \
     OSMWorker.cpp
 
 HEADERS += \
+    TFLRouteCompression.h \
         Widget.h \
     TFLRouteWorker.h \
     OSMWorker.h

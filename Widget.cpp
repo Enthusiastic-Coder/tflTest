@@ -17,7 +17,6 @@
 #include <QSettings>
 #include <QVector>
 
-
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
@@ -350,6 +349,16 @@ Widget::Widget(QWidget *parent) :
         ui->lineEditXORText->setText(array);
     });
 
+    connect(ui->pushButtonTflRouteGen, &QPushButton::clicked, [this] {
+
+        ui->pushButtonTflRouteGen->setEnabled(false);
+        _tflRouteCompress->produceCompressedOutput();
+    });
+
+    connect(_tflRouteCompress, &TFLRouteCompression::finished, this, [this] {
+        ui->pushButtonTflRouteGen->setEnabled(true);
+    });
+
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());
@@ -571,3 +580,4 @@ void Widget::processUSStates()
         stream << "-1\r\n";
     }
 }
+

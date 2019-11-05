@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QTextBrowser>
 #include "TFLRouteWorker.h"
+#include "TFLRouteCompression.h"
 #include "OSMWorker.h"
 
 namespace Ui {
@@ -229,7 +230,6 @@ protected:
     void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
     void updateTextBrowserWithStations(QTextBrowser *textBrowser);
 
-
 private:
     const QString lineStopPointsURL = "https://api.tfl.gov.uk/line/%1/stoppoints";
     const QString lineArrivalsURL = "https://api.tfl.gov.uk/line/%1/arrivals";
@@ -240,6 +240,7 @@ private:
     QMap<QString, Vehicle> _trains;
     QHash<QString,OldStopPoint> _stations;
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
+    TFLRouteCompression* _tflRouteCompress = new TFLRouteCompression(this);
     OSMWorker* _osmWorker = new OSMWorker(this);
 };
 
