@@ -16,6 +16,8 @@
 #include <QDesktopServices>
 #include <QSettings>
 #include <QVector>
+#include <QString>
+#include <set>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -611,11 +613,43 @@ void Widget::processAircraftJson()
 
     QStringList keys = rootObj.keys();
 
+    QFile outputFile("/Project/readsb/webapp/src/db/helicopters.txt");
+    if( !outputFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << outputFile.fileName() <<"-- FAILED TO WRITE!";
+        return;
+    }
+    QTextStream streamOut(&outputFile);
+    int count(0);
+
+    std::set<QString> heliSet;
+
     for(const QString& key : keys)
     {
         QJsonValue value = rootObj[key];
         QString description = value["d"].toString();
+        if( description.contains(QStringLiteral("helicopter"), Qt::CaseInsensitive))
+        {
+            streamOut << key << "," << value["t"].toString() <<"," << value["r"].toString() << "," << description << "\n";
+            heliSet.insert(value["t"].toString());
+            qDebug() << key <<"," << value.toString();
+        }
+
+        count++;
+        if( count % 1000 == 0)
+            qDebug() << count << ":" << keys.count();
 
     }
+
+    QFile outputFileType("/Project/readsb/webapp/src/db/helicopter_types.txt");
+    if( !outputFileType.open(QIODevice::WriteOnly))
+    {
+        qDebug() << outputFileType.fileName() <<"-- FAILED TO WRITE!";
+        return;
+    }
+
+    QTextStream streamOutType(&outputFileType);
+    for(const QString& type : heliSet)
+        streamOutType << type << "\n";
 }
 
