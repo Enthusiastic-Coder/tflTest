@@ -113,7 +113,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>8</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -739,6 +739,24 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="title">
+       <string>aircrafts.json</string>
+      </attribute>
+      <widget class="QPushButton" name="aircraftjson_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Process</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </item>

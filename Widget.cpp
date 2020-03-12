@@ -355,6 +355,8 @@ Widget::Widget(QWidget *parent) :
         _tflRouteCompress->produceCompressedOutput();
     });
 
+    connect(ui->aircraftjson_pushButton, &QPushButton::clicked, this, &Widget::processAircraftJson);
+
     connect(_tflRouteCompress, &TFLRouteCompression::finished, this, [this](QString output) {
         ui->pushButtonTflRouteGen->setEnabled(true);
 
@@ -585,6 +587,35 @@ void Widget::processUSStates()
                 stream << "-1\r\n";
         }
         stream << "-1\r\n";
+    }
+}
+
+void Widget::processAircraftJson()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QString str;
+    QFile file("/Project/readsb/webapp/src/db/aircrafts.json");
+
+    if( !file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << file.fileName() << " -- NOT FOUND!";
+        return;
+    }
+
+    str = file.readAll();
+
+    QJsonDocument doc = QJsonDocument::fromJson(str.toLatin1());
+
+    QJsonObject rootObj = doc.object();
+
+    QStringList keys = rootObj.keys();
+
+    for(const QString& key : keys)
+    {
+        QJsonValue value = rootObj[key];
+        QString description = value["d"].toString();
+
     }
 }
 
