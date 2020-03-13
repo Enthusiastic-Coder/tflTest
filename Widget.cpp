@@ -619,6 +619,15 @@ void Widget::processAircraftJson()
         qDebug() << outputFile.fileName() <<"-- FAILED TO WRITE!";
         return;
     }
+
+    QFile outputFileAircraft("/Project/readsb/webapp/src/db/aircraft.txt");
+    if( !outputFileAircraft.open(QIODevice::WriteOnly))
+    {
+        qDebug() << outputFileAircraft.fileName() <<"-- FAILED TO WRITE!";
+        return;
+    }
+
+    QTextStream streamOutAircraft(&outputFileAircraft);
     QTextStream streamOut(&outputFile);
     int count(0);
 
@@ -634,6 +643,9 @@ void Widget::processAircraftJson()
             heliSet.insert(value["t"].toString());
             qDebug() << key <<"," << value.toString();
         }
+
+        if( !description.isEmpty())
+            streamOutAircraft << key <<"," << description << "\n";
 
         count++;
         if( count % 1000 == 0)
