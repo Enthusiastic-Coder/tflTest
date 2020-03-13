@@ -358,6 +358,7 @@ Widget::Widget(QWidget *parent) :
     });
 
     connect(ui->aircraftjson_pushButton, &QPushButton::clicked, this, &Widget::processAircraftJson);
+    connect(ui->operator_json_pushButton, &QPushButton::clicked, this, &Widget::processOperatorJson);
 
     connect(_tflRouteCompress, &TFLRouteCompression::finished, this, [this](QString output) {
         ui->pushButtonTflRouteGen->setEnabled(true);
@@ -663,5 +664,48 @@ void Widget::processAircraftJson()
     QTextStream streamOutType(&outputFileType);
     for(const QString& type : heliSet)
         streamOutType << type << "\n";
+}
+
+void Widget::processOperatorJson()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    QString str;
+    QFile file("/Project/readsb/webapp/src/db/operators.json");
+
+    if( !file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << file.fileName() << " -- NOT FOUND!";
+        return;
+    }
+
+    str = file.readAll();
+
+    QJsonDocument doc = QJsonDocument::fromJson(str.toLatin1());
+
+    QJsonObject rootObj = doc.object();
+
+    QStringList keys = rootObj.keys();
+
+    QFile outputFile("/Project/readsb/webapp/src/db/operators.txt");
+    if( !outputFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << outputFile.fileName() <<"-- FAILED TO WRITE!";
+        return;
+    }
+
+    QTextStream streamOut(&outputFile);
+    int count(0);
+
+    for(const QString& key : keys)
+    {
+        QJsonValue value = rootObj[key];
+
+        streamOut << key << "," << value["n"].toString() <<"," << value["c"].toString() << "\n";
+
+        count++;
+        if( count % 1000 == 0)
+            qDebug() << count << ":" << keys.count();
+    }
 }
 

@@ -224,6 +224,7 @@ protected slots:
     void startTFLStopPointDownload();
     void processUSStates();
     void processAircraftJson();
+    void processOperatorJson();
 
 protected:
     void parseLineArrival(const QJsonDocument& doc, bool bMinimize=true);
