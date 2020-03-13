@@ -621,7 +621,7 @@ void Widget::processAircraftJson()
         return;
     }
 
-    QFile outputFileAircraft("/Project/readsb/webapp/src/db/aircraft.txt");
+    QFile outputFileAircraft("/Project/readsb/webapp/src/db/aircraft_types.txt");
     if( !outputFileAircraft.open(QIODevice::WriteOnly))
     {
         qDebug() << outputFileAircraft.fileName() <<"-- FAILED TO WRITE!";
@@ -646,7 +646,7 @@ void Widget::processAircraftJson()
         }
 
         if( !description.isEmpty())
-            streamOutAircraft << key <<"," << description << "\n";
+            streamOutAircraft << key << "," << value["t"].toString() <<"," << description << "\n";
 
         count++;
         if( count % 1000 == 0)
