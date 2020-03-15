@@ -646,7 +646,7 @@ void Widget::processAircraftJson()
         }
 
         if( !description.isEmpty())
-            streamOutAircraft << key << "," << value["t"].toString() <<"," << description << "\n";
+            streamOutAircraft << key << "," << value["t"].toString() <<"," << value["r"].toString() <<"," << description << "\n";
 
         count++;
         if( count % 1000 == 0)
