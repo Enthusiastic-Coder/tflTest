@@ -422,6 +422,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
         QString towards = obj["towards"].toString();
         QString naptanId = obj["naptanId"].toString();
         QString lineId = obj["lineId"].toString();
+        QDateTime expectedArrival = QDateTime::fromString(obj["expectedArrival"].toString(), Qt::ISODate);
 
         QString compoundId = dest + id;
 
@@ -438,6 +439,7 @@ void Widget::parseLineArrival(const QJsonDocument &doc, bool bMinimize)
             v.stationName = stationName;
             v.destinationName = dest;
             v.platformName = platform;
+            v.expectedArrival = expectedArrival.toLocalTime().time();
             v.direction = direction;
             v.naptanId = naptanId;
             v.lineId = lineId;

@@ -39,6 +39,7 @@ struct Vehicle
     int timeToStation = 0;
     QString destinationName;
     QString platformName;
+    QTime expectedArrival;
     QString naptanId;
     QString lineId;
     CurrentBehaviour _behaviour = Unknown;
@@ -172,7 +173,7 @@ struct Vehicle
 
     QString toString() const
     {
-        return QString("vehicleID:%1 [%12]\nStn:%2\nPlat:%7\nNaptanId:%3\nOrigCurr:[%13]\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5 [%10m][%11mins]\nDest:%6")
+        return QString("vehicleID:%1 [%12]\nStn:%2\nPlat:%7\nNaptanId:%3\nOrigCurr:[%13]\nCurr:[%4]\nToward:%9\nDir:%8\nTimeTo:%5 [%10m][%11mins]\nDest:%6\nETA:%14")
                 .arg(vehicleId)
                 .arg(stationName)
                 .arg(naptanId)
@@ -185,7 +186,8 @@ struct Vehicle
                 .arg(timeToStation/100.0/1.609334, 0,'f', 2)
                 .arg(int(timeToStation/60.0))
                 .arg(lineId)
-                .arg(originalLocation);
+                .arg(originalLocation)
+                .arg(expectedArrival.toString());
     }
 };
 
