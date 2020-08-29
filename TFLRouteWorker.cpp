@@ -210,6 +210,7 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
             obj["icsId"] = value["icsId"];
             obj["topMostParentId"] = value["topMostParentId"];
             obj["stopLetter"] = value["stopLetter"];
+            obj["towards"] = value["towards"];
             obj["zone"] = value["zone"];
 
             obj["id"] = value["id"];
