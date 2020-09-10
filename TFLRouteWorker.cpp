@@ -184,6 +184,9 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
     topObject["lineName"] = rootObj["lineName"];
 
     QString mode = rootObj["mode"].toString();
+    if( mode =="tube" || mode =="tram" || mode=="national-rail" || mode =="dlr" || mode =="overground" || mode =="tflrail")
+        return;
+
     topObject["mode"] = mode;
 
     if( mode != "bus")
