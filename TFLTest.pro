@@ -70,15 +70,4 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
-android {
-
-    versionAtMost(QT_VERSION, 5.11.3) {
-        OPENSSLFOLDER = "1.0"
-    } else  {
-        OPENSSLFOLDER = "1.1"
-    }
-
-    ANDROID_EXTRA_LIBS += \
-        $$PWD/openssl/$$TARGET_ARCH_ABI/$$OPENSSLFOLDER/libcrypto.so \
-        $$PWD/openssl/$$TARGET_ARCH_ABI/$$OPENSSLFOLDER/libssl.so
-}
+android: include(android_openssl/openssl.pri)
