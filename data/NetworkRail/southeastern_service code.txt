@@ -1,0 +1,288 @@
+London Charing Cross,Tunbridge Wells,Orpington,24602000
+London Charing Cross,Tunbridge Wells,Orpington,24602004
+London Charing Cross,Hastings,Orpington,24602000
+London Charing Cross,Hastings,Orpington,24602004
+London Charing Cross,Ore,Orpington,24602000
+London Cannon Street,Hastings,Orpington,24602000
+London Cannon Street,Hastings,Orpington,24602004
+Tonbridge,Tunbridge Wells,Direct,24602004
+Tonbridge,Hastings,Tunbridge Wells,24602004
+Tonbridge,Ore,Tunbridge Wells,24602004
+Tunbridge Wells,Hastings,Direct,24602000
+Ore,London Charing Cross,Orpington,24602000
+London Cannon Street,Ore,Orpington,24602000
+Ore,London Cannon Street,Orpington,24602000
+Hastings,Tunbridge Wells,Direct,24602000
+Hastings,Tonbridge,Tunbridge Wells,24602004
+Hastings,London Charing Cross,Orpington,24602000
+Hastings,London Charing Cross,Orpington,24602004
+Hastings,London Cannon Street,Orpington,24602000
+Hastings,London Cannon Street,Orpington,24602004
+Tunbridge Wells,London Charing Cross,Orpington,24602000
+Tunbridge Wells,London Charing Cross,Orpington,24602004
+Tunbridge Wells,London Cannon Street,Orpington,24602004
+Tunbridge Wells,Tonbridge,Direct,24602004
+London Victoria,Rochester,Sole Street,24604000
+London Victoria,Rochester,Sole Street,24604004
+London Victoria,Gillingham (Kent),Sole Street,24604000
+London Victoria,Gillingham (Kent),Sole Street,24604004
+London Victoria,Faversham,Sole Street,24604004
+London Victoria,Ramsgate,Sole Street,24604000
+London Victoria,Ramsgate,Sole Street,24604004
+London Victoria,Margate,Sole Street,24604000
+London Victoria,Canterbury East,Sole Street,24604004
+London Victoria,Dover Priory,Sole Street,24604004
+London Cannon Street,Ramsgate,Sole Street,24604000
+London Blackfriars,Rochester,Sole Street,24604000
+Gillingham (Kent),Dover Priory,Chatham,24604004
+Faversham,Ramsgate,Direct,24604004
+Faversham,Canterbury East,Direct,24604004
+Faversham,Dover Priory,Canterbury East,24604000
+Faversham,Dover Priory,Canterbury East,24604004
+Ramsgate,Faversham,Direct,24604000
+Ramsgate,Faversham,Direct,24604004
+Ramsgate,Gillingham (Kent),Direct,24604004
+Ramsgate,London Victoria,Sole Street,24604000
+Ramsgate,London Victoria,Sole Street,24604004
+Ramsgate,London Cannon Street,Sole Street,24604000
+Broadstairs,London Cannon Street,Sole Street,24604000
+Dover Priory,Faversham,Canterbury East,24604004
+Dover Priory,London Victoria,Sole Street,24604000
+Dover Priory,London Victoria,Sole Street,24604004
+Dover Priory,London Cannon Street,Sole Street,24604000
+Canterbury East,London Victoria,Sole Street,24604004
+Faversham,London Victoria,Sole Street,24604004
+Faversham,London Cannon Street,Sole Street,24604000
+Gillingham (Kent),London Victoria,Sole Street,24604000
+Gillingham (Kent),London Victoria,Sole Street,24604004
+Rochester,London Blackfriars,Sole Street,24604000
+London Cannon Street,Broadstairs,Sole Street,24604000
+Gillingham (Kent),London Cannon Street,Sole Street,24604004
+Rochester,London Victoria,Sole Street,24604004
+London Charing Cross,Tonbridge,Orpington,24605004
+London Charing Cross,Ashford International,Orpington,24605000
+London Charing Cross,Folkestone Central,Orpington,24605000
+London Charing Cross,Ashford International,Orpington,24605004
+London Cannon Street,Ashford International,Orpington,24605000
+London Charing Cross,Ramsgate,Orpington:Canterbury West,24605004
+London Charing Cross,Dover Priory,Orpington:Folkestone Central,24605000
+London Charing Cross,Dover Priory,Orpington:Folkestone Central,24605004
+London Charing Cross,Ramsgate,Orpington:Folkestone Central,24605000
+London Charing Cross,Ramsgate,Canterbury West,24605000
+London Charing Cross,Ramsgate,Orpington:Folkestone Central,24605004
+London Cannon Street,Ramsgate,Orpington:Canterbury West,24605000
+London Cannon Street,Ramsgate,Orpington:Folkestone Central,24605000
+Ramsgate,Tonbridge,Folkestone Central,24605004
+Tonbridge,Ramsgate,Canterbury West,24605004
+Tonbridge,Ramsgate,Folkestone Central,24605004
+Ashford International,Canterbury West,Direct,24605000
+Ashford International,Canterbury West,Direct,24605004
+Ashford International,Ramsgate,Canterbury West,24605000
+Ashford International,Ramsgate,Canterbury West,24605004
+Ashford International,Dover Priory,Folkestone Central,24605004
+Ashford International,Ramsgate,Folkestone Central,24605004
+Ramsgate,Ashford International,Canterbury West,24605000
+Ramsgate,Ashford International,Canterbury West,24605004
+Ramsgate,London Charing Cross,Canterbury West:Orpington,24605000
+Ramsgate,London Charing Cross,Canterbury West:Orpington,24605004
+Ramsgate,London Cannon Street,Canterbury West:Orpington,24505000
+Canterbury West,Ashford International,Direct,24605004
+Canterbury West,London Charing Cross,Orpington,24605000
+Ramsgate,London Charing Cross,Folkestone Central:Orpington,24605000
+Ramsgate,London Charing Cross,Folkestone Central:Orpington,24605004
+Ramsgate,London Cannon Street,Folkestone Central:Orpington,24605000
+Ramsgate,Ashford International,Folkestone Central,24605000
+Ramsgate,Ashford International,Folkestone Central,24605004
+Ramsgate,Ashford International,Folkestone Central
+Dover Priory,London Charing Cross,Folkestone Central:Orpington,24605004
+Dover Priory,Ashford International,Folkestone Central,24605004
+Ashford International,London Charing Cross,Orpington,24605000
+Ashford International,London Charing Cross,Orpington,24605004
+Tonbridge,London Charing Cross,Orpington,24605004
+Tonbridge,London Cannon Street,Orpington,24605000,
+Folkestone Central,London Cannon Street,Orpington,24605000
+Dover Priory,London Charing Cross,Folkestone Central:Orpington,24605000
+London Victoria,Maidstone East,Direct,24606000
+London Victoria,Ashford International,Maidstone East,24606000
+London Victoria,Ashford International,Maidstone East,24606004
+London Blackfriars,Ashford International,Maidstone East,24606000
+Maidstone East,Ashford International,Direct,24606004
+Maidstone East,Canterbury West,Direct,24606004
+Canterbury West,London Victoria,Maidstone East,24606000
+Ashford International,London Victoria,Maidstone East,24606000
+Ashford International,London Victoria,Maidstone East,24606004
+Ashford International,London Blackfriars,Maidstone East,24606000
+Maidstone East,London Victoria,Direct,24606004
+London Charing Cross,Barnehurst,Bexleyheath,24650000
+London Charing Cross,Slade Green,Bexleyheath,24650000
+London Charing Cross,Crayford,Bexleyheath,24650005
+London Charing Cross,Dartford,Bexleyheath,24650000
+London Charing Cross,Dartford,Bexleyheath,24650005
+London Charing Cross,Gillingham (Kent),Bexleyheath,24650005
+London Cannon Street,Barnehurst,Bexleyheath,24650000
+London Cannon Street,Barnehurst,Bexleyheath,24650005
+London Cannon Street,Crayford,Bexleyheath,24650000
+London Cannon Street,Crayford,Bexleyheath,24650005
+London Cannon Street,Slade Green,Bexleyheath,24650000
+London Cannon Street,Slade Green,Bexleyheath,24650005
+London Charing Cross,Slade Green,Bexleyheath,24650005
+London Cannon Street,Dartford,Bexleyheath,24650005
+London Victoria,Dartford,Bexleyheath,24650000
+London Victoria,Dartford,Bexleyheath,24650005
+Gravesend,London Charing Cross,Bexleyheath,24650000
+Gravesend,London Charing Cross,Bexleyheath,24650005
+Dartford,London Charing Cross,Bexleyheath,24650000
+Dartford,London Charing Cross,Bexleyheath,24650005
+Dartford,London Cannon Street,Bexleyheath,24650005
+Dartford,London Victoria,Bexleyheath,24650000
+Dartford,London Victoria,Bexleyheath,24650005
+Barnehurst,London Charing Cross,Bexleyheath,24650000
+Barnehurst,London Cannon Street,Bexleyheath,24650000
+Slade Green,London Victoria,Bexleyheath,24650000
+Barnehurst,London Victoria,Bexleyheath,24650000
+Barnehurst,London Cannon Street,Bexleyheath,24650005
+London Victoria,Orpington,Herne Hill,24652000
+London Victoria,Orpington,Herne Hill,24652005
+London Blackfriars,Kent House,Herne Hill,24652000
+London Blackfriars,Kent House,Herne Hill,24652005
+London Blackfriars,Beckenham Junction,Herne Hill,24652000
+London Blackfriars,Beckenham Junction,Herne Hill,24652005
+London Blackfriars,Bromley South,Herne Hill,24652005
+Orpington,London Victoria,Herne Hill,24652000
+Orpington,London Victoria,Herne Hill,24652005
+Swanley,London Victoria,Herne Hill,24652005
+Bromley South,London Victoria,Herne Hill,24652000
+Beckenham Junction,London Victoria,Herne Hill,24652000
+Orpington,London Blackfriars,Herne Hill,24652000
+Orpington,London Blackfriars,Herne Hill,24652005
+Orpington,City Thameslink,Herne Hill,24652005
+Beckenham Junction,London Blackfriars,Herne Hill,24652000
+Beckenham Junction,London Blackfriars,Herne Hill,24652005
+Kent House,London Blackfriars,Herne Hill,24652000
+London Charing Cross,Hayes,Mid Kent,24653000
+London Charing Cross,Hayes,Mid Kent,24653005
+London Cannon Street,Beckenham Junction,Mid Kent,24653005
+London Cannon Street,Hayes,Mid Kent,24653000
+London Cannon Street,Hayes,Mid Kent,24653005
+New Cross,Hayes,Mid Kent,24653005
+Hayes,London Bridge,Mid Kent,24653005
+Hayes,London Charing Cross,Mid Kent,24653000
+Hayes,London Charing Cross,Mid Kent,24653005
+Beckenham Junction,London Charing Cross,Mid Kent,24653005
+Hayes,London Cannon Street,Mid Kent,24653000
+Hayes,London Cannon Street,Mid Kent,24653005
+London Charing Cross,Orpington,Grove Park,24655000
+London Charing Cross,Orpington,Grove Park,24655005
+London Charing Cross,Sevenoaks,Orpington,24655000
+London Charing Cross,Sevenoaks,Orpington,24655005
+London Cannon Street,Orpington,Grove Park,24655000
+London Cannon Street,Orpington,Grove Park,24655005
+London Cannon Street,Sevenoaks,Orpington,24655000
+Sevenoaks,London Charing Cross,Orpington,24655000
+Sevenoaks,London Charing Cross,Orpington,24655005
+Sevenoaks,London Cannon Street,Orpington,24655000
+Orpington,London Charing Cross,Grove Park,24655000
+Orpington,London Charing Cross,Grove Park,24655005
+Hither Green,London Charing Cross,Direct,24655005
+Orpington,London Cannon Street,Grove Park,24655000
+Orpington,London Cannon Street,Grove Park,24655005
+Hither Green,London Cannon Street,Direct,24655005
+Grove Park,Bromley North,Direct,24655005
+Bromley North,Grove Park,Direct,24655005
+City Thameslink,Sevenoaks,Catford:Swanley,24656005
+London Blackfriars,Bromley South,Catford,24656005
+London Blackfriars,Orpington,Catford,24656000
+London Blackfriars,Orpington,Catford,24656005
+London Blackfriars,Sevenoaks,Catford:Swanley,24656000
+London Blackfriars,Sevenoaks,Catford:Swanley,24656005
+London Blackfriars,Sevenoaks,Catford:Swanley,24656005
+Sevenoaks,London Blackfriars,Swanley:Catford,24656000
+Sevenoaks,London Blackfriars,Swanley:Catford,24656005
+Orpington,London Blackfriars,Catford,24656000
+Orpington,London Blackfriars,Catford,24656005
+Sevenoaks,London Blackfriars,Swanley:Catford,24656005
+Orpington,City Thameslink,Catford,24656005
+Bromley South,London Blackfriars,Catford,24656000
+Sevenoaks,London Victoria,Swanley:Catford,24656005
+Bromley South,Sevenoaks,Direct,24656005
+Sevenoaks,Bromley South,Swanley,24656005
+Orpington,London Blackfriars,Catford,24656005
+Beckenham Junction,London Blackfriars,Catford,24656005
+London Charing Cross,Sidcup,Hither Green,24657000
+London Charing Cross,Crayford,Hither Green,24657000
+London Charing Cross,Barnehurst,Sidcup,24657000
+London Charing Cross,Dartford,Sidcup,24657005
+London Charing Cross,Gravesend,Sidcup,24657000
+London Charing Cross,Gravesend,Sidcup,24657005
+London Charing Cross,Strood,Sidcup,24657000
+London Charing Cross,Strood,Sidcup,24657005
+London Charing Cross,Gillingham (Kent),Sidcup,24657000
+London Charing Cross,Gillingham (Kent),Sidcup,24657005
+London Cannon Street,Crayford,Sidcup,24657000
+London Cannon Street,Crayford,Sidcup,24657005
+London Cannon Street,Barnehurst,Sidcup,24657000
+London Cannon Street,Slade Green,Sidcup,24657005
+London Cannon Street,Dartford,Sidcup,24657005
+Gillingham (Kent),London Charing Cross,Sidcup,24657000
+Gillingham (Kent),London Charing Cross,Sidcup,24657005
+Strood,London Charing Cross,Sidcup,24657000
+Gravesend,London Charing Cross,Sidcup,24657000
+Gravesend,London Charing Cross,Sidcup,24657005
+Dartford,London Charing Cross,Sidcup,24657000
+Dartford,London Charing Cross,Sidcup,24657005
+Sidcup,London Charing Cross,Hither Green,24657000
+Slade Green,London Cannon Street,Sidcup,24657000
+Slade Green,London Cannon Street,Sidcup,24657005
+Crayford,London Cannon Street,Sidcup,24657000
+Crayford,London Cannon Street,Sidcup,24657005
+Sidcup,London Cannon Street,Sidcup,24657005
+Crayford,London Charing Cross,Sidcup,24657005
+London Charing Cross,Gravesend,North Kent,24658005
+London Charing Cross,Gillingham (Kent),North Kent,24658000
+London Charing Cross,Gillingham (Kent),North Kent,24658005
+Dartford,Gillingham (Kent),Direct,24658005
+Gillingham (Kent),Dartford,Direct,24658005
+Gillingham (Kent),London Charing Cross,North Kent,24658000
+Gillingham (Kent),London Charing Cross,North Kent,24658005,
+Gillingham (Kent),London Cannon Street,North Kent,24658000
+Gillingham (Kent),London Cannon Street,North Kent,24658005
+Gravesend,London Charing Cross,North Kent,24658000
+London Charing Cross,Slade Green,Greenwich,24659000
+London Charing Cross,Barnehurst,Greenwich,24659000
+London Charing Cross,Dartford,Greenwich,24659000
+London Charing Cross,Dartford,Greenwich,24659005
+London Cannon Street,London Bridge,Direct,24659005
+London Cannon Street,Slade Green,Greenwich,24659000
+London Cannon Street,Slade Green,Greenwich,24659005
+London Cannon Street,Barnehurst,Greenwich,24659005
+London Cannon Street,Dartford,Greenwich,24659000
+London Cannon Street,Dartford,Greenwich,24659005
+London Cannon Street,Gravesend,Greenwich,24659000
+London Cannon Street,Gillingham (Kent),Greenwich,24659000
+London Bridge,Plumstead,Greenwich,24659005
+London Bridge,Dartford,Greenwich,24659005
+London Charing Cross,Crayford,Greenwich,24659000
+Slade Green,London Charing Cross,Greenwich,24659000
+Dartford,London Charing Cross,Greenwich,24659005
+Dartford,London Bridge,Greenwich,24659005
+Crayford,London Bridge,Greenwich,24659005
+Plumstead,London Bridge,Greenwich,24659005
+Strood,London Cannon Street,Greenwich,24659000
+Gravesend,London Cannon Street,Greenwich,24659000
+Dartford,London Cannon Street,Greenwich,24659000
+Dartford,London Cannon Street,Greenwich,24659005
+Crayford,London Cannon Street,Greenwich,24659000
+Crayford,London Cannon Street,Greenwich,24659005
+Slade Green,London Cannon Street,Greenwich,24659000
+Slade Green,London Cannon Street,Greenwich,24659005
+London Bridge,London Cannon Street,Direct,24659005
+Gillingham (Kent),Sheerness on Sea,Direct,24607006
+Sittingbourne,Sheerness on Sea,Direct,24607006
+Sheerness on Sea,Sittingbourne,Direct,24607006
+Sheerness on Sea,Gillingham (Kent),Direct,24607006
+Tonbridge,Strood,Maidstone West,24608006
+Paddock Wood,Strood,Maidstone West,24608006
+Maidstone West,Strood,Direct,24608006
+Strood,Maidstone West,Direct,24608006
+Strood,Paddock Wood,Maidstone West,24608006
+Strood,Tonbridge,Maidstone West,24608006
