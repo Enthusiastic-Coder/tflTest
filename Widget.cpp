@@ -89,8 +89,10 @@ Widget::Widget(QWidget *parent) :
         QByteArray str = frame.body().toLocal8Bit();
         QJsonDocument doc = QJsonDocument::fromJson(str);
 
-        if( !doc.isNull())
+        if( !doc.isNull() && !ui->checkBox_NetworkRail->isChecked())
             parseNetworkRail(doc);
+        else
+            ui->textBrowser_NetworkRail->append(doc.toJson(QJsonDocument::Indented));
     });
 
     connect(ui->pushButton_Clear_NR, &QPushButton::pressed, [this] {
