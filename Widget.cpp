@@ -559,13 +559,15 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 {
     QJsonArray a = doc.array();
 
-    for(QJsonValue item : a)
+    for(const QJsonValue &item : qAsConst(a))
     {
         QJsonObject obj = item.toObject();
         QJsonObject header = obj["header"].toObject();
         QJsonObject body = obj["body"].toObject();
 
-        ui->textBrowser_NetworkRail->append( "msg_type:" + header["msg_type"].toString());
+        if( header["msg_type"].toString().toInt() != 3)
+            continue;
+
         ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
         ui->textBrowser_NetworkRail->append( "platform:" + body["platforms"].toString());
@@ -575,7 +577,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "next_report_stanox:" + body["next_report_stanox"].toString());
 
 
-        ui->textBrowser_NetworkRail->append("-------------------");
+        ui->textBrowser_NetworkRail->append("=======================================");
     }
 //    ui->textBrowser_NetworkRail->append(str);
 
