@@ -29,6 +29,7 @@ INCLUDEPATH += C:/Project/QStomp/src
 
 SOURCES += \
     TFLRouteCompression.cpp \
+    csvfileload.cpp \
         main.cpp \
         Widget.cpp \
     TFLRouteWorker.cpp \
@@ -38,7 +39,8 @@ HEADERS += \
     TFLRouteCompression.h \
         Widget.h \
     TFLRouteWorker.h \
-    OSMWorker.h
+    OSMWorker.h \
+    csvfileload.h
 
 FORMS += \
         Widget.ui
