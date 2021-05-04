@@ -64,6 +64,7 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     _manager = new QNetworkAccessManager(this);
 
+    _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);
 
     QObject::connect(&client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
@@ -98,6 +99,7 @@ Widget::Widget(QWidget *parent) :
 
     connect(ui->pushButton_NetworkRail, &QPushButton::toggled, [this](bool toggled) {
 
+        ui->comboBox_NetworkRail->setDisabled(toggled);
         if( toggled)
         {
             ui->pushButton_NetworkRail->setText("Stop");

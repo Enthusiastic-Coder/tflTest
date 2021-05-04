@@ -9,6 +9,7 @@
 #include "TFLRouteWorker.h"
 #include "TFLRouteCompression.h"
 #include "OSMWorker.h"
+#include "NetworkRailStnsCSV.h"
 
 namespace Ui {
 class Widget;
@@ -247,6 +248,7 @@ private:
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
     TFLRouteCompression* _tflRouteCompress = new TFLRouteCompression(this);
     OSMWorker* _osmWorker = new OSMWorker(this);
+    NetworkRailStnsCSV _networkRailStnCSV;
 };
 
 #endif // WIDGET_H
