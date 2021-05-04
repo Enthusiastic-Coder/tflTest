@@ -574,9 +574,9 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
         ui->textBrowser_NetworkRail->append( "platform:" + body["platforms"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());
-        ui->textBrowser_NetworkRail->append( "reporting_stanox:" + body["reporting_stanox"].toString());
-        ui->textBrowser_NetworkRail->append( "loc_stanox:" + body["loc_stanox"].toString());
-        ui->textBrowser_NetworkRail->append( "next_report_stanox:" + body["next_report_stanox"].toString());
+        ui->textBrowser_NetworkRail->append( "reporting_stanox:" + _networkRailStnCSV[body["reporting_stanox"].toString()].location);
+        ui->textBrowser_NetworkRail->append( "loc_stanox:" + _networkRailStnCSV[body["loc_stanox"].toString()].location);
+        ui->textBrowser_NetworkRail->append( "next_report_stanox:" + _networkRailStnCSV[body["next_report_stanox"].toString()].location);
 
 
         ui->textBrowser_NetworkRail->append("=======================================");
