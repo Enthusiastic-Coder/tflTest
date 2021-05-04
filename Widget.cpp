@@ -19,6 +19,10 @@
 #include <QString>
 #include <set>
 
+#include <qstomp.h>
+#include <qstomp_global.h>
+QStompClient client;
+
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
@@ -60,6 +64,51 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     _manager = new QNetworkAccessManager(this);
 
+
+    QObject::connect(&client, &QStompClient::socketConnected, [this] {
+        qDebug() << "Connected";
+
+        client.login("jebaramo@gmail.com", "3HpGxuwRY3P!YYE");
+
+        ui->textBrowser_NetworkRail->append("Connected");
+
+        QString id = QString("/topic/TRAIN_MVT_%1_TOC").arg(ui->comboBox_NetworkRail->currentText());
+
+        ui->textBrowser_NetworkRail->append("Subscribing to " + id );
+        client.subscribe(id.toLocal8Bit(), true);
+    });
+
+    QObject::connect(&client, &QStompClient::socketDisconnected,  [this] {
+        ui->textBrowser_NetworkRail->append("Dis-Connected");
+    });
+
+    connect(&client, &QStompClient::frameReceived, [this] {
+
+        QStompResponseFrame frame = client.fetchFrame();
+        QByteArray str = frame.body().toLocal8Bit();
+        QJsonDocument doc = QJsonDocument::fromJson(str);
+
+        if( !doc.isNull())
+            parseNetworkRail(doc);
+    });
+
+    connect(ui->pushButton_Clear_NR, &QPushButton::pressed, [this] {
+        ui->textBrowser_NetworkRail->clear();
+    });
+
+    connect(ui->pushButton_NetworkRail, &QPushButton::toggled, [this](bool toggled) {
+
+        if( toggled)
+        {
+            ui->pushButton_NetworkRail->setText("Stop");
+            client.connectToHost("datafeeds.networkrail.co.uk", 61618);
+        }
+        else
+        {
+            client.disconnectFromHost();
+            ui->pushButton_NetworkRail->setText("Start");
+        }
+    });
 
     connect( _tflWorker, &TFLRouteWorker::finished, [this]
     {
@@ -504,6 +553,32 @@ void Widget::updateTextBrowserWithStations(QTextBrowser *textBrowser)
 
     textBrowser -> moveCursor (QTextCursor::Start) ;
     textBrowser -> ensureCursorVisible() ;
+}
+
+void Widget::parseNetworkRail(const QJsonDocument &doc)
+{
+    QJsonArray a = doc.array();
+
+    for(QJsonValue item : a)
+    {
+        QJsonObject obj = item.toObject();
+        QJsonObject header = obj["header"].toObject();
+        QJsonObject body = obj["body"].toObject();
+
+        ui->textBrowser_NetworkRail->append( "msg_type:" + header["msg_type"].toString());
+        ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
+        ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
+        ui->textBrowser_NetworkRail->append( "platform:" + body["platforms"].toString());
+        ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());
+        ui->textBrowser_NetworkRail->append( "reporting_stanox:" + body["reporting_stanox"].toString());
+        ui->textBrowser_NetworkRail->append( "loc_stanox:" + body["loc_stanox"].toString());
+        ui->textBrowser_NetworkRail->append( "next_report_stanox:" + body["next_report_stanox"].toString());
+
+
+        ui->textBrowser_NetworkRail->append("-------------------");
+    }
+//    ui->textBrowser_NetworkRail->append(str);
+
 }
 
 void Widget::startTFLRoutesDownload()

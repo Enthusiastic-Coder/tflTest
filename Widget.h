@@ -233,6 +233,7 @@ protected:
     void parseStopPoints(const QJsonDocument& doc);
     void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
     void updateTextBrowserWithStations(QTextBrowser *textBrowser);
+    void parseNetworkRail(const QJsonDocument& doc);
 
 private:
     const QString lineStopPointsURL = "https://api.tfl.gov.uk/line/%1/stoppoints";
