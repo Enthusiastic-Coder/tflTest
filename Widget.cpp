@@ -634,17 +634,17 @@ void Widget::processUSStates()
     QTextStream stream(&outFile);
     const int jumpSize = 10;
 
-    for( QJsonValue value : states)
+    for( const QJsonValue &value : qAsConst(states))
     {
         QJsonObject geometry = value["geometry"].toObject();
         QJsonArray coords = geometry["coordinates"].toArray();
 
-        for(QJsonValue value : coords)
+        for(const QJsonValue &value : qAsConst(coords))
         {
             QJsonArray polygon = value.toArray();
             int outCount = 0;
 
-            for(QJsonValue value:polygon)
+            for(const QJsonValue &value:qAsConst(polygon))
             {
                 QJsonArray latLngGroup = value.toArray();
                 if( latLngGroup.size() == 2)
@@ -663,7 +663,7 @@ void Widget::processUSStates()
                 }
 
                 int count = 0;
-                for(QJsonValue value : latLngGroup)
+                for(const QJsonValue& value : qAsConst(latLngGroup))
                 {
                     QJsonArray latLng = value.toArray();
                     double lng = latLng.at(0).toDouble();
