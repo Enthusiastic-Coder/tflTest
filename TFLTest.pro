@@ -28,6 +28,7 @@ INCLUDEPATH += sdk/include
 INCLUDEPATH += C:/Project/QStomp/src
 
 SOURCES += \
+    NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
     TFLRouteCompression.cpp \
     csvfileload.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
     OSMWorker.cpp
 
 HEADERS += \
+    NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
     TFLRouteCompression.h \
         Widget.h \

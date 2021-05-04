@@ -66,6 +66,8 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);
 
+    _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
+
     QObject::connect(&client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
 
@@ -574,12 +576,20 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
+
+        QString from = _networkRailServicesCSV[body["train_service_code"].toString()].from;
+        QString to = _networkRailServicesCSV[body["train_service_code"].toString()].to;
+
+        ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
+        ui->textBrowser_NetworkRail->append( "train_service_from:" + from);
+        ui->textBrowser_NetworkRail->append( "train_service_to:" + to);
+
         ui->textBrowser_NetworkRail->append( "platform:" + body["platforms"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());
         ui->textBrowser_NetworkRail->append( "reporting_stanox:" + _networkRailStnCSV[body["reporting_stanox"].toString()].location);
         ui->textBrowser_NetworkRail->append( "loc_stanox:" + _networkRailStnCSV[body["loc_stanox"].toString()].location);
         ui->textBrowser_NetworkRail->append( "next_report_stanox:" + _networkRailStnCSV[body["next_report_stanox"].toString()].location);
-
+        ui->textBrowser_NetworkRail->append( "direction_ind:" + body["direction_ind"].toString());
 
         ui->textBrowser_NetworkRail->append("=======================================");
     }

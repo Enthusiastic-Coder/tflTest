@@ -104,6 +104,11 @@
          </property>
          <item>
           <property name="text">
+           <string>HY</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>HU</string>
           </property>
          </item>
