@@ -21,12 +21,7 @@ void leastSquares()
     if(pts.size() <3)
         return;
 
-    Vector3F sum;
-
-    for(Vector3F pt:pts)
-    {
-        sum += pt;
-    }
+    Vector3F sum = std::accumulate(pts.begin(), pts.end(), Vector3F());
 
     Vector3F centroid;
 
