@@ -23,9 +23,9 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 CONFIG += c++14
 
 include(sdk/qMake/qMakeDestination.pri)
+include(stomp/qtstomp.pri)
 
 INCLUDEPATH += sdk/include
-INCLUDEPATH += C:/Project/QStomp/src
 
 SOURCES += \
     NetworkRailServicesCSV.cpp \
@@ -65,15 +65,6 @@ openssl.files += openssl/win64/*
 openssl.path = $$DEPLOY_DIR
 INSTALLS += openssl
 }
-
-CONFIG(release, debug|release) {
-    LIBS += C:/Project/build-QStomp-Desktop_Qt_5_14_2_MSVC2017_64bit-Release/Release/qstomp0.lib
-}
-
-CONFIG(debug, debug|release) {
-    LIBS += C:/Project/build-QStomp-Desktop_Qt_5_14_2_MSVC2017_64bit-Debug/debug/qstomp0.lib
-}
-
 
 DISTFILES += \
     android/AndroidManifest.xml \
