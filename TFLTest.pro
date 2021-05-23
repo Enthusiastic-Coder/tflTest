@@ -23,7 +23,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 CONFIG += c++14
 
 include(sdk/qMake/qMakeDestination.pri)
-include(stomp/qtstomp.pri)
+include(qtstomp/qtstomp.pri)
 
 INCLUDEPATH += sdk/include
 
