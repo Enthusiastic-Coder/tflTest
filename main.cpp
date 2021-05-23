@@ -16,7 +16,7 @@ void leastSquares()
 
     for( int i=0; i< 50; ++i)
 //        pts.push_back(Vector3F(i,i*0.1f,0));
-        pts.push_back(Vector3F(qrand()%9-4, i,i));
+        pts.push_back(Vector3F(std::rand()%9-4, i,i));
 
     if(pts.size() <3)
         return;
@@ -95,6 +95,10 @@ int main(int argc, char *argv[])
         strTAlt = QString("FL%0").arg(roundedAlt);
     else
         strTAlt = QString("FL%0").arg(tAlt);
+
+    QString str = QString::number(__LINE__);
+    QString str2 = Q_FUNC_INFO;
+    QString str3 = __FILE__;
 
     leastSquares();
 

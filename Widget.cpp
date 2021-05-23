@@ -50,7 +50,7 @@ QString GetRandomString(int randomStringLength)
    for(int i=0; i<randomStringLength; ++i)
    {
 //       int index = qrand() % 128+33;
-       int index = qrand() % possibleCharacters.size();
+       int index = std::rand() % possibleCharacters.size();
        QChar nextChar = QChar(possibleCharacters.at(index));
        randomString.append(nextChar);
    }
