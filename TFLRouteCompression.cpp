@@ -44,7 +44,7 @@ QString TFLRouteCompression::processLineObject(QJsonDocument document)
 {
     QString objStr;
 
-    auto addString = [&objStr](const QString l) {
+    auto addString = [&objStr](const QString& l) {
         objStr  += l + "\n";
     };
 

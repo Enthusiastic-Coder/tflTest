@@ -280,7 +280,7 @@ void TFLRouteWorker::processStops(const QByteArray &json)
 
     QJsonArray a;
 
-    for(QJsonValue value : lines)
+    for(const QJsonValue &value : qAsConst(lines))
     {
         QJsonObject obj;
 
