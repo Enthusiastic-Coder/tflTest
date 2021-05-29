@@ -5,12 +5,14 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 #include <QMap>
+#include <QTimer>
 #include <QTextBrowser>
 #include "TFLRouteWorker.h"
 #include "TFLRouteCompression.h"
 #include "OSMWorker.h"
 #include "NetworkRailStnsCSV.h"
 #include "NetworkRailServicesCSV.h"
+#include <qstomp.h>
 
 namespace Ui {
 class Widget;
@@ -251,6 +253,8 @@ private:
     OSMWorker* _osmWorker = new OSMWorker(this);
     NetworkRailStnsCSV _networkRailStnCSV;
     NetworkRailServicesCSV _networkRailServicesCSV;
+    QTimer* _NRStatusTimer = new QTimer(this);
+    QStompClient _client;
 };
 
 #endif // WIDGET_H

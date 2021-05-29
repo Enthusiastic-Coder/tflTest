@@ -64,9 +64,6 @@
        <string>Network Rail</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_9">
-       <item row="1" column="0" colspan="5">
-        <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
-       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="pushButton_NetworkRail">
          <property name="text">
@@ -77,25 +74,15 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
+       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="pushButton_Clear_NR">
          <property name="text">
           <string>Clear</string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="4">
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="comboBox_NetworkRail">
@@ -124,10 +111,30 @@
          </item>
         </widget>
        </item>
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="0" column="3">
         <widget class="QCheckBox" name="checkBox_NetworkRail">
          <property name="text">
           <string>Raw</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QLabel" name="labelStatus_NR">
+         <property name="text">
+          <string>Status....</string>
          </property>
         </widget>
        </item>

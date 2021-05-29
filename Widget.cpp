@@ -19,10 +19,6 @@
 #include <QString>
 #include <set>
 
-#include <qstomp.h>
-#include <qstomp_global.h>
-QStompClient client;
-
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
@@ -68,26 +64,31 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
 
-    QObject::connect(&client, &QStompClient::socketConnected, [this] {
+    _NRStatusTimer->start(1000);
+    connect( _NRStatusTimer, &QTimer::timeout, [this] {
+        ui->labelStatus_NR->setText( _client.isUnconnected()?"Disconnected":"Active");
+    });
+
+    QObject::connect(&_client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
 
-        client.login("jebaramo@gmail.com", "3HpGxuwRY3P!YYE");
+        _client.login("jebaramo@gmail.com", "3HpGxuwRY3P!YYE");
 
         ui->textBrowser_NetworkRail->append("Connected");
 
         QString id = QString("/topic/TRAIN_MVT_%1_TOC").arg(ui->comboBox_NetworkRail->currentText());
 
         ui->textBrowser_NetworkRail->append("Subscribing to " + id );
-        client.subscribe(id.toLocal8Bit(), true);
+        _client.subscribe(id.toLocal8Bit(), true);
     });
 
-    QObject::connect(&client, &QStompClient::socketDisconnected,  [this] {
+    QObject::connect(&_client, &QStompClient::socketDisconnected,  [this] {
         ui->textBrowser_NetworkRail->append("Dis-Connected");
     });
 
-    connect(&client, &QStompClient::frameReceived, [this] {
+    connect(&_client, &QStompClient::frameReceived, [this] {
 
-        QStompResponseFrame frame = client.fetchFrame();
+        QStompResponseFrame frame = _client.fetchFrame();
         QByteArray str = frame.body().toLocal8Bit();
         QJsonDocument doc = QJsonDocument::fromJson(str);
 
@@ -107,11 +108,11 @@ Widget::Widget(QWidget *parent) :
         if( toggled)
         {
             ui->pushButton_NetworkRail->setText("Stop");
-            client.connectToHost("datafeeds.networkrail.co.uk", 61618);
+            _client.connectToHost("datafeeds.networkrail.co.uk", 61618);
         }
         else
         {
-            client.disconnectFromHost();
+            _client.disconnectFromHost();
             ui->pushButton_NetworkRail->setText("Start");
         }
     });
