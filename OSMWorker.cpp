@@ -205,7 +205,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
     }
 
     int skipped = 0;
-    for( const auto& node : _allNodes)
+    for( const auto& node : qAsConst(_allNodes))
     {
         if( bFilterOn )
         {
@@ -246,11 +246,11 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
 
         QDataStream stream(&output);
 
-        stream << static_cast<int>(_resultOutput.size());
+        stream << static_cast<quint64>(_resultOutput.size());
 
         for(const auto& item : _resultOutput)
         {
-            stream << static_cast<int>(item->tags.size());
+            stream << static_cast<quint64>(item->tags.size());
 
             for( const auto& tag : item->tags)
             {
@@ -258,7 +258,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
                 stream << ar.length() << ar.data();
             }
 
-            stream << static_cast<int>(item->pt.size());
+            stream << static_cast<quint64>(item->pt.size());
 
             for( const auto& pt : item->pt)
                 stream << pt.first << pt.second;
