@@ -55,7 +55,8 @@ QString GetRandomString(int randomStringLength)
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::Widget),
+    _osmTileGenerator(new OSMTileGenerator(this))
 {
     ui->setupUi(this);
     _osmTileGenerator->setUp(ui);
@@ -443,18 +444,6 @@ Widget::Widget(QWidget *parent) :
 
 Widget::~Widget()
 {
-    QSettings s;
-
-    s.setValue("OSMInputPath", ui->lineEditOSMInputPath->text());
-    s.setValue("OSMKey", ui->lineEditOSMKey->currentText());
-    s.setValue("OSMValue", ui->lineEditOSMValue->currentText());
-    s.setValue("CurrentLine", ui->comboBoxLines->currentText());
-    s.setValue("MainTabIndex", ui->tabWidget->currentIndex());
-    s.setValue("VehicleID", ui->lineEdit_VehicleID->text());
-    s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
-    s.setValue("OSMValueStarsWith", ui->checkBoxOSMValueStartsWith->isChecked());
-    s.setValue("OSMFilterOn", ui->checkBoxOSMFilterOn->isChecked());
-
     delete ui;
 }
 
@@ -597,6 +586,23 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
     }
 //    ui->textBrowser_NetworkRail->append(str);
 
+}
+
+void Widget::closeEvent(QCloseEvent *event)
+{
+    QSettings s;
+
+    s.setValue("OSMInputPath", ui->lineEditOSMInputPath->text());
+    s.setValue("OSMKey", ui->lineEditOSMKey->currentText());
+    s.setValue("OSMValue", ui->lineEditOSMValue->currentText());
+    s.setValue("CurrentLine", ui->comboBoxLines->currentText());
+    s.setValue("MainTabIndex", ui->tabWidget->currentIndex());
+    s.setValue("VehicleID", ui->lineEdit_VehicleID->text());
+    s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
+    s.setValue("OSMValueStarsWith", ui->checkBoxOSMValueStartsWith->isChecked());
+    s.setValue("OSMFilterOn", ui->checkBoxOSMFilterOn->isChecked());
+
+    _osmTileGenerator->unSetup();
 }
 
 void Widget::startTFLRoutesDownload()

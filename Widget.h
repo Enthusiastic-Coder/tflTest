@@ -239,6 +239,7 @@ protected:
     void updateTextBrowserWithArrivals(QTextBrowser *textBrowser);
     void updateTextBrowserWithStations(QTextBrowser *textBrowser);
     void parseNetworkRail(const QJsonDocument& doc);
+    virtual void closeEvent(QCloseEvent *event) override;
 
 private:
     const QString lineStopPointsURL = "https://api.tfl.gov.uk/line/%1/stoppoints";
@@ -256,7 +257,7 @@ private:
     NetworkRailServicesCSV _networkRailServicesCSV;
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;
-    OSMTileGenerator* _osmTileGenerator = new OSMTileGenerator(this);
+    OSMTileGenerator* _osmTileGenerator;
 };
 
 #endif // WIDGET_H
