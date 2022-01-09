@@ -58,6 +58,7 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    _osmTileGenerator->setUp(ui);
     _manager = new QNetworkAccessManager(this);
 
     _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);

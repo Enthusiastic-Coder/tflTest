@@ -13,6 +13,7 @@
 #include "NetworkRailStnsCSV.h"
 #include "NetworkRailServicesCSV.h"
 #include <qstomp.h>
+#include "OSMTileGenerator.h"
 
 namespace Ui {
 class Widget;
@@ -255,6 +256,7 @@ private:
     NetworkRailServicesCSV _networkRailServicesCSV;
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;
+    OSMTileGenerator* _osmTileGenerator = new OSMTileGenerator(this);
 };
 
 #endif // WIDGET_H

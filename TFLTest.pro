@@ -30,21 +30,25 @@ INCLUDEPATH += sdk/include
 SOURCES += \
     NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
+    OSMTileGenerator.cpp \
     TFLRouteCompression.cpp \
     csvfileload.cpp \
         main.cpp \
         Widget.cpp \
     TFLRouteWorker.cpp \
-    OSMWorker.cpp
+    OSMWorker.cpp \
+    OSMData.cpp
 
 HEADERS += \
     NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
+    OSMTileGenerator.h \
     TFLRouteCompression.h \
         Widget.h \
     TFLRouteWorker.h \
     OSMWorker.h \
-    csvfileload.h
+    csvfileload.h \
+    OSMData.h
 
 FORMS += \
         Widget.ui
