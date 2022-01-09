@@ -910,17 +910,30 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="3">
+           <item row="3" column="3">
+            <widget class="QCheckBox" name="checkBox">
+             <property name="text">
+              <string>NightTime</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLineEdit" name="lineEditOSMOutputPath"/>
+           </item>
+           <item row="4" column="1">
             <widget class="QPushButton" name="pushButtonGenerateOSMTile">
              <property name="text">
               <string>Generate</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="3">
-            <widget class="QCheckBox" name="checkBox">
+           <item row="4" column="3">
+            <widget class="QPushButton" name="pushButtonOSMOutputPath">
              <property name="text">
-              <string>NightTime</string>
+              <string>...</string>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

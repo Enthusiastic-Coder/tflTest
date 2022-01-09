@@ -440,6 +440,16 @@ Widget::Widget(QWidget *parent) :
     ui->lineEditOSMOutfilename->setText(s.value("OSMOutfilename").toString());
     ui->checkBoxOSMValueStartsWith->setChecked(s.value("OSMValueStarsWith").toBool());
     ui->checkBoxOSMFilterOn->setChecked(s.value("OSMFilterOn").toBool());
+
+    s.beginGroup( "mainwindow" );
+
+    restoreGeometry(s.value( "geometry", saveGeometry() ).toByteArray());
+    move(s.value( "pos", pos() ).toPoint());
+    resize(s.value( "size", size() ).toSize());
+    if ( s.value( "maximized", isMaximized() ).toBool() )
+        showMaximized();
+
+    s.endGroup();
 }
 
 Widget::~Widget()
@@ -601,6 +611,18 @@ void Widget::closeEvent(QCloseEvent *event)
     s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
     s.setValue("OSMValueStarsWith", ui->checkBoxOSMValueStartsWith->isChecked());
     s.setValue("OSMFilterOn", ui->checkBoxOSMFilterOn->isChecked());
+
+    s.beginGroup( "mainwindow" );
+
+    s.setValue( "geometry", saveGeometry() );
+    s.setValue( "maximized", isMaximized() );
+    if ( !isMaximized() )
+    {
+        s.setValue( "pos", pos() );
+        s.setValue( "size", size() );
+    }
+
+    s.endGroup();
 
     _osmTileGenerator->unSetup();
 }

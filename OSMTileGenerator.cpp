@@ -14,7 +14,7 @@ OSMTileGenerator::~OSMTileGenerator()
 
 void OSMTileGenerator::setUp(Ui::Widget *ui)
 {
-    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, [this] {
+    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, [this] {
 
     });
 
