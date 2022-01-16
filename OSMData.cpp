@@ -3,22 +3,9 @@
 #include <QDebug>
 #include <QDataStream>
 
-#define ENTRY_WP(name) name.setBounds(GPSLocation(51.69344,-0.511482), GPSLocation(51.28554,0.335437), 40)
-#define VB_WP(name,limit) name.setViewBoundary(limit.first, limit.second)
 
 OSMData::OSMData()
 {
-    ENTRY_WP(_osmMotorway);
-    ENTRY_WP(_osmPrimary);
-    ENTRY_WP(_osmSecondary);
-    ENTRY_WP(_osmTertiary);
-    ENTRY_WP(_osmResidential);
-    ENTRY_WP(_osmFootway);
-    ENTRY_WP(_osmWater);
-    ENTRY_WP(_osmAeroway);
-    ENTRY_WP(_osmAeroRunway);
-    ENTRY_WP(_osmCycleway);
-    ENTRY_WP(_osmPedestrian);
 }
 
 void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowPoints)
@@ -39,7 +26,7 @@ void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowP
 
     for( quint64 i = 0; i < count; ++i)
     {
-        OSM_WAYPOINT* wp(new OSM_WAYPOINT);
+        auto wp = std::make_unique<OSM_WAYPOINT>();
 
         quint64 tagCount;
         stream >> tagCount;
@@ -76,6 +63,6 @@ void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowP
             stream >> wp->bearings[i];
 
         if( ptsCount > 1 || bAllowPoints)
-            wayPoints.add(wp, wp->gpsPts[0]);
+            wayPoints.push_back(std::move(wp));
     }
 }

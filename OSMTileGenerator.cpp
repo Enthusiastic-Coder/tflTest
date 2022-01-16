@@ -17,16 +17,14 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 {
     _ui = ui;
 
-    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, [this] {
-
-    });
+    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, &OSMTileGenerator::generateTiles);
 
     auto importOSM = [this] ( void (OSMData::*pFunc)(const QString&), QString filename) {
 
         if( !filename.isEmpty())
         {
             (_data.*pFunc)(filename);
-            _ui->textEditOSMLoadDebug->append(filename + " imported.");
+            addLog(filename + " imported.");
         }
     };
 
@@ -51,4 +49,19 @@ void OSMTileGenerator::unSetup()
 
     for(auto& item : _settingsMappings)
         s.setValue(item.name, item.edit->text());
+}
+
+void OSMTileGenerator::generateTiles()
+{
+    addLog("GenerateTiles:");
+
+    const WAYPOINTS& pts = _data.getMotorway();
+
+    pts;
+}
+
+void OSMTileGenerator::addLog(const QString &line)
+{
+    _ui->textEditOSMLoadDebug->append(line);
+
 }

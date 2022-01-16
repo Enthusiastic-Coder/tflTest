@@ -25,6 +25,13 @@ public:
     void setUp(Ui::Widget *ui);
     void unSetup();
 
+private slots:
+    void generateTiles();
+
+private:
+    void addLog(const QString &line);
+
+
 private:
     Ui::Widget* _ui;
     OSMData _data;
