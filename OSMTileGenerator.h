@@ -8,10 +8,17 @@ namespace Ui {
 class Widget;
 }
 
+class QLineEdit;
+
 class OSMTileGenerator : public QObject
 {
     Q_OBJECT
 public:
+    using SettingEntry = struct {
+        QString name;
+        QLineEdit* edit;
+    };
+
     OSMTileGenerator(QObject* parent);
     ~OSMTileGenerator();
 
@@ -21,6 +28,7 @@ public:
 private:
     Ui::Widget* _ui;
     OSMData _data;
+    std::vector<SettingEntry> _settingsMappings;
 };
 
 #endif // OSMTILEGENERATOR_H

@@ -32,14 +32,18 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         importOSM(&OSMData::importMotorway, _ui->lineEditOSMMotorwayPath->text());
     });
 
+    _settingsMappings.push_back({"OSMMotorwayPath", _ui->lineEditOSMMotorwayPath});
 
     QSettings s;
-    _ui->lineEditOSMMotorwayPath->setText(s.value("OSMMotorwayPath").toString());
+
+    for(auto& item : _settingsMappings)
+        item.edit->setText(s.value(item.name).toString());
 }
 
 void OSMTileGenerator::unSetup()
 {
     QSettings s;
 
-    s.setValue("OSMMotorwayPath", _ui->lineEditOSMMotorwayPath->text());
+    for(auto& item : _settingsMappings)
+        s.setValue(item.name, item.edit->text());
 }
