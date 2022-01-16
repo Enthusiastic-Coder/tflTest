@@ -2,6 +2,7 @@
 #include "ui_Widget.h"
 #include <QSettings>
 #include "OSMData.h"
+#include <QDoubleValidator>
 
 OSMTileGenerator::OSMTileGenerator(QObject *parent)
     : QObject(parent)
@@ -16,6 +17,8 @@ OSMTileGenerator::~OSMTileGenerator()
 void OSMTileGenerator::setUp(Ui::Widget *ui)
 {
     _ui = ui;
+
+    ui->lineEditOSMZoomLevel->setValidator( new QDoubleValidator(this) );
 
     connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, &OSMTileGenerator::generateTiles);
 
