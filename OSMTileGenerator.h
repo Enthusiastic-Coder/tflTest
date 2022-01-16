@@ -2,6 +2,7 @@
 #define OSMTILEGENERATOR_H
 
 #include <QObject>
+#include "OSMData.h"
 
 namespace Ui {
 class Widget;
@@ -16,6 +17,10 @@ public:
 
     void setUp(Ui::Widget *ui);
     void unSetup();
+
+private:
+    Ui::Widget* _ui;
+    OSMData _data;
 };
 
 #endif // OSMTILEGENERATOR_H
