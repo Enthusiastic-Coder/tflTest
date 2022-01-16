@@ -7,7 +7,7 @@
 #include <memory>
 #include <GPSTileContainer.h>
 
-struct WAYPOINT
+struct OSM_WAYPOINT
 {
     std::vector<std::pair<int,QString>> tags;
     std::vector<GPSLocation> gpsPts;
@@ -16,7 +16,7 @@ struct WAYPOINT
 };
 
 //using WAYPOINTS = std::vector<std::unique_ptr<WAYPOINT> >;
-using WAYPOINTS = GPSTileContainer<WAYPOINT*>;
+using WAYPOINTS = GPSTileContainer<OSM_WAYPOINT*>;
 
 #define OSMType(name, wayPts) \
     void import##name(const QString& filename) { import(filename, wayPts);}\

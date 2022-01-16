@@ -24,15 +24,20 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     auto importOSM = [this] ( void (OSMData::*pFunc)(const QString&), QString filename) {
 
         if( !filename.isEmpty())
+        {
             (_data.*pFunc)(filename);
+            _ui->textEditOSMLoadDebug->append(filename + " imported.");
+        }
     };
 
     connect(ui->pushButtonLoadOSMData, &QPushButton::clicked, this, [this,importOSM] {
 
         importOSM(&OSMData::importMotorway, _ui->lineEditOSMMotorwayPath->text());
+        importOSM(&OSMData::importPrimary, _ui->lineEditOSMPrimaryPath->text());
     });
 
     _settingsMappings.push_back({"OSMMotorwayPath", _ui->lineEditOSMMotorwayPath});
+    _settingsMappings.push_back({"OSMPrimaryPath", _ui->lineEditOSMPrimaryPath});
 
     QSettings s;
 

@@ -39,7 +39,7 @@ void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowP
 
     for( quint64 i = 0; i < count; ++i)
     {
-        WAYPOINT* wp(new WAYPOINT);
+        OSM_WAYPOINT* wp(new OSM_WAYPOINT);
 
         quint64 tagCount;
         stream >> tagCount;
