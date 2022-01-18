@@ -35,7 +35,7 @@ private:
 private:
     Ui::Widget* _ui;
     OSMData _data;
-    std::vector<SettingEntry> _settingsMappings;
+    std::vector<SettingEntry> _osmSettings;
 };
 
 #endif // OSMTILEGENERATOR_H

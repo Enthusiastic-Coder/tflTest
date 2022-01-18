@@ -37,12 +37,12 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         importOSM(&OSMData::importPrimary, _ui->lineEditOSMPrimaryPath->text());
     });
 
-    _settingsMappings.push_back({"OSMMotorwayPath", _ui->lineEditOSMMotorwayPath});
-    _settingsMappings.push_back({"OSMPrimaryPath", _ui->lineEditOSMPrimaryPath});
+    _osmSettings.push_back({"OSMMotorwayPath", _ui->lineEditOSMMotorwayPath});
+    _osmSettings.push_back({"OSMPrimaryPath", _ui->lineEditOSMPrimaryPath});
 
     QSettings s;
 
-    for(auto& item : _settingsMappings)
+    for(auto& item : _osmSettings)
         item.edit->setText(s.value(item.name).toString());
 }
 
@@ -50,7 +50,7 @@ void OSMTileGenerator::unSetup()
 {
     QSettings s;
 
-    for(auto& item : _settingsMappings)
+    for(auto& item : _osmSettings)
         s.setValue(item.name, item.edit->text());
 }
 
@@ -60,7 +60,7 @@ void OSMTileGenerator::generateTiles()
 
     const WAYPOINTS& pts = _data.getMotorway();
 
-    pts;
+//    pts[0]->
 }
 
 void OSMTileGenerator::addLog(const QString &line)
