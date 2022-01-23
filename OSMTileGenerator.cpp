@@ -3,6 +3,7 @@
 #include <QSettings>
 #include "OSMData.h"
 #include <QDoubleValidator>
+#include "TFLOSMRenderer.h"
 
 OSMTileGenerator::OSMTileGenerator(QObject *parent)
     : QObject(parent)
@@ -58,7 +59,7 @@ void OSMTileGenerator::generateTiles()
 {
     addLog("GenerateTiles:");
 
-    const WAYPOINTS& pts = _data.getMotorWay();
+    std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
 
 //    pts[0]->
 }

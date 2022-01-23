@@ -17,7 +17,6 @@ public:
     virtual ~OSMRendererBase();
 
     virtual void init() = 0;
-    void unInit();
 
     void clear();
     void paint(QPainter& p);
@@ -40,8 +39,6 @@ protected:
     QColor _nightColor = Qt::white;
     qreal _lineThickness = 5.0;
     float _pixelPerMile = 1.0f;
-
-    bool _bWantToQuit = false;
 };
 
 #define OSMCLASS(view,name) name(TFLOSMRenderer* view,const WAYPOINTS& wayPoints) \

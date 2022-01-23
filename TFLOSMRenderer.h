@@ -10,7 +10,6 @@ public:
     TFLOSMRenderer(OSMData* osmData);
 
     void init();
-    void unInit();
     void updateCache();
     void paint(QPainter& p);
     void paintText(QPainter& p);

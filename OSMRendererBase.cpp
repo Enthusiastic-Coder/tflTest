@@ -14,10 +14,6 @@ OSMRendererBase::~OSMRendererBase()
 {
 }
 
-void OSMRendererBase::unInit()
-{
-}
-
 void OSMRendererBase::clear()
 {
     _osmPts.clear();
@@ -34,7 +30,7 @@ void OSMRendererBase::paint(QPainter &p)
     pen.setWidthF(qMax(_lineThickness, _lineThickness* pixM / 1000.0));
     p.setPen( pen);
 
-    for( const auto& pts : _osmPts)
+    for( const auto& pts : qAsConst(_osmPts))
         p.drawPolyline(pts);
 
     p.setPen(oldPen);
@@ -74,7 +70,7 @@ void OSMRendererBase::paintText(QPainter &p)
             p.translate(tagItem.first.first);
             float brg = tagItem.second->bearings[tagItem.second->bearings.size()/2];
 
-            bool flip =MathSupport<float>::normAng(brg -  _view->getCompassValue()) > 179.0f;
+            bool flip = MathSupport<float>::normAng(brg -  _view->getCompassValue()) > 179.0f;
             if( flip )
                 p.rotate(int(brg+90));
             else
@@ -101,9 +97,6 @@ void OSMRendererBase::paintText(QPainter &p)
 
 void OSMRendererBase::updateCache()
 {
-    if( _view == nullptr)
-        return;
-
     if( !_isVisible)
         return;
 
@@ -113,88 +106,38 @@ void OSMRendererBase::updateCache()
     osmPts.clear();
     osmTagCache.clear();
 
-    int itemCount(0);
-    int skippedCount(0);
-
     GPSLocation lastPos;
 
-    auto ids = _wayPoints.getViewableTileIds();
-
-    for(const auto& id: ids)
+    for(const auto& wayPoint: _wayPoints)
     {
-        if( _bWantToQuit)
-            return;
+        QVector<QPoint> pts;
 
-        const auto& tile = _wayPoints.getTile(id);
+        if( wayPoint->gpsPts.size() < 2)
+            continue;
 
-        for(const auto& item: tile)
+        const GPSLocation& p1 = wayPoint->gpsPts[0];
+        const GPSLocation& p2 = wayPoint->gpsPts[wayPoint->gpsPts.size()-1];
+
+        QPoint a(_view->toScreen(p1));
+        QPoint b(_view->toScreen(p2));
+
+        if( !_view->ptInScreen(p1) && !_view->ptInScreen(p2))
+            continue;
+
+        for(const auto& gpsPt : wayPoint->gpsPts)
         {
-            QVector<QPoint> pts;
-
-            if( item->gpsPts.size() < 2)
+            if( !_view->ptInScreen(gpsPt))
                 continue;
 
-            bool pointOnScreen(true);
-
-            if( _strictClipping)
-            {
-                pointOnScreen = false;
-                for( const auto& gpsPt : item->gpsPts)
-                {
-                    if( _view->ptInScreen(gpsPt))
-                    {
-                        pointOnScreen = true;
-                        break;
-                    }
-                }
-
-                if( !pointOnScreen)
-                {
-                    skippedCount++;
-                    continue;
-                }
-            }
-
-            const GPSLocation& p1 = item->gpsPts[0];
-            const GPSLocation& p2 = item->gpsPts[item->gpsPts.size()-1];
-
-            QPoint a(_view->toScreen(p1));
-            QPoint b(_view->toScreen(p2));
-
-            if( _view->getPixelLevel() > 500)
-            {
-                for( const auto& gpsPt : item->gpsPts)
-                    pts << _view->toScreen(gpsPt);
-            }
-            else if( _view->getPixelLevel() > 100)
-            {
-                pts << a << b;
-            }
-            else
-            {
-                GPSLocation currentGPS(item->gpsPts[0]);
-
-                if( lastPos.distanceTo(currentGPS) < 10000)
-                    continue;
-
-                lastPos = currentGPS;
-                pts << a << b;
-            }
-
-            osmPts << pts;
-
-            itemCount += pts.size();
-
-            if( !_view->ptInScreen(p1) && !_view->ptInScreen(p2))
-            {
-                skippedCount++;
-                continue;
-            }
-
-            if( _view->getPixelLevel() > 500 )
-                if( item->tags.size() > 0 && pts.size() > 1)
-                    osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), item));
+            pts << _view->toScreen(gpsPt);
         }
+
+        if( _view->getPixelLevel() > 500 )
+            if( wayPoint->tags.size() > 0 && wayPoint->tags.size() > 1)
+                osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
+
+        osmPts << pts;
+
     }
 
 #ifdef Q_OS_WIN

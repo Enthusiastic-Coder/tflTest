@@ -27,12 +27,6 @@ void TFLOSMRenderer::init()
         renderObject->init();
 }
 
-void TFLOSMRenderer::unInit()
-{
-    for( auto& renderObject : _renderObjects)
-        renderObject->unInit();
-}
-
 void TFLOSMRenderer::updateCache()
 {
     perform(nullptr);
