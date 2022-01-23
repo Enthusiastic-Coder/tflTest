@@ -2,7 +2,7 @@
 #include "OSMData.h"
 #include <QSettings>
 
-#define RENDER_TYPE(name, obj, func) _renderObjects.push_back(obj = new name(func));
+#define RENDER_TYPE(name, obj) _renderObjects.push_back(obj = new OSMRender##name(this, _osmData->get##name()));
 
 TFLOSMRenderer::TFLOSMRenderer(OSMData *osmData):
     _osmData(osmData)
@@ -11,19 +11,17 @@ TFLOSMRenderer::TFLOSMRenderer(OSMData *osmData):
 
 void TFLOSMRenderer::init()
 {
-    const auto& d = *_osmData;
-
-    RENDER_TYPE(OSMRenderAeroway, _aeroway, d.getAeroWay());
-    RENDER_TYPE(OSMRenderAeroRunway, _aerorunway, d.getAeroRunway());
-    RENDER_TYPE(OSMRenderWater, _water, d.getWater());
-    RENDER_TYPE(OSMRenderFootway, _footway, d.getFootway());
-    RENDER_TYPE(OSMRenderCycleWay, _cycleWay, d.getCycleWay());
-    RENDER_TYPE(OSMRenderPedestrian, _pedestrian, d.getPedestrian());
-    RENDER_TYPE(OSMRenderTertiary, _tertiary, d.getTertiary());
-    RENDER_TYPE(OSMRenderResidential, _residential, d.getResidential());
-    RENDER_TYPE(OSMRenderSecondaryRoad, _secondary, d.getSecondary());
-    RENDER_TYPE(OSMRenderPrimaryRoad, _primary, d.getPrimary());
-    RENDER_TYPE(OSMRenderMotorWay, _motorway, d.getMotorway());
+    RENDER_TYPE(AeroWay, _aeroway);
+    RENDER_TYPE(AeroRunway, _aerorunway);
+    RENDER_TYPE(Water, _water);
+    RENDER_TYPE(Footway, _footway);
+    RENDER_TYPE(CycleWay, _cycleWay);
+    RENDER_TYPE(Pedestrian, _pedestrian);
+    RENDER_TYPE(Tertiary, _tertiary);
+    RENDER_TYPE(Residential, _residential);
+    RENDER_TYPE(Secondary, _secondary);
+    RENDER_TYPE(Primary, _primary);
+    RENDER_TYPE(MotorWay, _motorway);
 
     for( auto& renderObject : _renderObjects)
         renderObject->init();
@@ -74,6 +72,11 @@ bool TFLOSMRenderer::isMapNight() const
 float TFLOSMRenderer::getCompassValue() const
 {
     return 0.0f;
+}
+
+void TFLOSMRenderer::setLocation(const GPSLocation &l)
+{
+    _location = l;
 }
 
 QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const

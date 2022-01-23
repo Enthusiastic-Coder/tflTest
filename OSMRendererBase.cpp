@@ -225,7 +225,7 @@ void OSMRenderMotorWay::init()
     _pixelPerMile = 0.0f;
 }
 
-void OSMRenderPrimaryRoad::init()
+void OSMRenderPrimary::init()
 {
     _dayColor = Qt::white;
     _nightColor = Qt::darkGray;
@@ -233,7 +233,7 @@ void OSMRenderPrimaryRoad::init()
     _pixelPerMile = 100.0f;
 }
 
-void OSMRenderSecondaryRoad::init()
+void OSMRenderSecondary::init()
 {
     _dayColor = Qt::white;
     _nightColor = Qt::lightGray;
@@ -273,7 +273,7 @@ void OSMRenderWater::init()
     _pixelPerMile = 300.0f;
 }
 
-void OSMRenderAeroway::init()
+void OSMRenderAeroWay::init()
 {
     _dayColor = Qt::lightGray;
     _nightColor = Qt::lightGray;

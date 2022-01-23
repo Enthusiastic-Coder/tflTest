@@ -33,7 +33,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 
     connect(ui->pushButtonLoadOSMData, &QPushButton::clicked, this, [this,importOSM] {
 
-        importOSM(&OSMData::importMotorway, _ui->lineEditOSMMotorwayPath->text());
+        importOSM(&OSMData::importMotorWay, _ui->lineEditOSMMotorwayPath->text());
         importOSM(&OSMData::importPrimary, _ui->lineEditOSMPrimaryPath->text());
     });
 
@@ -58,7 +58,7 @@ void OSMTileGenerator::generateTiles()
 {
     addLog("GenerateTiles:");
 
-    const WAYPOINTS& pts = _data.getMotorway();
+    const WAYPOINTS& pts = _data.getMotorWay();
 
 //    pts[0]->
 }

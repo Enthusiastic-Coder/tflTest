@@ -25,7 +25,7 @@ class OSMData
 public:
     OSMData();
 
-    OSMType(Motorway, _osmMotorway)
+    OSMType(MotorWay, _osmMotorway)
     OSMType(Primary, _osmPrimary)
     OSMType(Secondary, _osmSecondary)
     OSMType(Tertiary, _osmTertiary)

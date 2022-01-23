@@ -23,6 +23,7 @@ public:
 
     float getCompassValue() const;
 
+    void setLocation(const GPSLocation& l);
     QPoint toScreen(const GPSLocation &l) const;
     bool ptInScreen(QPoint pt) const;
     bool ptInScreen(const GPSLocation &l) const;
@@ -33,16 +34,17 @@ protected:
 private:
     OSMData* _osmData;
     float _pixelLevel = 1.0f;
+    GPSLocation _location;
     bool _isNight = false;
     std::vector<OSMRendererBase*> _renderObjects;
     OSMRenderMotorWay* _motorway = nullptr;
-    OSMRenderSecondaryRoad* _secondary = nullptr;
+    OSMRenderSecondary* _secondary = nullptr;
     OSMRenderTertiary* _tertiary = nullptr;
-    OSMRenderPrimaryRoad* _primary = nullptr;
+    OSMRenderPrimary* _primary = nullptr;
     OSMRenderResidential* _residential = nullptr;
     OSMRenderFootway* _footway = nullptr;
     OSMRenderWater* _water = nullptr;
-    OSMRenderAeroway* _aeroway = nullptr;
+    OSMRenderAeroWay* _aeroway = nullptr;
     OSMRenderAeroRunway* _aerorunway = nullptr;
     OSMRenderCycleWay* _cycleWay = nullptr;
     OSMRenderPedestrian* _pedestrian = nullptr;

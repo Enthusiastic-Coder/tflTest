@@ -56,13 +56,13 @@ protected:
     };
 
 OSMTYPE(OSMRenderMotorWay)
-OSMTYPE(OSMRenderPrimaryRoad)
-OSMTYPE(OSMRenderSecondaryRoad)
+OSMTYPE(OSMRenderPrimary)
+OSMTYPE(OSMRenderSecondary)
 OSMTYPE(OSMRenderTertiary)
 OSMTYPE(OSMRenderResidential)
 OSMTYPE(OSMRenderFootway)
 OSMTYPE(OSMRenderWater)
-OSMTYPE(OSMRenderAeroway)
+OSMTYPE(OSMRenderAeroWay)
 OSMTYPE(OSMRenderAeroRunway)
 OSMTYPE(OSMRenderCycleWay)
 OSMTYPE(OSMRenderPedestrian)
