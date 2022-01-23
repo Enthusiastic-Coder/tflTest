@@ -911,7 +911,7 @@
             </widget>
            </item>
            <item row="3" column="3">
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="checkBoxOSMNightTime">
              <property name="text">
               <string>NightTime</string>
              </property>
