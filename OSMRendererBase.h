@@ -30,7 +30,7 @@ public:
 
 protected:
     TFLOSMRenderer* _view;
-    bool _isVisible = false;
+    bool _isVisible = true;
     QVector<QVector<QPoint>> _osmPts;
     std::vector<std::pair<std::pair<QPoint,int>,OSM_WAYPOINT*>> _osmTagCache;
 

@@ -58,10 +58,24 @@ void OSMTileGenerator::unSetup()
 void OSMTileGenerator::generateTiles()
 {
     addLog("GenerateTiles:");
+    QSize sz(128,128);
 
     std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
 
-//    pts[0]->
+    renderer->init();
+
+    renderer->setPixelLevel(_ui->lineEditOSMZoomLevel->text().toFloat());
+    renderer->setMapNight(false);
+    renderer->setLocation(GPSLocation(51.4964, -0.300198, 392.0));
+    renderer->setSize(sz);
+
+    QImage image(sz,QImage::Format_ARGB32);
+    QPainter p(&image);
+
+    renderer->updateCache();
+    renderer->paint(p);
+
+    image.save("OSM_TILE.png");
 }
 
 void OSMTileGenerator::addLog(const QString &line)

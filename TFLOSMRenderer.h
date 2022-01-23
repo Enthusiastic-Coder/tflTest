@@ -20,6 +20,8 @@ public:
     void setMapNight(bool n);
     bool isMapNight() const;
 
+    void setSize(QSize sz);
+
     float getCompassValue() const;
 
     void setLocation(const GPSLocation& l);
@@ -35,6 +37,7 @@ private:
     float _pixelLevel = 1.0f;
     GPSLocation _location;
     bool _isNight = false;
+    QSize _size;
     std::vector<OSMRendererBase*> _renderObjects;
     OSMRenderMotorWay* _motorway = nullptr;
     OSMRenderSecondary* _secondary = nullptr;

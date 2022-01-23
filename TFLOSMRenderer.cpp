@@ -1,6 +1,7 @@
 #include "TFLOSMRenderer.h"
 #include "OSMData.h"
 #include <QSettings>
+#include <MathSupport.h>
 
 #define RENDER_TYPE(name, obj) _renderObjects.push_back(obj = new OSMRender##name(this, _osmData->get##name()));
 
@@ -63,6 +64,11 @@ bool TFLOSMRenderer::isMapNight() const
     return _isNight;
 }
 
+void TFLOSMRenderer::setSize(QSize sz)
+{
+    _size = sz;
+}
+
 float TFLOSMRenderer::getCompassValue() const
 {
     return 0.0f;
@@ -75,12 +81,21 @@ void TFLOSMRenderer::setLocation(const GPSLocation &l)
 
 QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
 {
-    return QPoint();
+    float brg = l.bearingFrom(_location);
+    float dist = l.distanceTo(_location)/1000.0/1.609334 * _pixelLevel;
+
+    auto q = MathSupport<float>::MakeQHeading(brg);
+
+    Vector3F vec(0,0,-dist);
+    Vector3F output = QVRotate(q, vec);
+
+    return QPoint(_size.width()/2 + output.x, _size.height()/2 + output.z);
 }
 
 bool TFLOSMRenderer::ptInScreen(QPoint pt) const
 {
-    return false;
+    return pt.x() > -10 && pt.x() < _size.width()+10
+            && pt.y() >-10 && pt.y() < _size.height()+10;
 }
 
 bool TFLOSMRenderer::ptInScreen(const GPSLocation& l) const

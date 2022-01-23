@@ -110,10 +110,10 @@ void OSMRendererBase::updateCache()
 
     for(const auto& wayPoint: _wayPoints)
     {
-        QVector<QPoint> pts;
-
         if( wayPoint->gpsPts.size() < 2)
             continue;
+
+        QVector<QPoint> pts;
 
         const GPSLocation& p1 = wayPoint->gpsPts[0];
         const GPSLocation& p2 = wayPoint->gpsPts[wayPoint->gpsPts.size()-1];
@@ -137,7 +137,6 @@ void OSMRendererBase::updateCache()
                 osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
 
         osmPts << pts;
-
     }
 
 #ifdef Q_OS_WIN
