@@ -96,6 +96,9 @@ void OSMTileGenerator::generateTiles()
     renderer->setSize(sz);
 
     QImage image(sz,QImage::Format_ARGB32);
+    image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
+                                           QColor::fromRgbF(0.85f,0.85f,0.85f));
+
     QPainter p(&image);
 
     renderer->updateCache();
