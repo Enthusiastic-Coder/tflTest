@@ -90,6 +90,8 @@ void OSMTileGenerator::generateTiles()
 
     renderer->init();
 
+    addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
+
     renderer->setPixelLevel(_ui->lineEditOSMZoomLevel->text().toFloat());
     renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
     renderer->setLocation(GPSLocation(51.4964, -0.300198, 392.0));

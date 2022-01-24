@@ -20,6 +20,9 @@ public:
     void setMapNight(bool n);
     bool isMapNight() const;
 
+    GPSLocation topLeft() const;
+    GPSLocation bottomRight() const;
+
     void setSize(QSize sz);
 
     float getCompassValue() const;
@@ -31,6 +34,7 @@ public:
 
 protected:
     void perform(QPainter *p);
+    void calcBoundingBox(const GPSLocation &topLeft, const GPSLocation &bottomRight);
 
 private:
     OSMData* _osmData;
@@ -38,6 +42,8 @@ private:
     GPSLocation _location;
     bool _isNight = false;
     QSize _size;
+    GPSLocation _topLeft;
+    GPSLocation _bottomRight;
     std::vector<OSMRendererBase*> _renderObjects;
     OSMRenderMotorWay* _motorway = nullptr;
     OSMRenderSecondary* _secondary = nullptr;

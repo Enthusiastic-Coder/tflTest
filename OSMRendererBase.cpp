@@ -144,6 +144,40 @@ void OSMRendererBase::updateCache()
 #endif
 }
 
+void OSMRendererBase::calcBoundingBox(GPSLocation &topLeft, GPSLocation &bottomRight)
+{
+    bool topLeftStarted = false;
+    bool bottomLeftStarted = false;
+
+    for( const auto& wayPoint : _wayPoints)
+    {
+        for( auto& gpsPt : wayPoint->gpsPts)
+        {
+            if( !topLeftStarted && topLeft == GPSLocation())
+            {
+                topLeftStarted = true;
+                topLeft = gpsPt;
+            }
+            else
+            {
+                topLeft._lat = std::max( topLeft._lat, gpsPt._lat);
+                topLeft._lng = std::min( topLeft._lng, gpsPt._lng);
+            }
+
+            if( !bottomLeftStarted && bottomRight == GPSLocation())
+            {
+                bottomLeftStarted = true;
+                bottomRight = gpsPt;
+            }
+            else
+            {
+                bottomRight._lat = std::min( bottomRight._lat, gpsPt._lat);
+                bottomRight._lng = std::max( bottomRight._lng, gpsPt._lng);
+            }
+        }
+    }
+}
+
 float OSMRendererBase::getPixelsPerMile() const
 {
     return _pixelPerMile;

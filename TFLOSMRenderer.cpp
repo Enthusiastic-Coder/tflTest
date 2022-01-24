@@ -25,7 +25,12 @@ void TFLOSMRenderer::init()
     RENDER_TYPE(MotorWay, _motorway);
 
     for( auto& renderObject : _renderObjects)
+    {
         renderObject->init();
+        GPSLocation topLeft, bottomRight;
+        renderObject->calcBoundingBox(topLeft, bottomRight);
+        calcBoundingBox(topLeft, bottomRight);
+    }
 }
 
 void TFLOSMRenderer::updateCache()
@@ -62,6 +67,16 @@ void TFLOSMRenderer::setMapNight(bool n)
 bool TFLOSMRenderer::isMapNight() const
 {
     return _isNight;
+}
+
+GPSLocation TFLOSMRenderer::topLeft() const
+{
+    return _topLeft;
+}
+
+GPSLocation TFLOSMRenderer::bottomRight() const
+{
+    return _bottomRight;
 }
 
 void TFLOSMRenderer::setSize(QSize sz)
@@ -117,6 +132,39 @@ void TFLOSMRenderer::perform(QPainter* p)
                 renderObject->updateCache();
             else
                 renderObject->paint(*p);
+        }
+    }
+}
+
+void TFLOSMRenderer::calcBoundingBox(const GPSLocation &topLeft, const GPSLocation &bottomRight)
+{
+    bool topLeftStarted = false;
+    bool bottomLeftStarted = false;
+
+    std::vector<GPSLocation> gpsPts = {topLeft, bottomRight};
+
+    for( auto& gpsPt : gpsPts)
+    {
+        if( !topLeftStarted && _topLeft == GPSLocation())
+        {
+            topLeftStarted = true;
+            _topLeft = gpsPt;
+        }
+        else
+        {
+            _topLeft._lat = std::max( _topLeft._lat, gpsPt._lat);
+            _topLeft._lng = std::min( _topLeft._lng, gpsPt._lng);
+        }
+
+        if( !bottomLeftStarted && _bottomRight == GPSLocation())
+        {
+            bottomLeftStarted = true;
+            _bottomRight = gpsPt;
+        }
+        else
+        {
+            _bottomRight._lat = std::min( _bottomRight._lat, gpsPt._lat);
+            _bottomRight._lng = std::max( _bottomRight._lng, gpsPt._lng);
         }
     }
 }

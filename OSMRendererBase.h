@@ -23,6 +23,8 @@ public:
     void paintText(QPainter& p);
     void updateCache();
 
+    void calcBoundingBox(GPSLocation& topLeft, GPSLocation& bottomRight);
+
     float getPixelsPerMile() const;
 
     void setVisible(bool b);
