@@ -20,6 +20,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     _ui = ui;
 
     ui->lineEditOSMZoomLevel->setValidator( new QDoubleValidator(this) );
+    ui->lineEditOSMTileCount->setValidator( new QIntValidator(this));
 
     connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, &OSMTileGenerator::generateTiles);
 
@@ -67,6 +68,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         item.edit->setText(s.value(item.name).toString());
 
     ui->lineEditOSMZoomLevel->setText(s.value("OSMZoomLevel").toString());
+    ui->lineEditOSMTileCount->setText(s.value("OSMTileCount").toString());
     ui->checkBoxOSMNightTime->setChecked(s.value("OSMNightTime").toBool());
 }
 
@@ -78,6 +80,7 @@ void OSMTileGenerator::unSetup()
         s.setValue(item.name, item.edit->text());
 
     s.setValue("OSMZoomLevel", _ui->lineEditOSMZoomLevel->text());
+    s.setValue("OSMTileCount", _ui->lineEditOSMTileCount->text());
     s.setValue("OSMNightTime", _ui->checkBoxOSMNightTime->isChecked() );
 }
 
