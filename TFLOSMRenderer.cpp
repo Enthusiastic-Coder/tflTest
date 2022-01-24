@@ -94,8 +94,9 @@ QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
 
 bool TFLOSMRenderer::ptInScreen(QPoint pt) const
 {
-    return pt.x() > -10 && pt.x() < _size.width()+10
-            && pt.y() >-10 && pt.y() < _size.height()+10;
+    int border = 200;
+    return pt.x() > -border && pt.x() < _size.width()+border
+            && pt.y() >-border && pt.y() < _size.height()+border;
 }
 
 bool TFLOSMRenderer::ptInScreen(const GPSLocation& l) const
