@@ -144,6 +144,9 @@ void OSMTileGenerator::generateTiles()
 
         QDir outpath(outputPathStr);
 
+        QString timeofDay = renderer->isMapNight()?"night" :"day";
+        outpath.mkdir(timeofDay);
+        outpath.cd(timeofDay);
         outpath.mkdir(zoomLevel);
         outpath.cd(zoomLevel);
         QString outfilename = outpath.filePath("OSM_TILE.png");
@@ -151,6 +154,7 @@ void OSMTileGenerator::generateTiles()
         image.save(outfilename);
 
         addLog("Output:" + outfilename);
+        addLog("--------------------------");
     }
     addLog("GenerateTiles: END");
 }
