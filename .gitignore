@@ -9,3 +9,4 @@ Debug/
 .qmake.stash
 TFLTest.vcxproj.filters
 TFLTest.vcxproj.user
+tiles/
