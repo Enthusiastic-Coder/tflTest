@@ -91,35 +91,49 @@ void OSMTileGenerator::unSetup()
 void OSMTileGenerator::generateTiles()
 {
     addLog("GenerateTiles: BEGIN");
+
+    QStringList zoomLevels = _ui->lineEditOSMZoomLevel->text().split(",");
+
+    if(zoomLevels.empty())
+    {
+        addLog("GenerateTiles: No Zoom levels found");
+        return;
+    }
+
     QSize sz(1024,1024);
 
     std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
 
     renderer->init();
+    renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
+    renderer->setSize(sz);
 
     addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
 
-    renderer->setPixelLevel(_ui->lineEditOSMZoomLevel->text().toFloat());
-    renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
-    renderer->setLocation(GPSLocation(51.4964, -0.300198, 392.0));
-    renderer->setSize(sz);
+    for(auto& zoomLevel: zoomLevels)
+    {
+        renderer->setPixelLevel(zoomLevel.toFloat());
+        renderer->setLocation(GPSLocation(51.4964, -0.300198, 392.0));
 
-    QImage image(sz,QImage::Format_ARGB32);
-    image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
-                                           QColor::fromRgbF(0.85f,0.85f,0.85f));
+        QImage image(sz,QImage::Format_ARGB32);
+        image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
+                                               QColor::fromRgbF(0.85f,0.85f,0.85f));
 
-    QPainter p(&image);
+        QPainter p(&image);
 
-    renderer->updateCache();
-    renderer->paint(p);
+        renderer->updateCache();
+        renderer->paint(p);
 
-    QDir outpath(_ui->lineEditOSMOutputPath->text());
+        QDir outpath(_ui->lineEditOSMOutputPath->text());
 
-    QString outfilename = outpath.filePath("OSM_TILE.png");
+        outpath.mkdir(zoomLevel);
+        outpath.cd(zoomLevel);
+        QString outfilename = outpath.filePath("OSM_TILE.png");
 
-    image.save(outfilename);
+        image.save(outfilename);
 
-    addLog("Output:" + outfilename);
+        addLog("Output:" + outfilename);
+    }
     addLog("GenerateTiles: END");
 }
 
