@@ -24,6 +24,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     ui->lineEditOSMZoomLevel->setValidator( new QDoubleValidator(this) );
 
     connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, &OSMTileGenerator::generateTiles);
+    connect(ui->pushButtonOSMLoadDebug, &QPushButton::clicked, ui->textEditOSMLoadDebug, &QTextEdit::clear);
 
     auto importOSM = [this] ( void (OSMData::*pFunc)(const QString&), QString filename) {
 

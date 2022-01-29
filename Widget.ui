@@ -847,9 +847,9 @@
             </widget>
            </item>
            <item row="4" column="3">
-            <widget class="QPushButton" name="pushButtonOSMOutputPath">
+            <widget class="QPushButton" name="pushButtonOSMLoadDebug">
              <property name="text">
-              <string>...</string>
+              <string>Clear</string>
              </property>
              <property name="flat">
               <bool>false</bool>
