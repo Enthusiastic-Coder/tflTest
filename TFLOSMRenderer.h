@@ -27,6 +27,9 @@ public:
 
     float getCompassValue() const;
 
+    int getTileHorizontals() const;
+    int getTileVerticals() const;
+
     void setLocation(const GPSLocation& l);
     QPoint toScreen(const GPSLocation &l) const;
     bool ptInScreen(QPoint pt) const;

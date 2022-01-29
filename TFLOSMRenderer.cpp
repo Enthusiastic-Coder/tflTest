@@ -89,6 +89,32 @@ float TFLOSMRenderer::getCompassValue() const
     return 0.0f;
 }
 
+int TFLOSMRenderer::getTileHorizontals() const
+{
+    GPSLocation tl = topLeft();
+    GPSLocation tr = bottomRight();
+    tr._lat = tl._lat;
+
+    float distance = tl.distanceTo(tr)/1609.34f;
+
+    int pixelWidth = distance * _pixelLevel;
+
+    return std::max(1,pixelWidth/_size.width());
+}
+
+int TFLOSMRenderer::getTileVerticals() const
+{
+    GPSLocation tl = topLeft();
+    GPSLocation tr = bottomRight();
+
+    tr._lng = tl._lng;
+
+    float distance = tl.distanceTo(tr)/1609.34f;
+    int pixelHeight = distance * _pixelLevel;
+
+    return std::max(1,pixelHeight/_size.height());
+}
+
 void TFLOSMRenderer::setLocation(const GPSLocation &l)
 {
     _location = l;

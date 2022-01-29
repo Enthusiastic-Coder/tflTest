@@ -127,7 +127,10 @@ void OSMTileGenerator::generateTiles()
     for(auto& zoomLevel: zoomLevels)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
-        renderer->setLocation(GPSLocation(51.4964, -0.300198, 392.0));
+        renderer->setLocation(GPSLocation(51.4964, -0.300198));
+
+        addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
+        addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
 
         QImage image(sz,QImage::Format_ARGB32);
         image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
