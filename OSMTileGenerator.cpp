@@ -97,6 +97,23 @@ void OSMTileGenerator::generateTiles()
         return;
     }
 
+    const QString outputPathStr = _ui->lineEditOSMOutputPath->text();
+
+    if(outputPathStr.isEmpty())
+    {
+        addLog("GenerateTiles: No output path set");
+        return;
+    }
+
+    {
+        QDir outpath(outputPathStr);
+        if( !outpath.exists())
+        {
+            addLog("GenerateTiles: Output path does NOT exist");
+            return;
+        }
+    }
+
     QSize sz(1024,1024);
 
     std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
@@ -121,7 +138,7 @@ void OSMTileGenerator::generateTiles()
         renderer->updateCache();
         renderer->paint(p);
 
-        QDir outpath(_ui->lineEditOSMOutputPath->text());
+        QDir outpath(outputPathStr);
 
         outpath.mkdir(zoomLevel);
         outpath.cd(zoomLevel);
