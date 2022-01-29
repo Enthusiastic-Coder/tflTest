@@ -126,7 +126,7 @@ void TFLOSMRenderer::perform(QPainter* p)
         if( p == nullptr)
             renderObject->clear();
 
-        if( getPixelLevel() >  renderObject->getPixelsPerMile())
+        //if( getPixelLevel() >  renderObject->getPixelsPerMile())
         {
             if( p == nullptr)
                 renderObject->updateCache();
