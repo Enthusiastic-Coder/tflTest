@@ -4,6 +4,8 @@
 #include "OSMData.h"
 #include <QDoubleValidator>
 #include "TFLOSMRenderer.h"
+#include <QDir>
+#include <QTime>
 
 OSMTileGenerator::OSMTileGenerator(QObject *parent)
     : QObject(parent)
@@ -70,6 +72,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     ui->lineEditOSMZoomLevel->setText(s.value("OSMZoomLevel").toString());
     ui->lineEditOSMTileCount->setText(s.value("OSMTileCount").toString());
     ui->checkBoxOSMNightTime->setChecked(s.value("OSMNightTime").toBool());
+    ui->lineEditOSMOutputPath->setText(s.value("OSMOutputPath").toString());
 }
 
 void OSMTileGenerator::unSetup()
@@ -82,6 +85,7 @@ void OSMTileGenerator::unSetup()
     s.setValue("OSMZoomLevel", _ui->lineEditOSMZoomLevel->text());
     s.setValue("OSMTileCount", _ui->lineEditOSMTileCount->text());
     s.setValue("OSMNightTime", _ui->checkBoxOSMNightTime->isChecked() );
+    s.setValue("OSMOutputPath",_ui->lineEditOSMOutputPath->text());
 }
 
 void OSMTileGenerator::generateTiles()
@@ -109,13 +113,18 @@ void OSMTileGenerator::generateTiles()
     renderer->updateCache();
     renderer->paint(p);
 
-    image.save("OSM_TILE.png");
+    QDir outpath(_ui->lineEditOSMOutputPath->text());
 
+    QString outfilename = outpath.filePath("OSM_TILE.png");
+
+    image.save(outfilename);
+
+    addLog("Output:" + outfilename);
     addLog("GenerateTiles: END");
 }
 
 void OSMTileGenerator::addLog(const QString &line)
 {
-    _ui->textEditOSMLoadDebug->append(line);
+    _ui->textEditOSMLoadDebug->append(QTime::currentTime().toString() + ":" + line);
 
 }
