@@ -2,6 +2,7 @@
 #include "OSMData.h"
 #include <QSettings>
 #include <MathSupport.h>
+#include <vector3.h>
 
 #define RENDER_TYPE(name, obj) _renderObjects.push_back(obj = new OSMRender##name(this, _osmData->get##name()));
 
@@ -51,12 +52,12 @@ void TFLOSMRenderer::paintText(QPainter &p)
 
 void TFLOSMRenderer::setPixelLevel(float p)
 {
-    _pixelLevel = p;
+    _pixelPerMile = p;
 }
 
 float TFLOSMRenderer::getPixelLevel() const
 {
-    return _pixelLevel;
+    return _pixelPerMile;
 }
 
 void TFLOSMRenderer::setMapNight(bool n)
@@ -97,7 +98,7 @@ int TFLOSMRenderer::getTileHorizontals() const
 
     float distance = tl.distanceTo(tr)/1609.34f;
 
-    int pixelWidth = distance * _pixelLevel;
+    int pixelWidth = distance * _pixelPerMile;
 
     return std::max(1,pixelWidth/_size.width());
 }
@@ -110,9 +111,9 @@ int TFLOSMRenderer::getTileVerticals() const
     tr._lng = tl._lng;
 
     float distance = tl.distanceTo(tr)/1609.34f;
-    int pixelHeight = distance * _pixelLevel;
+    int pixelHeight = distance * _pixelPerMile;
 
-    return std::max(1,pixelHeight/_size.height());
+    return std::max(1,pixelHeight/_size.height()+1);
 }
 
 void TFLOSMRenderer::setLocation(const GPSLocation &l)
@@ -120,10 +121,37 @@ void TFLOSMRenderer::setLocation(const GPSLocation &l)
     _location = l;
 }
 
+GPSLocation TFLOSMRenderer::getLocation() const
+{
+    return _location;
+}
+
+void TFLOSMRenderer::setTileIndex(int index)
+{
+    const int xCount = getTileHorizontals();
+    const int yCount = getTileVerticals();
+
+    int xIndex = index % xCount;
+    int yIndex = index / xCount;
+
+    double dLat = bottomRight()._lat - topLeft()._lat;
+    double lat = float(yIndex)/yCount * dLat + topLeft()._lat;
+
+    double dLng = bottomRight()._lng - topLeft()._lng;
+    double lng =  float(xIndex)/xCount * dLng + topLeft()._lng;
+
+    GPSLocation location(lat,lng);
+
+//    location._lat += -dLat/yCount/2;
+//    location._lng += dLng/xCount/2;
+
+    setLocation(location);
+}
+
 QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
 {
     float brg = l.bearingFrom(_location);
-    float dist = l.distanceTo(_location)/1000.0/1.609334 * _pixelLevel;
+    float dist = l.distanceTo(_location)/1609.334 * _pixelPerMile;
 
     auto q = MathSupport<float>::MakeQHeading(brg);
 

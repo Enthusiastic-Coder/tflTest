@@ -128,32 +128,42 @@ void OSMTileGenerator::generateTiles()
     for(auto& zoomLevel: zoomLevels)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
-        renderer->setLocation(GPSLocation(51.4964, -0.300198));
+//        renderer->setLocation(GPSLocation(51.4964, -0.300198));
 
         addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
         addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
 
-        QImage image(sz,QImage::Format_ARGB32);
-        image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
-                                               QColor::fromRgbF(0.85f,0.85f,0.85f));
+        const int totalIndices = renderer->getTileHorizontals() * renderer->getTileVerticals();
 
-        QPainter p(&image);
+//        int index = 1000;
+        for( int index=0; index < totalIndices; ++index)
+        {
+            renderer->setTileIndex(index);
 
-        renderer->updateCache();
-        renderer->paint(p);
+            QImage image(sz,QImage::Format_ARGB32);
+            image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
+                                                   QColor::fromRgbF(0.85f,0.85f,0.85f));
 
-        QDir outpath(outputPathStr);
+            QPainter p(&image);
 
-        QString timeofDay = renderer->isMapNight()?"night" :"day";
-        outpath.mkdir(timeofDay);
-        outpath.cd(timeofDay);
-        outpath.mkdir(zoomLevel);
-        outpath.cd(zoomLevel);
-        QString outfilename = outpath.filePath("OSM_TILE.png");
+            renderer->updateCache();
+            renderer->paint(p);
 
-        image.save(outfilename);
+            QDir outpath(outputPathStr);
 
-        addLog("Output:" + outfilename);
+            QString timeofDay = renderer->isMapNight()?"night" :"day";
+            outpath.mkdir(timeofDay);
+            outpath.cd(timeofDay);
+            outpath.mkdir(zoomLevel);
+            outpath.cd(zoomLevel);
+            QString outfilename = outpath.filePath(QString("%1.png").arg(index));
+
+            image.save(outfilename);
+
+            addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
+            addLog("Output:" + outfilename);
+            QCoreApplication::processEvents();
+        }
         addLog("--------------------------");
     }
     addLog("GenerateTiles: END");

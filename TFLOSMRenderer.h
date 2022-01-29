@@ -31,6 +31,10 @@ public:
     int getTileVerticals() const;
 
     void setLocation(const GPSLocation& l);
+    GPSLocation getLocation() const;
+
+    void setTileIndex(int index);
+
     QPoint toScreen(const GPSLocation &l) const;
     bool ptInScreen(QPoint pt) const;
     bool ptInScreen(const GPSLocation &l) const;
@@ -41,7 +45,7 @@ protected:
 
 private:
     OSMData* _osmData;
-    float _pixelLevel = 1.0f;
+    float _pixelPerMile = 1.0f;
     GPSLocation _location;
     bool _isNight = false;
     QSize _size;
