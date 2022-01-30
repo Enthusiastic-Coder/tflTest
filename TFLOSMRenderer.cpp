@@ -98,9 +98,9 @@ int TFLOSMRenderer::getTileHorizontals() const
 
     float distance = tl.distanceTo(tr)/1609.34f;
 
-    int pixelWidth = distance * _pixelPerMile;
+    int pixels = distance * _pixelPerMile;
 
-    return std::max(1,pixelWidth/_size.width());
+    return std::max(1,pixels/_size.width()+1);
 }
 
 int TFLOSMRenderer::getTileVerticals() const
@@ -111,9 +111,9 @@ int TFLOSMRenderer::getTileVerticals() const
     tr._lng = tl._lng;
 
     float distance = tl.distanceTo(tr)/1609.34f;
-    int pixelHeight = distance * _pixelPerMile;
+    int pixels = distance * _pixelPerMile;
 
-    return std::max(1,pixelHeight/_size.height()+1);
+    return std::max(1,pixels/_size.height()+1);
 }
 
 void TFLOSMRenderer::setLocation(const GPSLocation &l)
