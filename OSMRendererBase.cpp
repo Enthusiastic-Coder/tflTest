@@ -139,10 +139,6 @@ void OSMRendererBase::updateCache()
             if( wayPoint->tags.size() > 0 && !pts.empty() )
                 osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
     }
-
-#ifdef Q_OS_WIN
-//    qDebug() << objectName() << ":" << itemCount << " - " << skippedCount;
-#endif
 }
 
 void OSMRendererBase::calcBoundingBox(GPSLocation &topLeft, GPSLocation &bottomRight)

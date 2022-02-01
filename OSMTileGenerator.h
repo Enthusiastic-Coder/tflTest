@@ -25,10 +25,8 @@ public:
     void setUp(Ui::Widget *ui);
     void unSetup();
 
-private slots:
-    void generateTiles();
-
 private:
+    void generateTiles(bool bSample);
     void addLog(const QString &line);
 
 

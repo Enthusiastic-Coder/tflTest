@@ -23,7 +23,13 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 
     ui->lineEditOSMZoomLevel->setValidator( new QDoubleValidator(this) );
 
-    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, &OSMTileGenerator::generateTiles);
+    connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, [this] {
+        generateTiles(false);
+    });
+    connect(ui->pushButtonGenerateOSMSingleTile, &QPushButton::clicked, this, [this] {
+        generateTiles(true);
+    });
+
     connect(ui->pushButtonOSMLoadDebug, &QPushButton::clicked, ui->textEditOSMLoadDebug, &QTextEdit::clear);
 
     auto importOSM = [this] ( void (OSMData::*pFunc)(const QString&), QString filename) {
@@ -86,7 +92,7 @@ void OSMTileGenerator::unSetup()
     s.setValue("OSMOutputPath",_ui->lineEditOSMOutputPath->text());
 }
 
-void OSMTileGenerator::generateTiles()
+void OSMTileGenerator::generateTiles(bool bSample)
 {
     addLog("GenerateTiles: BEGIN");
 
@@ -125,48 +131,65 @@ void OSMTileGenerator::generateTiles()
 
     addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
 
+    auto generateTileImage = [this,outputPathStr,sz](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString fname) {
+
+        QImage image(sz,QImage::Format_ARGB32);
+        image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
+                                               QColor::fromRgbF(0.85f,0.85f,0.85f));
+
+        QPainter p(&image);
+        renderer->paint(p);
+        renderer->paintText(p);
+
+        QDir outpath(outputPathStr);
+
+        QString timeofDay = renderer->isMapNight()?"night" :"day";
+        outpath.mkdir(timeofDay);
+        outpath.cd(timeofDay);
+        outpath.mkdir(zoomLevel);
+        outpath.cd(zoomLevel);
+
+        QString outfilename = outpath.filePath(fname);
+
+        image.save(outfilename);
+
+        addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
+        addLog("Output:" + outfilename);
+    };
+
     for(auto& zoomLevel: zoomLevels)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
 
-        addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
-        addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
-
-        const int xCount = renderer->getTileHorizontals();
-        const int yCount = renderer->getTileVerticals();
-
-        for(int y= 0; y < yCount; ++y)
+        if(bSample)
         {
-            for( int x=0; x < xCount; ++x)
+            renderer->setLocation(GPSLocation(51.4964, -0.300198));
+            renderer->updateCache();
+            QDir outpath(outputPathStr);
+            generateTileImage(renderer, zoomLevel, QString("Sample.png"));
+        }
+        else
+        {
+
+            addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
+            addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
+
+            const int xCount = renderer->getTileHorizontals();
+            const int yCount = renderer->getTileVerticals();
+
+            for(int y= 0; y < yCount; ++y)
             {
-                renderer->setTileIndex(x, y);                
-                renderer->updateCache();
+                for( int x=0; x < xCount; ++x)
+                {
+                    renderer->setTileIndex(x, y);
+                    renderer->updateCache();
 
-                if( renderer->isEmpty())
-                    continue;
+                    if( renderer->isEmpty())
+                        continue;
 
-                QImage image(sz,QImage::Format_ARGB32);
-                image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
-                                                       QColor::fromRgbF(0.85f,0.85f,0.85f));
-
-                QPainter p(&image);
-                renderer->paint(p);
-                renderer->paintText(p);
-
-                QDir outpath(outputPathStr);
-
-                QString timeofDay = renderer->isMapNight()?"night" :"day";
-                outpath.mkdir(timeofDay);
-                outpath.cd(timeofDay);
-                outpath.mkdir(zoomLevel);
-                outpath.cd(zoomLevel);
-                QString outfilename = outpath.filePath(QString("%1_%2.png").arg(x).arg(y));
-
-                image.save(outfilename);
-
-                addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
-                addLog("Output:" + outfilename);
-                QCoreApplication::processEvents();
+                    generateTileImage(renderer, zoomLevel, QString("%1_%2.png").arg(x).arg(y));
+                    QCoreApplication::processEvents();
+                }
             }
         }
         addLog("--------------------------");
