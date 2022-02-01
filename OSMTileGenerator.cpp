@@ -128,41 +128,43 @@ void OSMTileGenerator::generateTiles()
     for(auto& zoomLevel: zoomLevels)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
-//        renderer->setLocation(GPSLocation(51.4964, -0.300198));
 
         addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
         addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
 
-        const int totalIndices = renderer->getTileHorizontals() * renderer->getTileVerticals();
+        const int xCount = renderer->getTileHorizontals();
+        const int yCount = renderer->getTileVerticals();
 
-//        int index = 1000;
-        for( int index=0; index < totalIndices; ++index)
+        for(int y= 0; y < yCount; ++y)
         {
-            renderer->setTileIndex(index);
+            for( int x=0; x < xCount; ++x)
+            {
+                renderer->setTileIndex(x, y);
 
-            QImage image(sz,QImage::Format_ARGB32);
-            image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
-                                                   QColor::fromRgbF(0.85f,0.85f,0.85f));
+                QImage image(sz,QImage::Format_ARGB32);
+                image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
+                                                       QColor::fromRgbF(0.85f,0.85f,0.85f));
 
-            QPainter p(&image);
+                QPainter p(&image);
 
-            renderer->updateCache();
-            renderer->paint(p);
+                renderer->updateCache();
+                renderer->paint(p);
 
-            QDir outpath(outputPathStr);
+                QDir outpath(outputPathStr);
 
-            QString timeofDay = renderer->isMapNight()?"night" :"day";
-            outpath.mkdir(timeofDay);
-            outpath.cd(timeofDay);
-            outpath.mkdir(zoomLevel);
-            outpath.cd(zoomLevel);
-            QString outfilename = outpath.filePath(QString("%1.png").arg(index));
+                QString timeofDay = renderer->isMapNight()?"night" :"day";
+                outpath.mkdir(timeofDay);
+                outpath.cd(timeofDay);
+                outpath.mkdir(zoomLevel);
+                outpath.cd(zoomLevel);
+                QString outfilename = outpath.filePath(QString("%1_%2.png").arg(x).arg(y));
 
-            image.save(outfilename);
+                image.save(outfilename);
 
-            addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
-            addLog("Output:" + outfilename);
-            QCoreApplication::processEvents();
+                addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
+                addLog("Output:" + outfilename);
+                QCoreApplication::processEvents();
+            }
         }
         addLog("--------------------------");
     }

@@ -126,39 +126,40 @@ GPSLocation TFLOSMRenderer::getLocation() const
     return _location;
 }
 
-void TFLOSMRenderer::setTileIndex(int index)
+void TFLOSMRenderer::setTileIndex(int xIndex, int yIndex)
 {
     const int xCount = getTileHorizontals();
     const int yCount = getTileVerticals();
 
-    int xIndex = index % xCount;
-    int yIndex = index / xCount;
+    GPSLocation tileDiff = bottomRight() - topLeft();
 
-    double dLat = bottomRight()._lat - topLeft()._lat;
-    double lat = float(yIndex)/yCount * dLat + topLeft()._lat;
-
-    double dLng = bottomRight()._lng - topLeft()._lng;
-    double lng =  float(xIndex)/xCount * dLng + topLeft()._lng;
+    double lat = float(yIndex)/yCount * tileDiff._lat + topLeft()._lat;
+    double lng =  float(xIndex)/xCount * tileDiff._lng + topLeft()._lng;
 
     GPSLocation location(lat,lng);
 
-//    location._lat += -dLat/yCount/2;
-//    location._lng += dLng/xCount/2;
+    location._lat += tileDiff._lat/yCount/2;
+    location._lng += tileDiff._lng/xCount/2;
 
     setLocation(location);
 }
 
 QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
 {
-    float brg = l.bearingFrom(_location);
-    float dist = l.distanceTo(_location)/1609.334 * _pixelPerMile;
+    const int xCount = getTileHorizontals();
+    const int yCount = getTileVerticals();
 
-    auto q = MathSupport<float>::MakeQHeading(brg);
+    GPSLocation tileDiff = bottomRight() - topLeft();
 
-    Vector3F vec(0,0,-dist);
-    Vector3F output = QVRotate(q, vec);
+    double pixPerLat = _size.height()/ (tileDiff._lat/yCount);
+    double pixPerLng = _size.width() / (tileDiff._lng/xCount);
 
-    return QPoint(_size.width()/2 + output.x, _size.height()/2 + output.z);
+    GPSLocation diff = l - _location;
+
+    int dPy = diff._lat * pixPerLat;
+    int dPx = diff._lng * pixPerLng;
+
+    return QPoint(_size.width()/2 + dPx, _size.height()/2 + dPy);
 }
 
 bool TFLOSMRenderer::ptInScreen(QPoint pt) const
