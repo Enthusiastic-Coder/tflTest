@@ -44,6 +44,15 @@ void TFLOSMRenderer::paint(QPainter &p)
     perform(&p);
 }
 
+bool TFLOSMRenderer::isEmpty() const
+{
+    for( auto& renderObject : _renderObjects)
+        if( !renderObject->isEmpty())
+            return false;
+
+    return true;
+}
+
 void TFLOSMRenderer::paintText(QPainter &p)
 {
     for( auto& renderObject : _renderObjects)

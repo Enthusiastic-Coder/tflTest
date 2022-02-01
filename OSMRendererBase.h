@@ -30,6 +30,8 @@ public:
     void setVisible(bool b);
     bool isVisible() const;
 
+    bool isEmpty() const;
+
 protected:
     TFLOSMRenderer* _view;
     bool _isVisible = true;

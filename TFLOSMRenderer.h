@@ -33,6 +33,8 @@ public:
     void setLocation(const GPSLocation& l);
     GPSLocation getLocation() const;
 
+    bool isEmpty() const;
+
     void setTileIndex(int xIndex, int yIndex);
 
     QPoint toScreen(const GPSLocation &l) const;

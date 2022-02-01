@@ -121,22 +121,23 @@ void OSMRendererBase::updateCache()
         QPoint a(_view->toScreen(p1));
         QPoint b(_view->toScreen(p2));
 
-        if( !_view->ptInScreen(p1) && !_view->ptInScreen(p2))
-            continue;
-
-        for(const auto& gpsPt : wayPoint->gpsPts)
+        if( _view->ptInScreen(p1) || _view->ptInScreen(p2))
         {
-            if( !_view->ptInScreen(gpsPt))
-                continue;
+            for(const auto& gpsPt : wayPoint->gpsPts)
+            {
+                if( !_view->ptInScreen(gpsPt))
+                    continue;
 
-            pts << _view->toScreen(gpsPt);
+                pts << _view->toScreen(gpsPt);
+            }
+
+            if( !pts.empty())
+                osmPts << pts;
         }
 
         if( _view->getPixelLevel() > 500 )
-            if( wayPoint->tags.size() > 0 && wayPoint->tags.size() > 1)
+            if( wayPoint->tags.size() > 0 && !pts.empty() )
                 osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
-
-        osmPts << pts;
     }
 
 #ifdef Q_OS_WIN
@@ -191,6 +192,11 @@ void OSMRendererBase::setVisible(bool b)
 bool OSMRendererBase::isVisible() const
 {
     return _isVisible;
+}
+
+bool OSMRendererBase::isEmpty() const
+{
+    return _osmPts.isEmpty();
 }
 
 void OSMRenderMotorWay::init()

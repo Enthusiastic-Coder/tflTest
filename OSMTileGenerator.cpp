@@ -139,16 +139,19 @@ void OSMTileGenerator::generateTiles()
         {
             for( int x=0; x < xCount; ++x)
             {
-                renderer->setTileIndex(x, y);
+                renderer->setTileIndex(x, y);                
+                renderer->updateCache();
+
+                if( renderer->isEmpty())
+                    continue;
 
                 QImage image(sz,QImage::Format_ARGB32);
                 image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
                                                        QColor::fromRgbF(0.85f,0.85f,0.85f));
 
                 QPainter p(&image);
-
-                renderer->updateCache();
                 renderer->paint(p);
+                renderer->paintText(p);
 
                 QDir outpath(outputPathStr);
 
