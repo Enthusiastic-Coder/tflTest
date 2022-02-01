@@ -82,7 +82,7 @@ void OSMTileGenerator::unSetup()
         s.setValue(item.name, item.edit->text());
 
     s.setValue("OSMZoomLevel", _ui->lineEditOSMZoomLevel->text());
-    s.setValue("OSMTightTime", _ui->checkBoxOSMNightTime->isChecked() );
+    s.setValue("OSMNightTime", _ui->checkBoxOSMNightTime->isChecked() );
     s.setValue("OSMOutputPath",_ui->lineEditOSMOutputPath->text());
 }
 
