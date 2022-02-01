@@ -50,10 +50,9 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
             for(auto& zoomLevel: zoomLevels)
             {
                 renderer->setPixelLevel(zoomLevel.toFloat());
-                addLog(zoomLevel + " -> "
-                       + QString::number(renderer->getTileHorizontals())
-                       +" x "
-                       + QString::number(renderer->getTileVerticals()));
+                int cx = renderer->getTileHorizontals();
+                int cy = renderer->getTileVerticals();
+                addLog(zoomLevel + " -> " + QString::number(cx) +" x " + QString::number(cy) +" = " + QString::number(cx*cy));
             }
         }
     });
@@ -181,7 +180,6 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
         image.save(outfilename);
 
-        addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
         addLog("Output:" + outfilename);
     };
 
@@ -216,12 +214,16 @@ void OSMTileGenerator::generateTiles(bool bSample)
                         continue;
 
                     generateTileImage(renderer, zoomLevel, QString("%1_%2.png").arg(x).arg(y));
+
+                    addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
+
                     QCoreApplication::processEvents();
                 }
             }
         }
         addLog("--------------------------");
     }
+
     addLog("GenerateTiles: END");
 }
 
