@@ -26,8 +26,36 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     connect(ui->pushButtonGenerateOSMTile, &QPushButton::clicked, this, [this] {
         generateTiles(false);
     });
+
     connect(ui->pushButtonGenerateOSMSingleTile, &QPushButton::clicked, this, [this] {
         generateTiles(true);
+    });
+
+    connect(ui->pushButtonOSMInfo, &QPushButton::clicked, this, [this] {
+
+        QSize sz(1024,1024);
+
+        std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
+
+        renderer->init();
+        renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
+        renderer->setSize(sz);
+
+        addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
+
+        QStringList zoomLevels = _ui->lineEditOSMZoomLevel->text().split(",");
+
+        if(!zoomLevels.empty())
+        {
+            for(auto& zoomLevel: zoomLevels)
+            {
+                renderer->setPixelLevel(zoomLevel.toFloat());
+                addLog(zoomLevel + " -> "
+                       + QString::number(renderer->getTileHorizontals())
+                       +" x "
+                       + QString::number(renderer->getTileVerticals()));
+            }
+        }
     });
 
     connect(ui->pushButtonOSMLoadDebug, &QPushButton::clicked, ui->textEditOSMLoadDebug, &QTextEdit::clear);
