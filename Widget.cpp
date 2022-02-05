@@ -631,7 +631,7 @@ void Widget::startTFLRoutesDownload()
 {
     ui->pushButtonTFLDownload->setEnabled(false);
     ui->pushButtonStopPoint->setEnabled(false);
-    _tflWorker->downloadAllRoutesList(ui->checkBoxInBound->isChecked() );
+    _tflWorker->downloadAllRoutesList(ui->checkBoxInBound->isChecked(), ui->checkBoxAllRoutesBusOnly->isChecked() );
 }
 
 void Widget::startTFLStopPointDownload()

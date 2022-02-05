@@ -23,7 +23,7 @@ class TFLRouteWorker : public QObject
 public:
     explicit TFLRouteWorker(QObject *parent = nullptr);
 
-    void downloadAllRoutesList(bool bInbound=false);
+    void downloadAllRoutesList(bool bInbound=false, bool busOnly=false);
     void downloadAllStopPoints();
 
     void buildAllStopPointsFromRoutes();
@@ -54,6 +54,7 @@ private:
     const QString lineStopPoints = "https://api.tfl.gov.uk/Line/%1/stoppoints";
     QStringList _allRoutesList;
     bool _bInbound = false;
+    bool _bBusOnly = false;
     QString _currentLineId;
     bool _bDownloadRoutes = true;
 };
