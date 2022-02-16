@@ -18,6 +18,7 @@
 #include <QVector>
 #include <QString>
 #include <set>
+#include <QRgb>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -429,6 +430,8 @@ Widget::Widget(QWidget *parent) :
         }
     });
 
+    connect( ui->pushButtonRunwayBlend, &QPushButton::clicked, this, &Widget::runwayBlend );
+
     QSettings s;
 
     ui->lineEditOSMInputPath->setText(s.value("OSMInputPath").toString());
@@ -830,5 +833,31 @@ void Widget::processOperatorJson()
         if( count % 1000 == 0)
             qDebug() << count << ":" << keys.count();
     }
+}
+
+void Widget::runwayBlend()
+{
+    QImage imgIn;
+    imgIn.load("C:/Project/GIT/TFLTest/images/runway.png");
+
+    QImage refImg;
+    refImg.load("C:/Project/GIT/TFLTest/images/reference_runway.png");
+
+    for(int y=0; y < imgIn.height(); ++y)
+    {
+        for(int x =0; x < imgIn.width(); ++x)
+        {
+            QRgb rgb = imgIn.pixel(x,y);
+
+            if( qRed(rgb) < 200 && qBlue(rgb) < 200 && qGreen(rgb) < 200)
+            {
+                //imgIn.setPixelColor(x,y, refImg.pixel(float(x)/imgIn.width()* refImg.width(), rand()%refImg.height()));
+                imgIn.setPixelColor(x,y, refImg.pixel(rand()% refImg.width(), rand()%refImg.height()));
+            }
+        }
+    }
+
+    imgIn.save("C:/Project/GIT/TFLTest/images/runway_out.png");
+
 }
 

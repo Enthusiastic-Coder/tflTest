@@ -232,6 +232,7 @@ protected slots:
     void processUSStates();
     void processAircraftJson();
     void processOperatorJson();
+    void runwayBlend();
 
 protected:
     void parseLineArrival(const QJsonDocument& doc, bool bMinimize=true);
