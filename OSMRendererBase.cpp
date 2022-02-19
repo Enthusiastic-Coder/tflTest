@@ -213,7 +213,7 @@ void OSMRenderPrimary::init()
 
 void OSMRenderSecondary::init()
 {
-    _dayColor = Qt::white;
+    _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 3.0;
     _pixelPerMile = 300.0f;
@@ -221,7 +221,7 @@ void OSMRenderSecondary::init()
 
 void OSMRenderTertiary::init()
 {
-    _dayColor = Qt::white;
+    _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 3.0;
     _pixelPerMile = 300.0f;
@@ -229,7 +229,7 @@ void OSMRenderTertiary::init()
 
 void OSMRenderResidential::init()
 {
-    _dayColor = Qt::white;
+    _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 2.0;
     _pixelPerMile = 300.0f;
