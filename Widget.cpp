@@ -823,7 +823,7 @@ void Widget::processOperatorJson()
     QTextStream streamOut(&outputFile);
     int count(0);
 
-    for(const QString& key : keys)
+    for(const QString& key : qAsConst(keys))
     {
         QJsonValue value = rootObj[key];
 
