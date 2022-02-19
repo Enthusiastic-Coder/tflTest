@@ -158,7 +158,16 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
     addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
 
-    auto generateTileImage = [this,outputPathStr,sz](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString fname) {
+    {
+        QFile fileOut(outputPathStr +"/bounds.txt");
+        fileOut.open(QIODevice::WriteOnly);
+        QTextStream stream(&fileOut);
+        stream << QString::fromStdString(renderer->topLeft().toString()) << "\n";
+        stream << QString::fromStdString(renderer->bottomRight().toString());
+        fileOut.close();
+    }
+
+    auto generateTileImage = [this,outputPathStr,sz](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
 
         QImage image(sz,QImage::Format_ARGB32);
         image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
@@ -168,31 +177,38 @@ void OSMTileGenerator::generateTiles(bool bSample)
         renderer->paint(p);
         renderer->paintText(p);
 
-        QDir outpath(outputPathStr);
-
-        QString timeofDay = renderer->isMapNight()?"night" :"day";
-        outpath.mkdir(timeofDay);
-        outpath.cd(timeofDay);
-        outpath.mkdir(zoomLevel);
-        outpath.cd(zoomLevel);
-
-        QString outfilename = outpath.filePath(fname);
-
         image.save(outfilename);
 
-        addLog("Output:" + outfilename);
+        addLog("Output:" + QDir::currentPath() + "/"+ outfilename);
     };
+
+    QDir outpath(outputPathStr);
 
     for(auto& zoomLevel: zoomLevels)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
 
+        outpath.mkdir(zoomLevel);
+        outpath.cd(zoomLevel);
+
+        {
+            QFile fileOut(outpath.absolutePath() +"/dims.txt");
+            fileOut.open(QIODevice::WriteOnly);
+            QTextStream stream(&fileOut);
+            stream << renderer->getTileHorizontals() << "\n";
+            stream << renderer->getTileVerticals();
+            fileOut.close();
+        }
+
+        QString timeofDay = renderer->isMapNight()?"night" :"day";
+        outpath.mkdir(timeofDay);
+        outpath.cd(timeofDay);
+
         if(bSample)
         {
             renderer->setLocation(GPSLocation(51.4964, -0.300198));
             renderer->updateCache();
-            QDir outpath(outputPathStr);
-            generateTileImage(renderer, zoomLevel, QString("Sample.png"));
+            generateTileImage(renderer, zoomLevel, outpath.absoluteFilePath("Sample.png"));
         }
         else
         {
@@ -213,7 +229,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
                     if( renderer->isEmpty())
                         continue;
 
-                    generateTileImage(renderer, zoomLevel, QString("%1_%2.png").arg(x).arg(y));
+                    generateTileImage(renderer, zoomLevel, QString("%1/%2_%3.png").arg(outpath.absolutePath()).arg(x).arg(y));
 
                     addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
 
@@ -222,6 +238,8 @@ void OSMTileGenerator::generateTiles(bool bSample)
             }
         }
         addLog("--------------------------");
+        outpath.cdUp();
+        outpath.cdUp();
     }
 
     addLog("GenerateTiles: END");
