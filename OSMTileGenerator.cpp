@@ -72,9 +72,15 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 
         addLog("ImportOSM: BEGIN");
         importOSM(&OSMData::importMotorWay, _ui->lineEditOSMMotorwayPath->text());
+        importOSM(&OSMData::importMotorWay, "c:/project/git/tfltracker/data/OSM/greater-london-latest_highway_trunk.bin");
+
         importOSM(&OSMData::importPrimary, _ui->lineEditOSMPrimaryPath->text());
         importOSM(&OSMData::importSecondary, _ui->lineEditOSMSecondaryPath->text());
+
         importOSM(&OSMData::importTertiary, _ui->lineEditOSMTertiaryPath->text());
+        importOSM(&OSMData::importTertiary,"c:/project/git/tfltracker/data/OSM/greater-london-latest_highway_unclassified.bin");
+        importOSM(&OSMData::importTertiary,"c:/project/git/tfltracker/data/OSM/greater-london-latest_highway_service.bin");
+
         importOSM(&OSMData::importResidential, _ui->lineEditOSMResidentialPath->text());
         importOSM(&OSMData::importAeroRunway, _ui->lineEditOSMAerorunwayPath->text());
         importOSM(&OSMData::importAeroWay, _ui->lineEditOSMAerowayPath->text());
