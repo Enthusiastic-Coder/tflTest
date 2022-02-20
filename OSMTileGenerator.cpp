@@ -179,7 +179,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
         image.save(outfilename);
 
-        addLog("Output:" + QDir::currentPath() + "/"+ outfilename);
+        addLog("Output:" + outfilename);
     };
 
     QDir outpath(outputPathStr);
@@ -206,7 +206,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
         if(bSample)
         {
-            renderer->setLocation(GPSLocation(51.4964, -0.300198));
+            renderer->setLocation(GPSLocation(51.4756, -0.451969));
             renderer->updateCache();
             generateTileImage(renderer, zoomLevel, outpath.absoluteFilePath("Sample.png"));
         }
