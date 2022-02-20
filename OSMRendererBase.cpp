@@ -38,9 +38,6 @@ void OSMRendererBase::paint(QPainter &p)
 
 void OSMRendererBase::paintText(QPainter &p)
 {
-    if( !_isVisible)
-        return;
-
     const auto& osmTagCache = _osmTagCache;
 
     QFont labelFont;
@@ -97,16 +94,11 @@ void OSMRendererBase::paintText(QPainter &p)
 
 void OSMRendererBase::updateCache()
 {
-    if( !_isVisible)
-        return;
-
     auto& osmPts = _osmPts;
     auto& osmTagCache = _osmTagCache;
 
     osmPts.clear();
     osmTagCache.clear();
-
-    GPSLocation lastPos;
 
     for(const auto& wayPoint: _wayPoints)
     {
@@ -178,16 +170,6 @@ void OSMRendererBase::calcBoundingBox(GPSLocation &topLeft, GPSLocation &bottomR
 float OSMRendererBase::getPixelsPerMile() const
 {
     return _pixelPerMile;
-}
-
-void OSMRendererBase::setVisible(bool b)
-{
-    _isVisible = b;
-}
-
-bool OSMRendererBase::isVisible() const
-{
-    return _isVisible;
 }
 
 bool OSMRendererBase::isEmpty() const

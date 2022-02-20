@@ -54,7 +54,7 @@ qlonglong OSMWorker::process(const QString &filename)
 
             int itemsObtained(0);
 
-            for(const QString& item : sl)
+            for(const QString& item : qAsConst(sl))
             {
                 if( item.startsWith(QStringLiteral("id=")))
                 {
@@ -63,7 +63,7 @@ qlonglong OSMWorker::process(const QString &filename)
                 }
                 if( item.startsWith(QStringLiteral("lat=")))
                 {
-                    node.Lat = item.mid(4).toDouble();
+                    node.Lat = item.midRef(4).toDouble();
 
                     if( node.Lat == 0)
                     {
@@ -73,7 +73,7 @@ qlonglong OSMWorker::process(const QString &filename)
                 }
                 if( item.startsWith(QStringLiteral("lon=")))
                 {
-                    node.Lng = item.mid(4).toDouble();
+                    node.Lng = item.midRef(4).toDouble();
 
                     if( node.Lng == 0)
                     {
