@@ -73,42 +73,27 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 #define Root "c:/project/git/tfltracker/data/OSM/"
 
         addLog("ImportOSM: BEGIN");
-        importOSM(&OSMData::importMotorWay, _ui->lineEditOSMMotorwayPath->text());
+        importOSM(&OSMData::importMotorWay, Root"greater-london-latest_highway_motorway.bin");
         importOSM(&OSMData::importMotorWay, Root"greater-london-latest_highway_trunk.bin");
 
-        importOSM(&OSMData::importPrimary, _ui->lineEditOSMPrimaryPath->text());
-        importOSM(&OSMData::importSecondary, _ui->lineEditOSMSecondaryPath->text());
+        importOSM(&OSMData::importPrimary, Root"greater-london-latest_highway_primary.bin");
+        importOSM(&OSMData::importSecondary, Root"greater-london-latest_highway_secondary.bin");
 
-        importOSM(&OSMData::importTertiary, _ui->lineEditOSMTertiaryPath->text());
+        importOSM(&OSMData::importTertiary, Root"greater-london-latest_highway_tertiary.bin");
         importOSM(&OSMData::importTertiary, Root"greater-london-latest_highway_unclassified.bin");
         importOSM(&OSMData::importTertiary, Root"greater-london-latest_highway_service.bin");
 
-        importOSM(&OSMData::importResidential, _ui->lineEditOSMResidentialPath->text());
-        importOSM(&OSMData::importAeroRunway, _ui->lineEditOSMAerorunwayPath->text());
-        importOSM(&OSMData::importAeroWay, _ui->lineEditOSMAerowayPath->text());
-        importOSM(&OSMData::importPedestrian, _ui->lineEditOSMPedestrianPath->text());
-        importOSM(&OSMData::importFootway, _ui->lineEditOSMFootwayPath->text());
-        importOSM(&OSMData::importCycleWay, _ui->lineEditOSMCyclewayPath->text());
-        importOSM(&OSMData::importWater, _ui->lineEditOSMWaterPath->text());
+        importOSM(&OSMData::importResidential, Root"greater-london-latest_highway_residential.bin");
+        importOSM(&OSMData::importAeroRunway, Root"greater-london-latest_aeroway_runway.bin");
+        importOSM(&OSMData::importAeroWay, Root"greater-london-latest_aeroway_taxiway.bin");
+        importOSM(&OSMData::importPedestrian, Root"greater-london-latest_highway_pedestrian.bin");
+        importOSM(&OSMData::importFootway, Root"greater-london-latest_highway_footway.bin");
+        importOSM(&OSMData::importCycleWay, Root"greater-london-latest_highway_cycleway.bin");
+        importOSM(&OSMData::importWater, Root"london-water.bin");
         addLog("ImportOSM: END");
     });
 
-    _osmSettings.push_back({"OSMMotorwayPath", _ui->lineEditOSMMotorwayPath});
-    _osmSettings.push_back({"OSMPrimaryPath", _ui->lineEditOSMPrimaryPath});
-    _osmSettings.push_back({"OSMSecondaryPath", _ui->lineEditOSMSecondaryPath});
-    _osmSettings.push_back({"OSMTertiaryPath", _ui->lineEditOSMTertiaryPath});
-    _osmSettings.push_back({"OSMResidentialPath", _ui->lineEditOSMResidentialPath});
-    _osmSettings.push_back({"OSMAeroRunwayPath", _ui->lineEditOSMAerorunwayPath});
-    _osmSettings.push_back({"OSMAerowayPath", _ui->lineEditOSMAerowayPath});
-    _osmSettings.push_back({"OSMPedestrianPath", _ui->lineEditOSMPedestrianPath});
-    _osmSettings.push_back({"OSMPFootwayPath", _ui->lineEditOSMFootwayPath});
-    _osmSettings.push_back({"OSMPCyclePath", _ui->lineEditOSMCyclewayPath});
-    _osmSettings.push_back({"OSMPWaterPath", _ui->lineEditOSMWaterPath});
-
     QSettings s;
-
-    for(auto& item : _osmSettings)
-        item.edit->setText(s.value(item.name).toString());
 
     ui->lineEditOSMZoomLevel->setText(s.value("OSMZoomLevel").toString());
     ui->checkBoxOSMNightTime->setChecked(s.value("OSMNightTime").toBool());
@@ -118,9 +103,6 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 void OSMTileGenerator::unSetup()
 {
     QSettings s;
-
-    for(auto& item : _osmSettings)
-        s.setValue(item.name, item.edit->text());
 
     s.setValue("OSMZoomLevel", _ui->lineEditOSMZoomLevel->text());
     s.setValue("OSMNightTime", _ui->checkBoxOSMNightTime->isChecked() );

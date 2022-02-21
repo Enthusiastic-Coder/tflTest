@@ -23,7 +23,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>11</number>
+      <number>6</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -612,26 +612,19 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>495</width>
-            <height>487</height>
+            <width>512</width>
+            <height>301</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="3" column="1">
-            <widget class="QLabel" name="label_7">
+           <item row="6" column="4">
+            <widget class="QPushButton" name="pushButtonGenerateOSMTile">
              <property name="text">
-              <string>Zoom Levels:</string>
+              <string>Generate</string>
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Aeroway:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1" colspan="5">
+           <item row="4" column="1" colspan="4">
             <widget class="QWidget" name="widget" native="true">
              <layout class="QHBoxLayout" name="horizontalLayout">
               <property name="leftMargin">
@@ -673,50 +666,11 @@
              </layout>
             </widget>
            </item>
-           <item row="14" column="1">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Secondary:</string>
-             </property>
-            </widget>
+           <item row="6" column="1" colspan="3">
+            <widget class="QLineEdit" name="lineEditOSMOutputPath"/>
            </item>
-           <item row="20" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMWaterPath"/>
-           </item>
-           <item row="10" column="1" colspan="5">
+           <item row="10" column="1" colspan="4">
             <widget class="QTextEdit" name="textEditOSMLoadDebug"/>
-           </item>
-           <item row="22" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMAerorunwayPath"/>
-           </item>
-           <item row="18" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMFootwayPath"/>
-           </item>
-           <item row="6" column="5">
-            <widget class="QPushButton" name="pushButtonGenerateOSMTile">
-             <property name="text">
-              <string>Generate</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMMotorwayPath"/>
-           </item>
-           <item row="16" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMResidentialPath"/>
-           </item>
-           <item row="18" column="1">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Footway:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="14" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMSecondaryPath"/>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLineEdit" name="lineEditOSMZoomLevel"/>
            </item>
            <item row="3" column="3">
             <widget class="QCheckBox" name="checkBoxOSMNightTime">
@@ -725,86 +679,22 @@
              </property>
             </widget>
            </item>
-           <item row="21" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMAerowayPath"/>
-           </item>
-           <item row="13" column="1">
-            <widget class="QLabel" name="label_9">
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Primary:</string>
+              <string>Zoom Levels:</string>
              </property>
             </widget>
            </item>
-           <item row="19" column="1">
-            <widget class="QLabel" name="label_15">
-             <property name="text">
-              <string>Cycleway:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="15" column="1">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Tertiary:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="1">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>Water:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMCyclewayPath"/>
-           </item>
-           <item row="16" column="1">
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Residential:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="1">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Motorway:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="17" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMPedestrianPath"/>
-           </item>
-           <item row="6" column="1" colspan="3">
-            <widget class="QLineEdit" name="lineEditOSMOutputPath"/>
-           </item>
-           <item row="13" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMPrimaryPath"/>
-           </item>
-           <item row="17" column="1">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Pedestrian:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="1">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>Aerorunway:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="15" column="2" colspan="4">
-            <widget class="QLineEdit" name="lineEditOSMTertiaryPath"/>
-           </item>
-           <item row="3" column="5">
+           <item row="3" column="4">
             <widget class="QPushButton" name="pushButtonLoadOSMData">
              <property name="text">
               <string>LoadOSM Data</string>
              </property>
             </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="lineEditOSMZoomLevel"/>
            </item>
           </layout>
          </widget>

@@ -14,11 +14,6 @@ class OSMTileGenerator : public QObject
 {
     Q_OBJECT
 public:
-    using SettingEntry = struct {
-        QString name;
-        QLineEdit* edit;
-    };
-
     OSMTileGenerator(QObject* parent);
     ~OSMTileGenerator();
 
@@ -33,7 +28,6 @@ private:
 private:
     Ui::Widget* _ui;
     OSMData _data;
-    std::vector<SettingEntry> _osmSettings;
 };
 
 #endif // OSMTILEGENERATOR_H
