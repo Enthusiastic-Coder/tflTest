@@ -178,17 +178,10 @@ void OSMTileGenerator::generateTiles(bool bSample)
     {
         renderer->setPixelLevel(zoomLevel.toFloat());
 
-        outpath.mkdir(zoomLevel);
-        outpath.cd(zoomLevel);
+        QString folderName = QString("%1x%2").arg(renderer->getTileHorizontals()).arg(renderer->getTileVerticals());
 
-        {
-            QFile fileOut(outpath.absolutePath() +"/dims.txt");
-            fileOut.open(QIODevice::WriteOnly);
-            QTextStream stream(&fileOut);
-            stream << renderer->getTileHorizontals() << "\n";
-            stream << renderer->getTileVerticals();
-            fileOut.close();
-        }
+        outpath.mkdir(folderName);
+        outpath.cd(folderName);
 
         QString timeofDay = renderer->isMapNight()?"night" :"day";
         outpath.mkdir(timeofDay);
