@@ -25,7 +25,7 @@ public:
 
     void calcBoundingBox(GPSLocation& topLeft, GPSLocation& bottomRight);
 
-    float getPixelsPerMile() const;
+    int getZoomLevel() const;
 
     bool isEmpty() const;
 
@@ -38,7 +38,7 @@ protected:
     QColor _dayColor = Qt::white;
     QColor _nightColor = Qt::white;
     qreal _lineThickness = 5.0;
-    float _pixelPerMile = 1.0f;
+    int _zoomLevel = 1.0f;
 };
 
 #define OSMCLASS(view,name) name(TFLOSMRenderer* view,const WAYPOINTS& wayPoints) \

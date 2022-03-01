@@ -49,7 +49,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         {
             for(auto& zoomLevel: zoomLevels)
             {
-                renderer->setPixelLevel(zoomLevel.toFloat());
+                renderer->setZoomLevel(zoomLevel.toFloat());
                 int cx = renderer->getTileHorizontals();
                 int cy = renderer->getTileVerticals();
                 addLog(zoomLevel + " -> " + QString::number(cx) +" x " + QString::number(cy) +" = " + QString::number(cx*cy));
@@ -176,7 +176,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
     for(auto& zoomLevel: zoomLevels)
     {
-        renderer->setPixelLevel(zoomLevel.toFloat());
+        renderer->setZoomLevel(zoomLevel.toFloat());
 
         QString folderName = QString("%1x%2").arg(renderer->getTileHorizontals()).arg(renderer->getTileVerticals());
 

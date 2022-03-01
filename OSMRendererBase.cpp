@@ -24,7 +24,7 @@ void OSMRendererBase::paint(QPainter &p)
 {
     QPen oldPen = p.pen();
 
-    const float pixM = _view->getPixelLevel();
+    const float pixM = _view->getZoomLevel();
 
     QPen pen(_view->isMapNight()? _nightColor: _dayColor);
     pen.setWidthF(qMax(_lineThickness, _lineThickness* pixM / 1000.0));
@@ -42,7 +42,7 @@ void OSMRendererBase::paintText(QPainter &p)
 
     QFont labelFont;
     labelFont.setFamily("Verdana");
-    labelFont.setPixelSize(_view->getPixelLevel() > 2000? 14: 10);
+    labelFont.setPixelSize(_view->getZoomLevel() > 2000? 14: 10);
     p.setFont(labelFont);
 
     p.setPen(_view->isMapNight()? Qt::white:Qt::darkGray);
@@ -127,7 +127,7 @@ void OSMRendererBase::updateCache()
                 osmPts << pts;
         }
 
-        if( _view->getPixelLevel() >= 500 )
+        if( _view->getZoomLevel() >= 500 )
             if( wayPoint->tags.size() > 0 && !pts.empty() )
                 osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
     }
@@ -167,9 +167,9 @@ void OSMRendererBase::calcBoundingBox(GPSLocation &topLeft, GPSLocation &bottomR
     }
 }
 
-float OSMRendererBase::getPixelsPerMile() const
+int OSMRendererBase::getZoomLevel() const
 {
-    return _pixelPerMile;
+    return _zoomLevel;
 }
 
 bool OSMRendererBase::isEmpty() const
@@ -182,7 +182,7 @@ void OSMRenderMotorWay::init()
     _dayColor = QColor("#cccc00");
     _nightColor = Qt::darkYellow;
     _lineThickness = 5.0;
-    _pixelPerMile = 0.0f;
+    _zoomLevel = 1;
 }
 
 void OSMRenderPrimary::init()
@@ -190,7 +190,7 @@ void OSMRenderPrimary::init()
     _dayColor = Qt::white;
     _nightColor = Qt::darkGray;
     _lineThickness = 5.0;
-    _pixelPerMile = 100.0f;
+    _zoomLevel = 1;
 }
 
 void OSMRenderSecondary::init()
@@ -198,7 +198,7 @@ void OSMRenderSecondary::init()
     _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 3.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 4;
 }
 
 void OSMRenderTertiary::init()
@@ -206,7 +206,7 @@ void OSMRenderTertiary::init()
     _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 3.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 5;
 }
 
 void OSMRenderResidential::init()
@@ -214,7 +214,7 @@ void OSMRenderResidential::init()
     _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
     _lineThickness = 2.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 6;
 }
 
 void OSMRenderFootway::init()
@@ -222,7 +222,7 @@ void OSMRenderFootway::init()
     _dayColor = Qt::lightGray;
     _nightColor = Qt::darkGray;
     _lineThickness = 1.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 8;
 }
 
 void OSMRenderWater::init()
@@ -230,7 +230,7 @@ void OSMRenderWater::init()
     _dayColor = Qt::blue;
     _nightColor = Qt::darkCyan;
     _lineThickness = 1.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 1;
 }
 
 void OSMRenderAeroWay::init()
@@ -238,7 +238,7 @@ void OSMRenderAeroWay::init()
     _dayColor = Qt::lightGray;
     _nightColor = Qt::lightGray;
     _lineThickness = 2.0;
-    _pixelPerMile = 100.0f;
+    _zoomLevel = 1;
 }
 
 void OSMRenderAeroRunway::init()
@@ -246,7 +246,7 @@ void OSMRenderAeroRunway::init()
     _dayColor = Qt::lightGray;
     _nightColor = Qt::white;
     _lineThickness = 15.0;
-    _pixelPerMile = 100.0f;
+    _zoomLevel = 1;
 }
 
 void OSMRenderCycleWay::init()
@@ -254,7 +254,7 @@ void OSMRenderCycleWay::init()
     _dayColor = Qt::lightGray;
     _nightColor = Qt::darkGray;
     _lineThickness = 1.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 18;
 }
 
 void OSMRenderPedestrian::init()
@@ -262,5 +262,5 @@ void OSMRenderPedestrian::init()
     _dayColor = Qt::white;
     _nightColor = Qt::lightGray;
     _lineThickness = 2.0;
-    _pixelPerMile = 300.0f;
+    _zoomLevel = 18;
 }

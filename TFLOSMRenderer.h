@@ -14,8 +14,8 @@ public:
     void paint(QPainter& p);
     void paintText(QPainter& p);
 
-    void setPixelLevel(float p);
-    float getPixelLevel() const;
+    void setZoomLevel(float p);
+    int getZoomLevel() const;
 
     void setMapNight(bool n);
     bool isMapNight() const;
@@ -47,7 +47,7 @@ protected:
 
 private:
     OSMData* _osmData;
-    float _pixelPerMile = 1.0f;
+    int _zoomLevel = 1.0f;
     GPSLocation _location;
     bool _isNight = false;
     QSize _size;

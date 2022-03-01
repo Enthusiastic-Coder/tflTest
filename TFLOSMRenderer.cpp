@@ -59,14 +59,14 @@ void TFLOSMRenderer::paintText(QPainter &p)
         renderObject->paintText(p);
 }
 
-void TFLOSMRenderer::setPixelLevel(float p)
+void TFLOSMRenderer::setZoomLevel(float p)
 {
-    _pixelPerMile = p;
+    _zoomLevel = p;
 }
 
-float TFLOSMRenderer::getPixelLevel() const
+int TFLOSMRenderer::getZoomLevel() const
 {
-    return _pixelPerMile;
+    return _zoomLevel;
 }
 
 void TFLOSMRenderer::setMapNight(bool n)
@@ -107,7 +107,7 @@ int TFLOSMRenderer::getTileHorizontals() const
 
     float distance = tl.distanceTo(tr)/1609.34f;
 
-    int pixels = distance * _pixelPerMile;
+    int pixels = distance * _zoomLevel;
 
     return std::max(1,pixels/_size.width()+1);
 }
@@ -120,7 +120,7 @@ int TFLOSMRenderer::getTileVerticals() const
     tr._lng = tl._lng;
 
     float distance = tl.distanceTo(tr)/1609.34f;
-    int pixels = distance * _pixelPerMile;
+    int pixels = distance * _zoomLevel;
 
     return std::max(1,pixels/_size.height()+1);
 }
@@ -190,7 +190,7 @@ void TFLOSMRenderer::perform(QPainter* p)
         if( p == nullptr)
             renderObject->clear();
 
-        //if( getPixelLevel() >  renderObject->getPixelsPerMile())
+        if( getZoomLevel() >= renderObject->getZoomLevel())
         {
             if( p == nullptr)
                 renderObject->updateCache();
