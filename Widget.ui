@@ -672,13 +672,6 @@
            <item row="10" column="1" colspan="4">
             <widget class="QTextEdit" name="textEditOSMLoadDebug"/>
            </item>
-           <item row="3" column="3">
-            <widget class="QCheckBox" name="checkBoxOSMNightTime">
-             <property name="text">
-              <string>NightTime</string>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="1">
             <widget class="QLabel" name="label_7">
              <property name="text">

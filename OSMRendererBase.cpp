@@ -42,7 +42,7 @@ void OSMRendererBase::paintText(QPainter &p)
 
     QFont labelFont;
     labelFont.setFamily("Verdana");
-    labelFont.setPixelSize(_view->getZoomLevel() > 2000? 14: 10);
+    labelFont.setPixelSize(14);
     p.setFont(labelFont);
 
     p.setPen(_view->isMapNight()? Qt::white:Qt::darkGray);

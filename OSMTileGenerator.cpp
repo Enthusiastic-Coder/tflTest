@@ -38,7 +38,6 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
 
         renderer->init();
-        renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
         renderer->setSize(sz);
 
         addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
@@ -96,7 +95,6 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
     QSettings s;
 
     ui->lineEditOSMZoomLevel->setText(s.value("OSMZoomLevel").toString());
-    ui->checkBoxOSMNightTime->setChecked(s.value("OSMNightTime").toBool());
     ui->lineEditOSMOutputPath->setText(s.value("OSMOutputPath").toString());
 }
 
@@ -105,7 +103,6 @@ void OSMTileGenerator::unSetup()
     QSettings s;
 
     s.setValue("OSMZoomLevel", _ui->lineEditOSMZoomLevel->text());
-    s.setValue("OSMNightTime", _ui->checkBoxOSMNightTime->isChecked() );
     s.setValue("OSMOutputPath",_ui->lineEditOSMOutputPath->text());
 }
 
@@ -143,7 +140,6 @@ void OSMTileGenerator::generateTiles(bool bSample)
     std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
 
     renderer->init();
-    renderer->setMapNight(_ui->checkBoxOSMNightTime->isChecked());
     renderer->setSize(sz);
 
     addLog("BoundingBox:" + QString::fromStdString(renderer->topLeft().toString()) + "==" + QString::fromStdString(renderer->bottomRight().toString()));
@@ -183,45 +179,51 @@ void OSMTileGenerator::generateTiles(bool bSample)
         outpath.mkdir(folderName);
         outpath.cd(folderName);
 
-        QString timeofDay = renderer->isMapNight()?"night" :"day";
-        outpath.mkdir(timeofDay);
-        outpath.cd(timeofDay);
+        QStringList timesOfDay = { "day", "night" };
 
-        if(bSample)
+        for( const QString &timeofDay :timesOfDay)
         {
-            renderer->setLocation(GPSLocation(51.4756, -0.451969));
-            renderer->updateCache();
-            generateTileImage(renderer, zoomLevel, outpath.absoluteFilePath("Sample.png"));
-        }
-        else
-        {
+            outpath.mkdir(timeofDay);
+            outpath.cd(timeofDay);
 
-            addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
-            addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
+            renderer->setMapNight(timeofDay == "night");
 
-            const int xCount = renderer->getTileHorizontals();
-            const int yCount = renderer->getTileVerticals();
-
-            for(int y= 0; y < yCount; ++y)
+            if(bSample)
             {
-                for( int x=0; x < xCount; ++x)
+                renderer->setLocation(GPSLocation(51.4756, -0.451969));
+                renderer->updateCache();
+                generateTileImage(renderer, zoomLevel, outpath.absoluteFilePath("Sample.png"));
+            }
+            else
+            {
+
+                addLog("Output: TileHorz:" + QString::number(renderer->getTileHorizontals()));
+                addLog("Output: TileVert:" + QString::number(renderer->getTileVerticals()));
+
+                const int xCount = renderer->getTileHorizontals();
+                const int yCount = renderer->getTileVerticals();
+
+                for(int y= 0; y < yCount; ++y)
                 {
-                    renderer->setTileIndex(x, y);
-                    renderer->updateCache();
+                    for( int x=0; x < xCount; ++x)
+                    {
+                        renderer->setTileIndex(x, y);
+                        renderer->updateCache();
 
-                    if( renderer->isEmpty())
-                        continue;
+                        if( renderer->isEmpty())
+                            continue;
 
-                    generateTileImage(renderer, zoomLevel, QString("%1/%2_%3.png").arg(outpath.absolutePath()).arg(x).arg(y));
+                        generateTileImage(renderer, zoomLevel, QString("%1/%2_%3.png").arg(outpath.absolutePath()).arg(x).arg(y));
 
-                    addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
+                        addLog("Loc:"+ QString::fromStdString(renderer->getLocation().toString()));
 
-                    QCoreApplication::processEvents();
+                        QCoreApplication::processEvents();
+                    }
                 }
             }
+            addLog("--------------------------");
+            outpath.cdUp();
         }
-        addLog("--------------------------");
-        outpath.cdUp();
         outpath.cdUp();
     }
 
