@@ -161,7 +161,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
         QPainter p(&image);
         renderer->paint(p);
-        renderer->paintText(p);
+//        renderer->paintText(p);
 
         image.save(outfilename);
 
