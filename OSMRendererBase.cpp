@@ -177,53 +177,7 @@ bool OSMRendererBase::isEmpty() const
     return _osmPts.isEmpty();
 }
 
-void OSMRenderMotorWay::init()
-{
-    _dayColor = QColor("#cccc00");
-    _nightColor = Qt::darkYellow;
-    _lineThickness = 5.0;
-    _zoomLevel = 1;
-}
-
-void OSMRenderPrimary::init()
-{
-    _dayColor = Qt::white;
-    _nightColor = Qt::darkGray;
-    _lineThickness = 5.0;
-    _zoomLevel = 1;
-}
-
-void OSMRenderSecondary::init()
-{
-    _dayColor = QColor("#eeeeee");
-    _nightColor = Qt::lightGray;
-    _lineThickness = 3.0;
-    _zoomLevel = 4;
-}
-
-void OSMRenderTertiary::init()
-{
-    _dayColor = QColor("#eeeeee");
-    _nightColor = Qt::lightGray;
-    _lineThickness = 3.0;
-    _zoomLevel = 5;
-}
-
-void OSMRenderResidential::init()
-{
-    _dayColor = QColor("#eeeeee");
-    _nightColor = Qt::lightGray;
-    _lineThickness = 2.0;
-    _zoomLevel = 6;
-}
-
-void OSMRenderFootway::init()
-{
-    _dayColor = Qt::lightGray;
-    _nightColor = Qt::darkGray;
-    _lineThickness = 1.0;
-    _zoomLevel = 8;
-}
+///////////////////////////// OSM Config
 
 void OSMRenderWater::init()
 {
@@ -249,12 +203,60 @@ void OSMRenderAeroRunway::init()
     _zoomLevel = 1;
 }
 
+void OSMRenderMotorWay::init()
+{
+    _dayColor = QColor("#cccc00");
+    _nightColor = Qt::darkYellow;
+    _lineThickness = 5.0;
+    _zoomLevel = 1;
+}
+
+void OSMRenderPrimary::init()
+{
+    _dayColor = Qt::white;
+    _nightColor = Qt::darkGray;
+    _lineThickness = 5.0;
+    _zoomLevel = 100;
+}
+
+void OSMRenderSecondary::init()
+{
+    _dayColor = QColor("#eeeeee");
+    _nightColor = Qt::lightGray;
+    _lineThickness = 3.0;
+    _zoomLevel = 200;
+}
+
+void OSMRenderTertiary::init()
+{
+    _dayColor = QColor("#eeeeee");
+    _nightColor = Qt::lightGray;
+    _lineThickness = 3.0;
+    _zoomLevel = 300;
+}
+
+void OSMRenderResidential::init()
+{
+    _dayColor = QColor("#eeeeee");
+    _nightColor = Qt::lightGray;
+    _lineThickness = 2.0;
+    _zoomLevel = 300;
+}
+
+void OSMRenderFootway::init()
+{
+    _dayColor = Qt::lightGray;
+    _nightColor = Qt::darkGray;
+    _lineThickness = 1.0;
+    _zoomLevel = 300;
+}
+
 void OSMRenderCycleWay::init()
 {
     _dayColor = Qt::lightGray;
     _nightColor = Qt::darkGray;
     _lineThickness = 1.0;
-    _zoomLevel = 18;
+    _zoomLevel = 400;
 }
 
 void OSMRenderPedestrian::init()
@@ -262,5 +264,5 @@ void OSMRenderPedestrian::init()
     _dayColor = Qt::white;
     _nightColor = Qt::lightGray;
     _lineThickness = 2.0;
-    _zoomLevel = 18;
+    _zoomLevel = 400;
 }
