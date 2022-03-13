@@ -153,9 +153,9 @@ void OSMTileGenerator::generateTiles(bool bSample)
         fileOut.close();
     }
 
-    auto generateTileImage = [this,outputPathStr,sz](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
+    auto generateTileImage = [this,outputPathStr](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
 
-        QImage image(sz,QImage::Format_ARGB32);
+        QImage image(renderer->imageSize(),QImage::Format_ARGB32);
         image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
                                                QColor::fromRgbF(0.85f,0.85f,0.85f));
 
@@ -180,6 +180,9 @@ void OSMTileGenerator::generateTiles(bool bSample)
         outpath.cd(folderName);
 
         QStringList timesOfDay = { "day", "night" };
+
+        if( renderer->getTileHorizontals() >=36)
+            renderer->setScaleFactor(2);
 
         for( const QString &timeofDay :timesOfDay)
         {

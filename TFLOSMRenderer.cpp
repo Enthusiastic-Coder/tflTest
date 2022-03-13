@@ -89,9 +89,24 @@ GPSLocation TFLOSMRenderer::bottomRight() const
     return _bottomRight;
 }
 
+void TFLOSMRenderer::setScaleFactor(int factor)
+{
+    _scaleFactor = factor;
+}
+
 void TFLOSMRenderer::setSize(QSize sz)
 {
     _size = sz;
+}
+
+QSize TFLOSMRenderer::size() const
+{
+    return _size;
+}
+
+QSize TFLOSMRenderer::imageSize() const
+{
+    return QSize(_size.width()*_scaleFactor, _size.height()* _scaleFactor);
 }
 
 float TFLOSMRenderer::getCompassValue() const
@@ -168,14 +183,14 @@ QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
     int dPy = diff._lat * pixPerLat;
     int dPx = diff._lng * pixPerLng;
 
-    return QPoint(_size.width()/2 + dPx, _size.height()/2 + dPy);
+    return QPoint((_size.width()/2 + dPx)*_scaleFactor, (_size.height()/2 + dPy)*_scaleFactor);
 }
 
 bool TFLOSMRenderer::ptInScreen(QPoint pt) const
 {
     int border = 200;
-    return pt.x() > -border && pt.x() < _size.width()+border
-            && pt.y() >-border && pt.y() < _size.height()+border;
+    return pt.x() > -border && pt.x() < _size.width()*_scaleFactor+border
+            && pt.y() >-border && pt.y() < _size.height()*_scaleFactor+border;
 }
 
 bool TFLOSMRenderer::ptInScreen(const GPSLocation& l) const

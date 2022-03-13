@@ -23,7 +23,10 @@ public:
     GPSLocation topLeft() const;
     GPSLocation bottomRight() const;
 
+    void setScaleFactor(int factor);
     void setSize(QSize sz);
+    QSize size() const;
+    QSize imageSize() const;
 
     float getCompassValue() const;
 
@@ -51,6 +54,7 @@ private:
     GPSLocation _location;
     bool _isNight = false;
     QSize _size;
+    int _scaleFactor = 1;
     GPSLocation _topLeft;
     GPSLocation _bottomRight;
     std::vector<OSMRendererBase*> _renderObjects;
