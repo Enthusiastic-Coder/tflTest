@@ -155,7 +155,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
     auto generateTileImage = [this,outputPathStr](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
 
-        QImage image(renderer->imageSize(),QImage::Format_ARGB32);
+        QImage image(renderer->imageSize(),QImage::Format_RGB16);
         image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):
                                                QColor::fromRgbF(0.85f,0.85f,0.85f));
 
