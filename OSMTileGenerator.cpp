@@ -181,7 +181,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
         QStringList timesOfDay = { "day", "night" };
 
-        if( renderer->getTileHorizontals() >=36)
+        if( renderer->getTileHorizontals() >=15)
             renderer->setScaleFactor(2);
 
         for( const QString &timeofDay :timesOfDay)
