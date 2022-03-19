@@ -223,7 +223,7 @@ void OSMRenderSecondary::init()
 {
     _dayColor = QColor("#eeeeee");
     _nightColor = Qt::lightGray;
-    _lineThickness = 3.0;
+    _lineThickness = 2.0;
     _zoomLevel = 200;
 }
 
@@ -231,7 +231,7 @@ void OSMRenderTertiary::init()
 {
     _dayColor = QColor("#eeeeee");
     _nightColor = Qt::darkGray;
-    _lineThickness = 3.0;
+    _lineThickness = 2.0;
     _zoomLevel = 300;
 }
 
