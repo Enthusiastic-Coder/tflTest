@@ -162,7 +162,7 @@ void TFLRouteWorker::storeAllRouteIDsInList(const QByteArray &json)
 
     _allRoutesList.clear();
 
-    for( QJsonValue value : arr)
+    for( QJsonValue value : qAsConst(arr))
     {
         QJsonObject obj = value.toObject();
 
