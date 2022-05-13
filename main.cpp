@@ -10,6 +10,9 @@
 
 #include <vector>
 
+#include <MathSupport.h>
+#include <Matrix4x4.h>
+
 void leastSquares()
 {
     std::vector<Vector3F> pts;
@@ -94,6 +97,67 @@ int main(int argc, char *argv[])
     QString str = QString::number(__LINE__);
     QString str2 = Q_FUNC_INFO;
     QString str3 = __FILE__;
+
+////////////////////////////////////////////////////////////////////////////////
+
+    float web[16] = {0.00329677,0.000064086,-0.00120385,0,
+    0.0000107041,-0.00350673,-0.000157364,0,
+    -0.00120551,0.000144121,-0.00329363,0,
+    -0.454338,1.00333,-1.14293,1};
+
+    float niva[16] = {0.00465859, -0.00181589, -6.63375e-06, 0,
+    5.26072e-06, -4.76967e-06, 0.00499999, 0,
+    -0.00181589, -0.0046586, -2.53341e-06, 0,
+    -0.175149, -0.376875, -0.524053, 1};
+
+    /// ? x Web = Niva.
+    /// ? = Niva x Web-1;
+    ///
+
+
+    Matrix4x4F webM(web);
+
+    Matrix4x4F nivaM(niva);
+
+    Matrix4x4F result = nivaM * webM.Inverse();
+
+////////////////////////////////////////////////////////////////////////////////
+
+    float nivaMotion[16] = {0.934255,0.0945279,0.343848,0,
+                            0.00787045,-0.969458,0.245131,0,
+                            0.356518,-0.226309,-0.906465,0
+                            ,-0.363465,0.092611,-2.94689,1};
+
+
+    float webMotion[16] ={0.934255, 0.0945279, 0.343848, 0,
+                          0.356518, -0.226309, -0.906465, 0,
+                          -0.00787045, 0.969458, -0.245131, 0,
+                          -0.363465, 0.0926109, -2.94689, 1};
+
+
+    Matrix4x4F webMmotion(webMotion);
+
+    Matrix4x4F nivaMmotion(nivaMotion);
+
+    Matrix4x4F resultMotion = nivaMmotion * webMmotion.Inverse();
+
+
+////////////////////////////////////////////////////////////////////////////////
+///
+    float webpers[16] = {1.36179,0,0,0,0,2.42095,0,0,0,0,0,-1,1,1,-1,0};
+
+    float nivapers[16] ={1.36179,0,0,0,0,2.42095,0,0,0,0,0,-1,0,0,-1,0};
+
+    Matrix4x4F webMpers(webpers);
+
+    Matrix4x4F nivaMpers(nivapers);
+
+    Matrix4x4F resultPers = nivaMpers * webMpers.Inverse();
+////////////////////////////////////////////////////////////////////////////////
+
+    Matrix4x4F modeViewNiva = nivaMpers * nivaMmotion * nivaM;
+
+    Matrix4x4F modelViewWeb = webMpers * webMmotion * webM;
 
     leastSquares();
 
