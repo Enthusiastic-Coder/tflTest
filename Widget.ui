@@ -23,7 +23,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>4</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -220,6 +220,9 @@
         <widget class="QLabel" name="labelTFLProgress">
          <property name="text">
           <string>Info.....</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
