@@ -82,7 +82,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoute(const QString& line, const QByt
 
     QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
 
-    for(QJsonValue value : inBranchArray)
+    for(const QJsonValue &value : qAsConst(inBranchArray))
     {
         QJsonObject obj;
 
@@ -122,7 +122,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoutes()
     QStringList folderList;
     folderList << "inbound" << "outbound";
 
-    for( QString folder : folderList)
+    for( const QString &folder : qAsConst(folderList))
     {
         QDirIterator dir("data/Routes/" + folder + "/", QDir::Files);
         qDebug() << dir.path();
@@ -168,7 +168,7 @@ void TFLRouteWorker::storeAllRouteIDsInList(const QByteArray &json)
 
     _allRoutesList.clear();
 
-    for( QJsonValue value : qAsConst(arr))
+    for( const QJsonValue &value : qAsConst(arr))
     {
         QJsonObject obj = value.toObject();
 
@@ -206,13 +206,13 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     QJsonArray outBranchArray;
 
-    for(QJsonValue value : inBranchArray)
+    for(const QJsonValue &value : qAsConst(inBranchArray))
     {
         QJsonObject obj;
 
         QJsonArray inStopPointArray = value["stopPoint"].toArray();
         QJsonArray outStopPointArray;
-        for(QJsonValue value : inStopPointArray)
+        for(const QJsonValue &value : qAsConst(inStopPointArray))
         {
             QJsonObject obj;
 
@@ -240,19 +240,30 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     finalDocument.setObject(topObject);
 
-    QFile file(QString("Routes/%2/%1.txt").arg(_currentLineId).arg(_bInbound?"inbound":"outbound"));
+    QDir d = QDir::current();
+    d.cd("Routes");
+    d.cd(_bInbound?"inbound":"outbound");
+    d.mkdir(mode);
+    d.cd(mode);
+
+    QFile file(QString("%2/%1.txt").arg(_currentLineId).arg(d.canonicalPath()));
     if( !file.open(QIODevice::WriteOnly))
     {
         emit progressSoFar("Failed : " + _currentLineId);
-        return;
+    }
+    else
+    {
+        QString msg = QString( "Saved: %1 -- Routes Left : %2").arg(file.fileName()).arg(_allRoutesList.size());
+        emit progressSoFar(msg);
+
+        QTextStream textStream(&file);
+        textStream << finalDocument.toJson(QJsonDocument::Compact);
+        file.close();
     }
 
-    QString msg = QString( "Saved: %1 -- Routes Left : %2").arg(file.fileName()).arg(_allRoutesList.size());
-    emit progressSoFar(msg);
-
-    QTextStream textStream(&file);
-    textStream << finalDocument.toJson(QJsonDocument::Compact);
-    file.close();
+    d.cdUp();
+    d.cdUp();
+    d.cdUp();
 }
 
 void TFLRouteWorker::downloadNextLine()
