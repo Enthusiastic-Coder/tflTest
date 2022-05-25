@@ -25,6 +25,12 @@ TFLRouteWorker::TFLRouteWorker(QObject *parent) : QObject(parent)
         if( reply->error() != QNetworkReply::NoError)
         {
             qDebug() << "Internet failed : " << reply->errorString();
+
+            if( _bDownloadRoutes )
+                downloadNextLine();
+            else
+                downloadNextStops();
+
             return;
         }
 
