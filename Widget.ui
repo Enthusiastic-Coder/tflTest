@@ -23,7 +23,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
@@ -910,7 +910,7 @@
      </item>
      <item>
       <property name="text">
-       <string>tfl-rail</string>
+       <string>elizabeth</string>
       </property>
      </item>
      <item>
