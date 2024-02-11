@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <QString>
-#include <GPSLocation.h>
+#include <jibbs/gps/GPSLocation.h>
 #include <memory>
 
 struct OSM_WAYPOINT

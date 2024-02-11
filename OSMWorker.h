@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QVector>
 
-#include <GPSTileContainer.h>
+#include <jibbs/gps/GPSTileContainer.h>
 
 
 struct NODE {

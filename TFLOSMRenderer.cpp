@@ -1,8 +1,8 @@
 #include "TFLOSMRenderer.h"
 #include "OSMData.h"
 #include <QSettings>
-#include <MathSupport.h>
-#include <vector3.h>
+#include <jibbs/math/MathSupport.h>
+#include <jibbs/vector/vector3.h>
 
 #define RENDER_TYPE(name, obj) _renderObjects.push_back(obj = new OSMRender##name(this, _osmData->get##name()));
 

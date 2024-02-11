@@ -10,8 +10,8 @@
 
 #include <vector>
 
-#include <MathSupport.h>
-#include <Matrix4x4.h>
+#include <jibbs/math/MathSupport.h>
+#include <jibbs/matrix/Matrix4x4.h>
 
 void leastSquares()
 {

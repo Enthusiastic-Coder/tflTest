@@ -1,5 +1,5 @@
 #include "OSMRendererBase.h"
-#include "GPSLocation.h"
+#include <jibbs/gps/GPSLocation.h>
 #include "OSMData.h"
 #include <QDebug>
 #include "TFLOSMRenderer.h"
