@@ -434,19 +434,7 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButton_OSM_Texture_Generate, &QPushButton::clicked, this, [this] {
 
-        ui->checkBox_Level10->setProperty("zoom", 10);
-        ui->checkBox_Level11->setProperty("zoom", 11);
-        ui->checkBox_Level12->setProperty("zoom", 12);
-        ui->checkBox_Level13->setProperty("zoom", 13);
-        ui->checkBox_Level14->setProperty("zoom", 14);
-
-        std::vector<QCheckBox*> checkboxes = {
-            ui->checkBox_Level10,
-            ui->checkBox_Level11,
-            ui->checkBox_Level12,
-            ui->checkBox_Level13,
-            ui->checkBox_Level14,
-        };
+        QStringList zoomLevels = ui->plainTextEdit_ZoomLevels->toPlainText().split(",");
 
         TileCorners corners;
 
@@ -456,18 +444,12 @@ Widget::Widget(QWidget *parent) :
         corners.bottomRight.latitude = 51.3067;
         corners.bottomRight.longitude = 0.362426;
 
-        for(QCheckBox* check : checkboxes)
+        for(const QString& zoom: zoomLevels)
         {
-            if( !check->isChecked())
-                continue;
-
-            const int zoomLevel = check->property("zoom").toInt();
-
-            _osmTileDownloader->generate(corners, zoomLevel, [this](QString msg) {
+            _osmTileDownloader->generate(corners, zoom.toInt(), [this](QString msg) {
                 ui->label_osm_txt_generation->setText(msg);
                 QCoreApplication::processEvents();
             });
-
         }
 
         ui->label_osm_txt_generation->setText("Finished");

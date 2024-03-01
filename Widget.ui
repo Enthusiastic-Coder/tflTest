@@ -1031,39 +1031,7 @@
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QCheckBox" name="checkBox_Level10">
-            <property name="text">
-             <string>Level 10</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Level11">
-            <property name="text">
-             <string>Level 11</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Level12">
-            <property name="text">
-             <string>Level 12</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Level13">
-            <property name="text">
-             <string>Level 13</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_Level14">
-            <property name="text">
-             <string>Level 14</string>
-            </property>
-           </widget>
+           <widget class="QPlainTextEdit" name="plainTextEdit_ZoomLevels"/>
           </item>
           <item>
            <spacer name="verticalSpacer_7">

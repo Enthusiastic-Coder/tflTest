@@ -61,11 +61,9 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
     QDir dir;
 
     dir.mkpath(rootDir);
-    dir.mkpath(rootDir + QDir::separator() + "10");
-    dir.mkpath(rootDir + QDir::separator() + "11");
-    dir.mkpath(rootDir + QDir::separator() + "12");
-    dir.mkpath(rootDir + QDir::separator() + "13");
-    dir.mkpath(rootDir + QDir::separator() + "14");
+
+    for(int zoom=1; zoom <= 14; ++zoom)
+        dir.mkpath(rootDir + QDir::separator() + QString::number(zoom));
 
     const TileCoordinates coordsTopLeft = mapGPSToTile(corners.topLeft.latitude, corners.topLeft.longitude, zoomLevel);
     const TileCoordinates coordsBottomRight = mapGPSToTile(corners.bottomRight.latitude, corners.bottomRight.longitude, zoomLevel);
