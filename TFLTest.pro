@@ -31,6 +31,7 @@ SOURCES += \
     NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
     OSMRendererBase.cpp \
+    OSMTileDownloader.cpp \
     OSMTileGenerator.cpp \
     TFLOSMRenderer.cpp \
     TFLRouteCompression.cpp \
@@ -45,9 +46,11 @@ HEADERS += \
     NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
     OSMRendererBase.h \
+    OSMTileDownloader.h \
     OSMTileGenerator.h \
     TFLOSMRenderer.h \
     TFLRouteCompression.h \
+    TileHelpers.h \
         Widget.h \
     TFLRouteWorker.h \
     OSMWorker.h \
