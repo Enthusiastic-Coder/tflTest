@@ -432,6 +432,14 @@ Widget::Widget(QWidget *parent) :
 
     connect( ui->pushButtonRunwayBlend, &QPushButton::clicked, this, &Widget::runwayBlend );
 
+    double lat =51.492;
+    double lng = -0.306202;
+    int zoom = 14;
+
+    const TileCoordinates coords = mapGPSToTile(lat, lng, zoom);
+
+    ui->label_osm_txt_generation->setText(QString("Tile: %1/%2").arg(coords.x).arg(coords.y));
+
     connect( ui->pushButton_OSM_Texture_Generate, &QPushButton::clicked, this, [this] {
 
         QStringList zoomLevels = ui->plainTextEdit_ZoomLevels->toPlainText().split(",");
