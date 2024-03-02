@@ -82,7 +82,6 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
         dir.mkpath(rootDir + QDir::separator() + QString::number(zoom));
 
     _callBack = callback;
-    _itemsToDownload.clear();
 
     const TileCoordinates coordsTopLeft = mapGPSToTile(corners.topLeft.latitude, corners.topLeft.longitude, zoomLevel);
     const TileCoordinates coordsBottomRight = mapGPSToTile(corners.bottomRight.latitude, corners.bottomRight.longitude, zoomLevel);
