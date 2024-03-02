@@ -77,9 +77,7 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
     QDir dir;
 
     dir.mkpath(rootDir);
-
-    for(int zoom=1; zoom <= 16; ++zoom)
-        dir.mkpath(rootDir + QDir::separator() + QString::number(zoom));
+    dir.mkpath(rootDir + QDir::separator() + QString::number(zoomLevel));
 
     _callBack = callback;
 
