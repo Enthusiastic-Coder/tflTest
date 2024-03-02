@@ -434,7 +434,7 @@ Widget::Widget(QWidget *parent) :
 
     double lat =51.492;
     double lng = -0.306202;
-    int zoom = 14;
+    int zoom = 16;
 
     const TileCoordinates coords = mapGPSToTile(lat, lng, zoom);
 

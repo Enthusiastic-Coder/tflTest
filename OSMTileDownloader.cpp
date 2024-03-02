@@ -17,8 +17,10 @@ OSMTileDownloader::OSMTileDownloader(QObject *parent)
     _networkAccessManager = new QNetworkAccessManager(this);
     _networkAccessManager->setCookieJar(&cookieJar);
 
-    connect(_networkAccessManager, &QNetworkAccessManager::finished, this, [](QNetworkReply* reply)
+    connect(_networkAccessManager, &QNetworkAccessManager::finished, this, [this](QNetworkReply* reply)
             {
+        emit downloadCompleted();
+
                 reply->deleteLater();
 
                 QNetworkReply::NetworkError nError = reply->error();
@@ -51,6 +53,14 @@ OSMTileDownloader::OSMTileDownloader(QObject *parent)
                 }
             });
 
+    connect(this, &OSMTileDownloader::downloadCompleted, this, [this] {
+
+        downloadItem item = _itemsToDownload.back();
+        _itemsToDownload.pop_back();
+        downloadTile(item.url, item.x, item.y, item.zoom);
+
+        }, Qt::QueuedConnection);
+
     _userInfo = QCoreApplication::applicationName();
     _userInfo += " ";
     _userInfo += QSysInfo::prettyProductName();
@@ -62,21 +72,37 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
 
     dir.mkpath(rootDir);
 
-    for(int zoom=1; zoom <= 14; ++zoom)
+    for(int zoom=1; zoom <= 16; ++zoom)
         dir.mkpath(rootDir + QDir::separator() + QString::number(zoom));
+
+    _itemsToDownload.clear();
 
     const TileCoordinates coordsTopLeft = mapGPSToTile(corners.topLeft.latitude, corners.topLeft.longitude, zoomLevel);
     const TileCoordinates coordsBottomRight = mapGPSToTile(corners.bottomRight.latitude, corners.bottomRight.longitude, zoomLevel);
 
+    bool downloadTriggered = false;
     for(int x = coordsTopLeft.x; x <= coordsBottomRight.x; ++x)
     {
         for(int y = coordsTopLeft.y; y <= coordsBottomRight.y; ++y)
         {
             const QString url = getTileURL(osmPath, zoomLevel, x, y);
-            downloadTile(url, x, y, zoomLevel);
+
+            downloadItem item;
+            item.url = url;
+            item.x = x;
+            item.y = y;
+            item.zoom = zoomLevel;
+
+            _itemsToDownload.push_back(item);
+
+            if( !downloadTriggered)
+            {
+                downloadTriggered = true;
+                emit downloadCompleted();
+            }
         }
 
-        callback(QString("Currently on %1 of %2...").arg(x, coordsBottomRight.x));
+        callback(QString("Currently on %1 of %2...").arg(x).arg(coordsBottomRight.x));
     }
 }
 
