@@ -42,9 +42,7 @@ OSMTileDownloader::OSMTileDownloader(QObject *parent)
                     else
                     {
                         // Save image based on zoom/x/y
-                        const QString filename = QString("%1/%2/%3_%4.png").arg(rootDir).arg(zoom).arg(x).arg(y);
-
-                        img.save(filename);
+                        img.save(getFilename(zoom, x, y));
                     }
                 }
                 else
@@ -55,9 +53,17 @@ OSMTileDownloader::OSMTileDownloader(QObject *parent)
 
     connect(this, &OSMTileDownloader::downloadCompleted, this, [this] {
 
-        downloadItem item = _itemsToDownload.back();
-        _itemsToDownload.pop_back();
-        downloadTile(item.url, item.x, item.y, item.zoom);
+            if( _itemsToDownload.empty())
+            {
+                _callBack("All Tile downloads completeed.");
+                return;
+            }
+
+            downloadItem item = _itemsToDownload.back();
+            _itemsToDownload.pop_back();
+            downloadTile(item.url, item.x, item.y, item.zoom);
+
+            _callBack(QString("Tiles left:%1").arg(static_cast<int>(_itemsToDownload.size())));
 
         }, Qt::QueuedConnection);
 
@@ -75,6 +81,7 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
     for(int zoom=1; zoom <= 16; ++zoom)
         dir.mkpath(rootDir + QDir::separator() + QString::number(zoom));
 
+    _callBack = callback;
     _itemsToDownload.clear();
 
     const TileCoordinates coordsTopLeft = mapGPSToTile(corners.topLeft.latitude, corners.topLeft.longitude, zoomLevel);
@@ -85,6 +92,11 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
     {
         for(int y = coordsTopLeft.y; y <= coordsBottomRight.y; ++y)
         {
+            const QString tileFilename = getFilename(zoomLevel, x, y);
+
+            if( QFile::exists(tileFilename))
+                continue;
+
             const QString url = getTileURL(osmPath, zoomLevel, x, y);
 
             downloadItem item;
@@ -101,8 +113,6 @@ void OSMTileDownloader::generate(TileCorners corners, int zoomLevel, std::functi
                 emit downloadCompleted();
             }
         }
-
-        callback(QString("Currently on %1 of %2...").arg(x).arg(coordsBottomRight.x));
     }
 }
 
@@ -122,5 +132,10 @@ void OSMTileDownloader::downloadTile(const QString &finalURL, int x, int y, int 
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
 
     _networkAccessManager->get(request);
+}
+
+QString OSMTileDownloader::getFilename(int zoom, int x, int y) const
+{
+    return QString("%1/%2/%3_%4.png").arg(rootDir).arg(zoom).arg(x).arg(y);
 }
 

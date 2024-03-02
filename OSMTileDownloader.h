@@ -26,13 +26,15 @@ signals:
     void downloadCompleted();
 
 private:
-    void downloadTile(const QString& finalURL, int x, int y , int zoom);;
+    void downloadTile(const QString& finalURL, int x, int y , int zoom);
+    QString getFilename(int zoom, int x, int y) const;
 
 private:
     QNetworkAccessManager* _networkAccessManager = nullptr;
     QNetworkCookieJar cookieJar;
     QString _userInfo;
 
+    std::function<void(QString msg)> _callBack;
     std::vector<downloadItem> _itemsToDownload;
 };
 
