@@ -7,7 +7,9 @@
 
 namespace {
 const QString rootDir = "osm tile output";
-const QString osmPath = "https://tile.openstreetmap.org/{zoom}/{x}/{y}.png";
+//const QString osmPath = "https://tile.openstreetmap.org/{zoom}/{x}/{y}.png";
+
+const QString osmPath = "https://a.tile.openstreetmap.fr/hot/{zoom}/{x}/{y}.png";
 }
 
 OSMTileDownloader::OSMTileDownloader(QObject *parent)
