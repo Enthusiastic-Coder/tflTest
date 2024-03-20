@@ -449,7 +449,7 @@ Widget::Widget(QWidget *parent) :
         corners.topLeft.latitude = 51.6849;
         corners.topLeft.longitude = -0.525459;
 
-        corners.bottomRight.latitude = 51.3067;
+        corners.bottomRight.latitude = 51.2772;
         corners.bottomRight.longitude = 0.362426;
 
         for(const QString& zoom: zoomLevels)
