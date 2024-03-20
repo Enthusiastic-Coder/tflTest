@@ -1031,7 +1031,11 @@
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEdit_ZoomLevels"/>
+           <widget class="QPlainTextEdit" name="plainTextEdit_ZoomLevels">
+            <property name="placeholderText">
+             <string>1,2,3,4-16</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_7">
