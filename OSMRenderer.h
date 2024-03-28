@@ -4,10 +4,10 @@
 #include "OSMRendererBase.h"
 #include <vector>
 
-class TFLOSMRenderer
+class OSMRenderer
 {
 public:
-    TFLOSMRenderer(OSMData* osmData);
+    OSMRenderer(OSMData* osmData);
 
     void init();
     void updateCache();

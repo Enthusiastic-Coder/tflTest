@@ -33,7 +33,7 @@ SOURCES += \
     OSMRendererBase.cpp \
     OSMTileDownloader.cpp \
     OSMTileGenerator.cpp \
-    TFLOSMRenderer.cpp \
+    OSMRenderer.cpp \
     TFLRouteCompression.cpp \
     csvfileload.cpp \
         main.cpp \
@@ -48,7 +48,7 @@ HEADERS += \
     OSMRendererBase.h \
     OSMTileDownloader.h \
     OSMTileGenerator.h \
-    TFLOSMRenderer.h \
+    OSMRenderer.h \
     TFLRouteCompression.h \
     TileHelpers.h \
         Widget.h \

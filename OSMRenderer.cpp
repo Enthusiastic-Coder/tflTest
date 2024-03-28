@@ -1,17 +1,19 @@
-#include "TFLOSMRenderer.h"
-#include "OSMData.h"
-#include <QSettings>
 #include <jibbs/math/MathSupport.h>
 #include <jibbs/vector/vector3.h>
 
+#include <QSettings>
+
+#include "OSMData.h"
+#include "OSMRenderer.h"
+
 #define RENDER_TYPE(name, obj) _renderObjects.push_back(obj = new OSMRender##name(this, _osmData->get##name()));
 
-TFLOSMRenderer::TFLOSMRenderer(OSMData *osmData):
+OSMRenderer::OSMRenderer(OSMData *osmData):
     _osmData(osmData)
 {
 }
 
-void TFLOSMRenderer::init()
+void OSMRenderer::init()
 {
     RENDER_TYPE(AeroWay, _aeroway);
     RENDER_TYPE(AeroRunway, _aerorunway);
@@ -34,17 +36,17 @@ void TFLOSMRenderer::init()
     }
 }
 
-void TFLOSMRenderer::updateCache()
+void OSMRenderer::updateCache()
 {
     perform(nullptr);
 }
 
-void TFLOSMRenderer::paint(QPainter &p)
+void OSMRenderer::paint(QPainter &p)
 {
     perform(&p);
 }
 
-bool TFLOSMRenderer::isEmpty() const
+bool OSMRenderer::isEmpty() const
 {
     for( auto& renderObject : _renderObjects)
         if( !renderObject->isEmpty())
@@ -53,68 +55,68 @@ bool TFLOSMRenderer::isEmpty() const
     return true;
 }
 
-void TFLOSMRenderer::paintText(QPainter &p)
+void OSMRenderer::paintText(QPainter &p)
 {
     for( auto& renderObject : _renderObjects)
         renderObject->paintText(p);
 }
 
-void TFLOSMRenderer::setZoomLevel(float p)
+void OSMRenderer::setZoomLevel(float p)
 {
     _zoomLevel = p;
 }
 
-int TFLOSMRenderer::getZoomLevel() const
+int OSMRenderer::getZoomLevel() const
 {
     return _zoomLevel;
 }
 
-void TFLOSMRenderer::setMapNight(bool n)
+void OSMRenderer::setMapNight(bool n)
 {
     _isNight = n;
 }
 
-bool TFLOSMRenderer::isMapNight() const
+bool OSMRenderer::isMapNight() const
 {
     return _isNight;
 }
 
-GPSLocation TFLOSMRenderer::topLeft() const
+GPSLocation OSMRenderer::topLeft() const
 {
     return _topLeft;
 }
 
-GPSLocation TFLOSMRenderer::bottomRight() const
+GPSLocation OSMRenderer::bottomRight() const
 {
     return _bottomRight;
 }
 
-void TFLOSMRenderer::setScaleFactor(int factor)
+void OSMRenderer::setScaleFactor(int factor)
 {
     _scaleFactor = factor;
 }
 
-void TFLOSMRenderer::setSize(QSize sz)
+void OSMRenderer::setSize(QSize sz)
 {
     _size = sz;
 }
 
-QSize TFLOSMRenderer::size() const
+QSize OSMRenderer::size() const
 {
     return _size;
 }
 
-QSize TFLOSMRenderer::imageSize() const
+QSize OSMRenderer::imageSize() const
 {
     return QSize(_size.width()*_scaleFactor, _size.height()* _scaleFactor);
 }
 
-float TFLOSMRenderer::getCompassValue() const
+float OSMRenderer::getCompassValue() const
 {
     return 0.0f;
 }
 
-int TFLOSMRenderer::getTileHorizontals() const
+int OSMRenderer::getTileHorizontals() const
 {
     GPSLocation tl = topLeft();
     GPSLocation tr = bottomRight();
@@ -127,7 +129,7 @@ int TFLOSMRenderer::getTileHorizontals() const
     return std::max(1,pixels/_size.width()+1);
 }
 
-int TFLOSMRenderer::getTileVerticals() const
+int OSMRenderer::getTileVerticals() const
 {
     GPSLocation tl = topLeft();
     GPSLocation tr = bottomRight();
@@ -140,17 +142,17 @@ int TFLOSMRenderer::getTileVerticals() const
     return std::max(1,pixels/_size.height()+1);
 }
 
-void TFLOSMRenderer::setLocation(const GPSLocation &l)
+void OSMRenderer::setLocation(const GPSLocation &l)
 {
     _location = l;
 }
 
-GPSLocation TFLOSMRenderer::getLocation() const
+GPSLocation OSMRenderer::getLocation() const
 {
     return _location;
 }
 
-void TFLOSMRenderer::setTileIndex(int xIndex, int yIndex)
+void OSMRenderer::setTileIndex(int xIndex, int yIndex)
 {
     const int xCount = getTileHorizontals();
     const int yCount = getTileVerticals();
@@ -168,7 +170,7 @@ void TFLOSMRenderer::setTileIndex(int xIndex, int yIndex)
     setLocation(location);
 }
 
-QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
+QPoint OSMRenderer::toScreen(const GPSLocation& l) const
 {
     const int xCount = getTileHorizontals();
     const int yCount = getTileVerticals();
@@ -186,19 +188,19 @@ QPoint TFLOSMRenderer::toScreen(const GPSLocation& l) const
     return QPoint((_size.width()/2 + dPx)*_scaleFactor, (_size.height()/2 + dPy)*_scaleFactor);
 }
 
-bool TFLOSMRenderer::ptInScreen(QPoint pt) const
+bool OSMRenderer::ptInScreen(QPoint pt) const
 {
     int border = 200;
     return pt.x() > -border && pt.x() < _size.width()*_scaleFactor+border
             && pt.y() >-border && pt.y() < _size.height()*_scaleFactor+border;
 }
 
-bool TFLOSMRenderer::ptInScreen(const GPSLocation& l) const
+bool OSMRenderer::ptInScreen(const GPSLocation& l) const
 {
     return ptInScreen(toScreen(l));
 }
 
-void TFLOSMRenderer::perform(QPainter* p)
+void OSMRenderer::perform(QPainter* p)
 {
     for( auto& renderObject : _renderObjects)
     {
@@ -215,7 +217,7 @@ void TFLOSMRenderer::perform(QPainter* p)
     }
 }
 
-void TFLOSMRenderer::calcBoundingBox(const GPSLocation &topLeft, const GPSLocation &bottomRight)
+void OSMRenderer::calcBoundingBox(const GPSLocation &topLeft, const GPSLocation &bottomRight)
 {
     bool topLeftStarted = false;
     bool bottomLeftStarted = false;

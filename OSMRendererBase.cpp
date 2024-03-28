@@ -1,10 +1,11 @@
-#include "OSMRendererBase.h"
 #include <jibbs/gps/GPSLocation.h>
-#include "OSMData.h"
 #include <QDebug>
-#include "TFLOSMRenderer.h"
 
-OSMRendererBase::OSMRendererBase(TFLOSMRenderer* view, const WAYPOINTS &wayPoints) :
+#include "OSMData.h"
+#include "OSMRendererBase.h"
+#include "OSMRenderer.h"
+
+OSMRendererBase::OSMRendererBase(OSMRenderer* view, const WAYPOINTS &wayPoints) :
     _view(view), _wayPoints(wayPoints)
 {
 

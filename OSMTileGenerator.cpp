@@ -7,7 +7,7 @@
 #include "ui_Widget.h"
 #include "OSMTileGenerator.h"
 #include "OSMData.h"
-#include "TFLOSMRenderer.h"
+#include "OSMRenderer.h"
 
 OSMTileGenerator::OSMTileGenerator(QObject *parent)
     : QObject(parent)
@@ -37,7 +37,7 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
 
         QSize sz(1024,1024);
 
-        std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
+        std::unique_ptr<OSMRenderer> renderer = std::make_unique<OSMRenderer>(&_data);
 
         renderer->init();
         renderer->setSize(sz);
@@ -139,7 +139,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
 
     QSize sz(1024,1024);
 
-    std::unique_ptr<TFLOSMRenderer> renderer = std::make_unique<TFLOSMRenderer>(&_data);
+    std::unique_ptr<OSMRenderer> renderer = std::make_unique<OSMRenderer>(&_data);
 
     renderer->init();
     renderer->setSize(sz);
@@ -155,7 +155,7 @@ void OSMTileGenerator::generateTiles(bool bSample)
         fileOut.close();
     }
 
-    auto generateTileImage = [this,outputPathStr](std::unique_ptr<TFLOSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
+    auto generateTileImage = [this,outputPathStr](std::unique_ptr<OSMRenderer>& renderer, QString zoomLevel, QString outfilename) {
 
         QImage image(renderer->imageSize(),QImage::Format_RGB16);
         image.fill(    renderer->isMapNight()? QColor::fromRgbF(0.1f,0.1f,0.1f):

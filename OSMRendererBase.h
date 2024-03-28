@@ -7,13 +7,13 @@
 #include <QTimer>
 #include <QPainter>
 
-class TFLOSMRenderer;
+class OSMRenderer;
 
 class OSMRendererBase : public QObject
 {
     Q_OBJECT
 public:
-    OSMRendererBase(TFLOSMRenderer *view, const WAYPOINTS& wayPoints);
+    OSMRendererBase(OSMRenderer *view, const WAYPOINTS& wayPoints);
     virtual ~OSMRendererBase();
 
     virtual void init() = 0;
@@ -30,7 +30,7 @@ public:
     bool isEmpty() const;
 
 protected:
-    TFLOSMRenderer* _view;
+    OSMRenderer* _view;
     QVector<QVector<QPoint>> _osmPts;
     std::vector<std::pair<std::pair<QPoint,int>,OSM_WAYPOINT*>> _osmTagCache;
 
@@ -41,7 +41,7 @@ protected:
     int _zoomLevel = 1.0f;
 };
 
-#define OSMCLASS(view,name) name(TFLOSMRenderer* view,const WAYPOINTS& wayPoints) \
+#define OSMCLASS(view,name) name(OSMRenderer* view,const WAYPOINTS& wayPoints) \
     : OSMRendererBase(view, wayPoints) {setObjectName(#name);}
 
 #define OSMTYPE(name) \
