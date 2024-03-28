@@ -1,11 +1,13 @@
-#include "OSMTileGenerator.h"
-#include "ui_Widget.h"
-#include <QSettings>
-#include "OSMData.h"
-#include <QDoubleValidator>
-#include "TFLOSMRenderer.h"
 #include <QDir>
 #include <QTime>
+#include <QCheckBox>
+#include <QSettings>
+#include <QDoubleValidator>
+
+#include "ui_Widget.h"
+#include "OSMTileGenerator.h"
+#include "OSMData.h"
+#include "TFLOSMRenderer.h"
 
 OSMTileGenerator::OSMTileGenerator(QObject *parent)
     : QObject(parent)
