@@ -29,10 +29,6 @@ void OSMTileGenerator::setUp(Ui::Widget *ui)
         generateTiles(false);
     });
 
-    connect(ui->checkBox_xyzoom_Tile, &QCheckBox::clicked, [this](bool checked) {
-
-    });
-
     connect(ui->pushButtonGenerateOSMSingleTile, &QPushButton::clicked, this, [this] {
         generateTiles(true);
     });
