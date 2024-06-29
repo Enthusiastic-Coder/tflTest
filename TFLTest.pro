@@ -22,38 +22,38 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 CONFIG += c++17
 
-#######################################################
-#### PUT into separate
+######################################################
+### PUT into separate
 
-# CONFIG(release, debug|release) {
-#     CONFIGURATION = "Release"
-# }
+CONFIG(release, debug|release) {
+    CONFIGURATION = "Release"
+}
 
-# CONFIG(debug, debug|release) {
-#     CONFIGURATION = "Debug"
-# }
+CONFIG(debug, debug|release) {
+    CONFIGURATION = "Debug"
+}
 
-# win32{
-# DESTDIR = $$OUT_PWD/$$CONFIGURATION
-# OBJECTS_DIR = $$OUT_PWD/.obj
-# MOC_DIR = $$OUT_PWD/.moc
-# RCC_DIR = $$OUT_PWD/.rcc
-# UI_DIR = $$OUT_PWD/.ui
+win32{
+DESTDIR = $$OUT_PWD/$$CONFIGURATION
+OBJECTS_DIR = $$OUT_PWD/.obj
+MOC_DIR = $$OUT_PWD/.moc
+RCC_DIR = $$OUT_PWD/.rcc
+UI_DIR = $$OUT_PWD/.ui
 
 
-#     DEPLOY_DIR = $$DESTDIR
-# }
+    DEPLOY_DIR = $$DESTDIR
+}
 
-# android{
-#     DEPLOY_DIR = /assets
-# }
+android{
+    DEPLOY_DIR = /assets
+}
 
-# isEmpty(TARGET_EXT) {
-#     win32 {
-#         TARGET_CUSTOM_EXT = .exe
-#     }
-# }
-#######################################################
+isEmpty(TARGET_EXT) {
+    win32 {
+        TARGET_CUSTOM_EXT = .exe
+    }
+}
+######################################################
 
 include(qtstomp/qtstomp.pri)
 
