@@ -34,6 +34,36 @@
      </item>
      <item>
       <property name="text">
+       <string>lioness</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>mildmay</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>suffragette</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>weaver</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>windrush</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>liberty</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>thameslink</string>
       </property>
      </item>
