@@ -148,7 +148,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>12</number>
+      <number>5</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>false</bool>
