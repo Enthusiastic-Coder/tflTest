@@ -10,16 +10,21 @@ OSMData::OSMData()
 
 void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowPoints)
 {
-    QFile input(filename);
-    input.open(QIODevice::ReadOnly);
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
 
-    if(!input.isOpen())
+    if(!file.isOpen())
     {
-        qDebug() << input.fileName() << ": OSM FILE NOT FOUND!";
+        qDebug() << file.fileName() << ": OSM FILE NOT FOUND!";
         return;
     }
 
-    QDataStream stream(&input);
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_6_5); // Ensure version consistency
+    QByteArray blob;
+    in >> blob; // Deserialize QByteArray
+
+    QDataStream stream(&blob, QIODevice::ReadOnly);
 
     quint64 count;
     stream >> count;

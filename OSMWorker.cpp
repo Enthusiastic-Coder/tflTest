@@ -240,10 +240,9 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
 
     if( _resultOutput.size())
     {
-        QFile output(filename);
-        output.open(QIODevice::WriteOnly);
+        QByteArray blob;
 
-        QDataStream stream(&output);
+        QDataStream stream(&blob, QIODevice::WriteOnly);
 
         stream << static_cast<quint64>(_resultOutput.size());
 
@@ -265,6 +264,16 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
             for( const auto& pt : item->bearings)
                 stream << pt;
         }
+
+        QFile file(filename);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QDataStream out(&file);
+            out.setVersion(QDataStream::Qt_6_5); // Ensure version consistency
+            out << blob; // Serialize QByteArray
+            file.close();
+        }
+
     }
 
     return _resultOutput.size();
