@@ -197,7 +197,6 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
                 GPSLocation to(node.Lat, node. Lng);
 
                 wp->bearings.push_back(from.bearingTo(to));
-                wp->distances.push_back( from.distanceTo(to));
             }
         }
 
@@ -263,9 +262,6 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
             for( const auto& pt : item->pt)
                 stream << pt.first << pt.second;
 
-            for( const auto& pt : item->distances)
-                stream << pt;
-
             for( const auto& pt : item->bearings)
                 stream << pt;
         }
@@ -304,7 +300,7 @@ void OSMWorker::testOSMBin(const QString &filename)
 
         for(quint64 i = 0; i < tagCount; ++i)
         {
-            int len;
+            qsizetype len;
             stream >> len;
             QByteArray buffer(len, Qt::Uninitialized);
             stream >> buffer;
@@ -319,14 +315,10 @@ void OSMWorker::testOSMBin(const QString &filename)
         if( ptsCount > 1)
         {
             wp->bearings.resize(ptsCount-1);
-            wp->distances.resize(ptsCount-1);
         }
 
         for( quint64 i = 0; i < ptsCount; ++i)
             stream >> wp->pt[i].first >> wp->pt[i].second;
-
-        for( quint64 i = 0; i < ptsCount-1; ++i)
-            stream >> wp->distances[i];
 
         for( quint64 i = 0; i < ptsCount-1; ++i)
             stream >> wp->bearings[i];

@@ -35,7 +35,7 @@ void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowP
 
         for(quint64 i = 0; i < tagCount; ++i)
         {
-            int len;
+            qsizetype len;
             stream >> len;
             QByteArray buffer(len, Qt::Uninitialized);
             stream >> buffer;
@@ -50,14 +50,10 @@ void OSMData::import(const QString &filename, WAYPOINTS &wayPoints, bool bAllowP
         if( ptsCount > 1)
         {
             wp->bearings.resize(ptsCount-1);
-            wp->distances.resize(ptsCount-1);
         }
 
         for( quint64 i = 0; i < ptsCount; ++i)
             stream >> wp->gpsPts[i]._lat >> wp->gpsPts[i]._lng;
-
-        for( quint64 i = 0; i < ptsCount-1; ++i)
-            stream >> wp->distances[i];
 
         for( quint64 i = 0; i < ptsCount-1; ++i)
             stream >> wp->bearings[i];

@@ -10,7 +10,6 @@ struct OSM_WAYPOINT
 {
     std::vector<std::pair<int,QString>> tags;
     std::vector<GPSLocation> gpsPts;
-    std::vector<float> distances;
     std::vector<int> bearings;
 };
 

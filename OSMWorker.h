@@ -23,7 +23,6 @@ struct WAYPOINT
 {
     std::vector<std::pair<int,QString>> tags;
     std::vector<std::pair<double,double>> pt;
-    std::vector<float> distances;
     std::vector<int> bearings;
 };
 
