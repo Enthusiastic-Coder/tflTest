@@ -130,7 +130,7 @@ void OSMRendererBase::updateCache()
 
         if( _view->getZoomLevel() >= 500 )
             if( wayPoint->tags.size() > 0 && !pts.empty() )
-                osmTagCache.push_back(std::make_pair(std::make_pair(pts[pts.size()/2], (a-b).manhattanLength()), wayPoint.get()));
+                osmTagCache.push_back({{pts[pts.size()/2], (a-b).manhattanLength()}, wayPoint.get()});
     }
 }
 

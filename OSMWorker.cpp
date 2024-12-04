@@ -177,7 +177,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
         auto itName = wayPoint.keyValues.find(QStringLiteral("name"));
 
         if( itName != wayPoint.keyValues.end())
-            wp->tags.push_back(std::make_pair(itName.value().length(), itName.value()));
+            wp->tags.push_back({itName.value().length(), itName.value()});
 
         int ptsSize = wayPoint.pts.size();
         for(int i =0; i < ptsSize; ++i)
@@ -187,7 +187,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
             if( node.Lat == 0.0 || node.Lng == 0.0)
                 continue;
 
-            wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
+            wp->pt.push_back({node.Lat, node.Lng});
 
             if( i )
             {
@@ -226,9 +226,9 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
         auto itName = node.keyValues.find(QStringLiteral("name"));
 
         if( itName != node.keyValues.end())
-            wp->tags.push_back(std::make_pair(itName.value().length(), itName.value()));
+            wp->tags.push_back({itName.value().length(), itName.value()});
 
-        wp->pt.push_back(std::make_pair(node.Lat, node.Lng));
+        wp->pt.push_back({node.Lat, node.Lng});
 
         _resultOutput.push_back(std::move(wp));
     }
