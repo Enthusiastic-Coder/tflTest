@@ -244,19 +244,19 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
 
         QDataStream stream(&blob, QIODevice::WriteOnly);
 
-        stream << static_cast<quint64>(_resultOutput.size());
+        stream << _resultOutput.size();
 
         for(const auto& item : _resultOutput)
         {
-            stream << static_cast<quint64>(item->tags.size());
+            stream << item->tags.size();
 
             for( const auto& tag : item->tags)
             {
-                QByteArray ar = tag.second.toLatin1().replace("&#39;", "'");
-                stream << ar.length() << ar.data();
+                QByteArray ar = tag.second.toUtf8().replace("&#39;", "'");
+                stream << ar;
             }
 
-            stream << static_cast<quint64>(item->pt.size());
+            stream << item->pt.size();
 
             for( const auto& pt : item->pt)
                 stream << pt.first << pt.second;
