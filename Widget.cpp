@@ -75,7 +75,7 @@ Widget::Widget(QWidget *parent) :
     QObject::connect(&_client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
 
-        _client.login("jebaramo@gmail.com", "3HpGxuwRY3P!YYE");
+        _client.login("jebaramo@gmail.com", "6MHAk3Nmy!tL7NQ");
 
         ui->textBrowser_NetworkRail->append("Connected");
 
@@ -111,7 +111,7 @@ Widget::Widget(QWidget *parent) :
         if( toggled)
         {
             ui->pushButton_NetworkRail->setText("Stop");
-            _client.connectToHost("datafeeds.networkrail.co.uk", 61618);
+            _client.connectToHost("publicdatafeeds.networkrail.co.uk", 61618);
         }
         else
         {
