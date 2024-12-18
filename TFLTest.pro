@@ -53,6 +53,31 @@ isEmpty(TARGET_EXT) {
         TARGET_CUSTOM_EXT = .exe
     }
 }
+
+
+
+CONFIG(release, debug|release) {
+    contains(CONFIG, "qt"){
+
+        win32 {
+            DEPLOY_COMMAND = $(QTDIR)/bin/windeployqt
+        }
+
+        win32 {
+
+        DEPLOY_TARGET =  $$shell_quote($$shell_path($${DESTDIR}/$${TARGET}$${TARGET_CUSTOM_EXT}))
+
+        #message(  $${DEPLOY_COMMAND} $${DEPLOY_TARGET} )
+
+        #  # Uncomment the following line to help debug the deploy command when running qmake
+        #  warning($${DEPLOY_COMMAND} $${DEPLOY_TARGET})
+
+            QMAKE_POST_LINK = $${DEPLOY_COMMAND} --qmldir $(QTDIR)\qml $${DEPLOY_TARGET}
+        }
+    }
+}
+
+
 ######################################################
 
 include(qtstomp/qtstomp.pri)
