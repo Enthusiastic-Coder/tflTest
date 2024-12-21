@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QHash>
 
 // Structure to store Tiploc information (from TiplocV1).
 struct TiplocInfo
@@ -32,6 +33,7 @@ struct ScheduleLocation {
 
 // Main Schedule structure
 struct ScheduleInfo {
+    QString serviceCode;
     QString transactionType; // Create, Update, or Delete
     QString trainUid;        // Unique identifier for the train
     QString atocCode;        // ATOC Code
@@ -62,11 +64,12 @@ public:
     void loadTocData(const QString &filePath);
     void generateFilteredFile(const QString &filePath);
     void generateLocationToc(const QString &filePath);
+    void generateScheduleToc(const QString &filePath);
 
 private:
 
     QList<TiplocInfo> tiplocList;
-    QList<ScheduleInfo> trainScheduleList;
+    QHash<QString,ScheduleInfo> trainScheduleList;
 
 };
 

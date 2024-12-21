@@ -130,11 +130,18 @@ Widget::Widget(QWidget *parent) :
 
     });
 
-    connect(ui->pushButton_SplitToc, &QPushButton::pressed, [] {
+    connect(ui->pushButton_SplitTocLoc, &QPushButton::pressed, [] {
 
         TocLoader loader;
         loader.generateLocationToc("data/NetworkRail/filtered_toc.txt");
     });
+
+    connect(ui->pushButton_SplitTocSched, &QPushButton::pressed, [] {
+
+        TocLoader loader;
+        loader.generateScheduleToc("data/NetworkRail/filtered_toc.txt");
+    });
+
 
     connect( _tflWorker, &TFLRouteWorker::finished, [this]
     {

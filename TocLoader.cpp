@@ -73,6 +73,7 @@ void TocLoader::loadTocData(const QString &filePath)
 
             // Schedule segment details
             QJsonObject segment = scheduleObj["schedule_segment"].toObject();
+            schedule.serviceCode = segment["CIF_train_service_code"].toString();
             schedule.trainCategory = segment["CIF_train_category"].toString();
             schedule.powerType = segment["CIF_power_type"].toString();
             schedule.timingLoad = segment["CIF_timing_load"].toString();
@@ -107,7 +108,7 @@ void TocLoader::loadTocData(const QString &filePath)
                 }
             }
 
-            trainScheduleList.append(schedule);
+            trainScheduleList[schedule.serviceCode] = schedule;
         }
     }
 
@@ -189,5 +190,32 @@ void TocLoader::generateLocationToc(const QString &filePath)
             << location.crsCode << ","
             << location.description << ","
             << location.tiplocCode << "\r\n";
+    }
+}
+
+void TocLoader::generateScheduleToc(const QString &filePath)
+{
+    loadTocData(filePath);
+
+    QFile outFile("data/NetworkRail/schedule-toc.txt");
+    if( !outFile.open(QIODevice::WriteOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QTextStream out(&outFile);
+
+    for(const auto& schedule: std::as_const(trainScheduleList))
+    {
+        out << schedule.serviceCode << ","
+            << schedule.atocCode << "\r\n";
+
+        for(const auto& location : std::as_const(schedule.locations))
+        {
+            out << location.tiplocCode << "\r\n";
+        }
+
+        out << "-----------------------------\r\n";
     }
 }
