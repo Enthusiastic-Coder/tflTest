@@ -610,7 +610,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 {
     QJsonArray a = doc.array();
 
-    for(const QJsonValue &item : qAsConst(a))
+    for(const QJsonValue &item : std::as_const(a))
     {
         QJsonObject obj = item.toObject();
         QJsonObject header = obj["header"].toObject();
@@ -708,17 +708,17 @@ void Widget::processUSStates()
     QTextStream stream(&outFile);
     const int jumpSize = 10;
 
-    for( const QJsonValue &value : qAsConst(states))
+    for( const QJsonValue &value : std::as_const(states))
     {
         QJsonObject geometry = value["geometry"].toObject();
         QJsonArray coords = geometry["coordinates"].toArray();
 
-        for(const QJsonValue &value : qAsConst(coords))
+        for(const QJsonValue &value : std::as_const(coords))
         {
             QJsonArray polygon = value.toArray();
             int outCount = 0;
 
-            for(const QJsonValue &value:qAsConst(polygon))
+            for(const QJsonValue &value:std::as_const(polygon))
             {
                 QJsonArray latLngGroup = value.toArray();
                 if( latLngGroup.size() == 2)
@@ -737,7 +737,7 @@ void Widget::processUSStates()
                 }
 
                 int count = 0;
-                for(const QJsonValue& value : qAsConst(latLngGroup))
+                for(const QJsonValue& value : std::as_const(latLngGroup))
                 {
                     QJsonArray latLng = value.toArray();
                     double lng = latLng.at(0).toDouble();
@@ -864,7 +864,7 @@ void Widget::processOperatorJson()
     QTextStream streamOut(&outputFile);
     int count(0);
 
-    for(const QString& key : qAsConst(keys))
+    for(const QString& key : std::as_const(keys))
     {
         QJsonValue value = rootObj[key];
 
