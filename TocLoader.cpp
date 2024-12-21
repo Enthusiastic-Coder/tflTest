@@ -53,11 +53,7 @@ void TocLoader::loadTocData(const QString &filePath)
             tiploc.description = tiplocObj["description"].toString();
             tiploc.tpsDescription = tiplocObj["tps_description"].toString();
 
-            // Optionally, filter for specific TIPLOCs or descriptions
-            //if (tiploc.description.contains("FARRINGDON", Qt::CaseInsensitive))
-            {
-                tiplocList.append(tiploc);
-            }
+            tiplocList.append(tiploc);
         }
 
         if (jsonObj.contains("JsonScheduleV1"))
@@ -88,9 +84,11 @@ void TocLoader::loadTocData(const QString &filePath)
             schedule.serviceBranding = segment["CIF_service_branding"].toString();
 
             // Parse locations
-            if (segment.contains("schedule_location")) {
+            if (segment.contains("schedule_location"))
+            {
                 QJsonArray locationsArray = segment["schedule_location"].toArray();
-                for (const QJsonValue &locValue : locationsArray) {
+                for (const QJsonValue &locValue : locationsArray)
+                {
                     QJsonObject locObj = locValue.toObject();
                     ScheduleLocation location;
 
