@@ -8,7 +8,7 @@
 
 TocLoader::TocLoader() {}
 
-void TocLoader::filterElizabethLineTrains(const QString &filePath)
+void TocLoader::loadTocData(const QString &filePath)
 {
     // Load JSON file
     QFile file(filePath);
@@ -17,15 +17,6 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
         qWarning() << "Failed to open file:" << filePath;
         return;
     }
-
-    QFile outFile("data/NetworkRail/filtered_toc.txt");
-    if( !outFile.open(QIODevice::WriteOnly))
-    {
-        qWarning() << "Failed to open file:" << filePath;
-        return;
-    }
-
-    QTextStream out(&outFile);
 
     QTextStream in(&file);
     while (!in.atEnd())
@@ -59,18 +50,11 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
             {
                 tiplocList.append(tiploc);
             }
-
-            out << line << "\r\n";
         }
 
         if (jsonObj.contains("JsonScheduleV1"))
         {
             QJsonObject scheduleObj = jsonObj["JsonScheduleV1"].toObject();
-
-            // Filter for Elizabeth Line (optional, based on ATOC Code or other criteria)
-            if (scheduleObj["atoc_code"].toString() != "XR") {
-                continue;
-            }
 
             ScheduleInfo schedule;
 
@@ -118,9 +102,60 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
             }
 
             trainScheduleList.append(schedule);
-            out << line << "\r\n";
         }
     }
 
     file.close();
+}
+
+void TocLoader::generateFilteredFile(const QString &filePath)
+{
+    // Load JSON file
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QFile outFile("data/NetworkRail/filtered_toc.txt");
+    if( !outFile.open(QIODevice::WriteOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QTextStream out(&outFile);
+
+    QTextStream in(&file);
+
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+
+        // Parse the JSON document from the line
+        QJsonDocument doc = QJsonDocument::fromJson(line.toUtf8());
+
+        if (!doc.isObject())
+            continue;
+
+        QJsonObject jsonObj = doc.object();
+
+        // Check if the JSON contains TiplocV1
+        if (jsonObj.contains("TiplocV1"))
+        {
+            out << line << "\r\n";
+        }
+
+        if (jsonObj.contains("JsonScheduleV1"))
+        {
+            QJsonObject scheduleObj = jsonObj["JsonScheduleV1"].toObject();
+            // Filter for Elizabeth Line (optional, based on ATOC Code or other criteria)
+
+            if (scheduleObj["atoc_code"].toString() == "XR")
+            {
+                out << line << "\r\n";
+            }
+        }
+    }
 }

@@ -126,8 +126,7 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pushButton_ParseTocFull, &QPushButton::pressed, [this] {
 
         TocLoader loader;
-        loader.filterElizabethLineTrains("data/NetworkRail/toc-full");
-
+        loader.loadTocData("data/NetworkRail/filtered_toc.txt");
 
     });
 

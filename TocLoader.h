@@ -58,7 +58,8 @@ public:
     TocLoader();
 
 
-    void filterElizabethLineTrains(const QString &filePath);
+    void loadTocData(const QString &filePath);
+    void generateFilteredFile(const QString &filePath);
 
 private:
 
