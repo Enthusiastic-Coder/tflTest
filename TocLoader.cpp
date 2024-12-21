@@ -8,8 +8,16 @@
 
 TocLoader::TocLoader() {}
 
+void TocLoader::clear()
+{
+    tiplocList.clear();
+    trainScheduleList.clear();
+}
+
 void TocLoader::loadTocData(const QString &filePath)
 {
+    clear();
+
     // Load JSON file
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly))
@@ -158,4 +166,11 @@ void TocLoader::generateFilteredFile(const QString &filePath)
             }
         }
     }
+}
+
+void TocLoader::splitFilteredFile(const QString &filePath)
+{
+    loadTocData(filePath);
+
+
 }

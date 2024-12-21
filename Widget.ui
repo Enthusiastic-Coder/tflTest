@@ -189,6 +189,13 @@
        <string>Network Rail</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_Clear_NR">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="0" colspan="3">
         <widget class="QLabel" name="labelStatus_NR">
          <property name="text">
@@ -196,18 +203,22 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="5">
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
+       <item row="0" column="3">
+        <widget class="QCheckBox" name="checkBox_NetworkRail">
+         <property name="text">
+          <string>Raw</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton_NetworkRail">
+         <property name="text">
+          <string>Start</string>
          </property>
-        </spacer>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="comboBox_NetworkRail">
@@ -241,37 +252,33 @@
          </item>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QCheckBox" name="checkBox_NetworkRail">
-         <property name="text">
-          <string>Raw</string>
+       <item row="0" column="6">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="2" column="0" colspan="6">
+       <item row="2" column="0" colspan="7">
         <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_Clear_NR">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_NetworkRail">
-         <property name="text">
-          <string>Start</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
        </item>
        <item row="0" column="4">
         <widget class="QPushButton" name="pushButton_ParseTocFull">
          <property name="text">
           <string>Parse Toc-Full</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QPushButton" name="pushButton_SplitToc">
+         <property name="text">
+          <string>Split Toc</string>
          </property>
         </widget>
        </item>

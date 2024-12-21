@@ -57,9 +57,11 @@ class TocLoader
 public:
     TocLoader();
 
+    void clear();
 
     void loadTocData(const QString &filePath);
     void generateFilteredFile(const QString &filePath);
+    void splitFilteredFile(const QString &filePath);
 
 private:
 
