@@ -18,6 +18,15 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
         return;
     }
 
+    QFile outFile("data/NetworkRail/filtered_toc.txt");
+    if( !outFile.open(QIODevice::WriteOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QTextStream out(&outFile);
+
     QTextStream in(&file);
     while (!in.atEnd())
     {
@@ -50,6 +59,8 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
             {
                 tiplocList.append(tiploc);
             }
+
+            out << line << "\r\n";
         }
 
         if (jsonObj.contains("JsonScheduleV1"))
@@ -107,6 +118,7 @@ void TocLoader::filterElizabethLineTrains(const QString &filePath)
             }
 
             trainScheduleList.append(schedule);
+            out << line << "\r\n";
         }
     }
 
