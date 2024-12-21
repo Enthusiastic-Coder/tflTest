@@ -1,4 +1,5 @@
 #include "Widget.h"
+#include "TocLoader.h"
 #include "ui_Widget.h"
 
 #include <QNetworkReply>
@@ -81,6 +82,8 @@ Widget::Widget(QWidget *parent) :
 
         QString id = QString("/topic/TRAIN_MVT_%1_TOC").arg(ui->comboBox_NetworkRail->currentText());
 
+        // id = "/topic/TD_ALL_SIG_AREA";
+
         ui->textBrowser_NetworkRail->append("Subscribing to " + id );
         _client.subscribe(id.toLocal8Bit(), true);
     });
@@ -118,6 +121,14 @@ Widget::Widget(QWidget *parent) :
             _client.disconnectFromHost();
             ui->pushButton_NetworkRail->setText("Start");
         }
+    });
+
+    connect(ui->pushButton_ParseTocFull, &QPushButton::pressed, [this] {
+
+        TocLoader loader;
+        loader.filterElizabethLineTrains("data/NetworkRail/toc-full");
+
+
     });
 
     connect( _tflWorker, &TFLRouteWorker::finished, [this]

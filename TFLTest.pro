@@ -93,6 +93,7 @@ SOURCES += \
     OSMRenderer.cpp \
     RawScaleOSMRenderer.cpp \
     TFLRouteCompression.cpp \
+    TocLoader.cpp \
     csvfileload.cpp \
         main.cpp \
         Widget.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     RawScaleOSMRenderer.h \
     TFLRouteCompression.h \
     TileHelpers.h \
+    TocLoader.h \
         Widget.h \
     TFLRouteWorker.h \
     OSMWorker.h \
