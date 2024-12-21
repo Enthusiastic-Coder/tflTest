@@ -166,7 +166,7 @@ void TocLoader::generateFilteredFile(const QString &filePath)
     }
 }
 
-void TocLoader::splitFilteredFile(const QString &filePath)
+void TocLoader::generateLocationToc(const QString &filePath)
 {
     loadTocData(filePath);
 

@@ -133,7 +133,7 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pushButton_SplitToc, &QPushButton::pressed, [] {
 
         TocLoader loader;
-        loader.splitFilteredFile("data/NetworkRail/filtered_toc.txt");
+        loader.generateLocationToc("data/NetworkRail/filtered_toc.txt");
     });
 
     connect( _tflWorker, &TFLRouteWorker::finished, [this]
@@ -635,7 +635,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "train_service_from:" + from);
         ui->textBrowser_NetworkRail->append( "train_service_to:" + to);
 
-        ui->textBrowser_NetworkRail->append( "platform:" + body["platforms"].toString());
+        ui->textBrowser_NetworkRail->append( "platform:" + body["platform"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());
         ui->textBrowser_NetworkRail->append( "reporting_stanox:" + _networkRailStnCSV[body["reporting_stanox"].toString()].location);
         ui->textBrowser_NetworkRail->append( "loc_stanox:" + _networkRailStnCSV[body["loc_stanox"].toString()].location);
