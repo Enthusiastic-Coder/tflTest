@@ -4,34 +4,53 @@
 #include <QString>
 #include <QList>
 
-
-// Structure to store information about the train.
-struct TrainInfo {
-    QString trainUid;
-    QString serviceCode;
-    QString originTiploc;
-    QString terminusTiploc;
-    QList<QString> intermediateTiplocs;
-};
-
 // Structure to store Tiploc information (from TiplocV1).
-struct TiplocInfo {
-    QString tiplocCode;
-    QString departureTime;
-    QString arrivalTime;
-    QString platform;
-    // Other fields from TiplocV1 can be added here if needed
+struct TiplocInfo
+{
+    QString transactionType;    // "Create", "Update", or "Delete"
+    QString tiplocCode;         // TIPLOC of the location
+    QString nalco;              // National Location Code
+    QString stanox;             // Station Number
+    QString crsCode;            // Computer Reservation System (3-Alpha Code)
+    QString description;        // Short name of the location
+    QString tpsDescription;     // Full description of the location
 };
 
-// Structure to store Schedule details (from JsonScheduleV1).
-struct TrainSchedule {
-    QString trainServiceCode;
-    QString startDate;
-    QString endDate;
-    QList<TiplocInfo> scheduleLocations; // List of stops along the schedule
-    // Other fields from JsonScheduleV1 can be added here if needed
+// Location data for each stop or intermediate point
+struct ScheduleLocation {
+    QString locationType;  // LO, LI, LT
+    QString tiplocCode;    // TIPLOC code
+    QString platform;      // Platform at the location
+    QString line;          // Line code
+    QString path;          // Path code
+    QString arrival;       // Arrival time
+    QString publicArrival; // Public arrival time
+    QString departure;     // Departure time
+    QString publicDeparture; // Public departure time
+    QString pass;          // Pass time (if applicable)
 };
 
+// Main Schedule structure
+struct ScheduleInfo {
+    QString transactionType; // Create, Update, or Delete
+    QString trainUid;        // Unique identifier for the train
+    QString atocCode;        // ATOC Code
+    QString applicableTimetable; // Whether the timetable is applicable (Y/N)
+    QString trainCategory;   // Train category (e.g., Express Passenger)
+    QString powerType;       // Power type (e.g., EMU, DMU)
+    QString timingLoad;      // Timing load for the train
+    QString speed;           // Maximum speed of the train
+    QString operatingCharacteristics; // Operating characteristics
+    QString trainClass;      // Train class (e.g., 1st/Std)
+    QString sleepers;        // Sleeper service information
+    QString reservations;    // Reservations information
+    QString serviceBranding; // Branding (e.g., CrossCountry, LNER)
+    QString startDate;       // Schedule start date
+    QString endDate;         // Schedule end date
+    QString daysRun;         // Days of the week the train runs (1111100 format)
+
+    QList<ScheduleLocation> locations; // List of schedule locations
+};
 
 class TocLoader
 {
@@ -43,8 +62,8 @@ public:
 
 private:
 
-    QList<TrainInfo> trainInfoList;
-    QList<TrainSchedule> trainScheduleList;
+    QList<TiplocInfo> tiplocList;
+    QList<ScheduleInfo> trainScheduleList;
 
 };
 
