@@ -170,5 +170,24 @@ void TocLoader::splitFilteredFile(const QString &filePath)
 {
     loadTocData(filePath);
 
+    QFile outFile("data/NetworkRail/location-toc.txt");
+    if( !outFile.open(QIODevice::WriteOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
 
+    QTextStream out(&outFile);
+
+    for(const auto& location: std::as_const(tiplocList))
+    {
+        if(location.stanox.isEmpty())
+            continue;
+
+        out << location.stanox << ","
+            << location.tpsDescription << ","
+            << location.crsCode << ","
+            << location.description << ","
+            << location.tiplocCode << "\r\n";
+    }
 }
