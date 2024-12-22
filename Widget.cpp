@@ -641,8 +641,8 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         const QString direction = body["direction_ind"].toString();
 
-        QString from = _networkRailStnCSV[direction == "DOWN"? TSC.firstStanox: TSC.lastStanox].location;
-        QString to = _networkRailStnCSV[direction == "DOWN"? TSC.lastStanox : TSC.firstStanox].location;
+        QString from = _networkRailStnCSV[TSC.firstStanox].location;
+        QString to = _networkRailStnCSV[TSC.lastStanox].location;
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
 
