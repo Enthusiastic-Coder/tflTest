@@ -70,13 +70,27 @@ void TocLoader::loadTocData(const QString &filePath)
             // Basic schedule details
             schedule.transactionType = scheduleObj["transaction_type"].toString();
             schedule.stpIndicator = scheduleObj["CIF_stp_indicator"].toString();
+            schedule.trainStatus = scheduleObj["train_status"].toString();
+
+            bool doAdd{false};
+
+            if ((schedule.trainStatus == "P" || schedule.trainStatus == "1") &&
+                (schedule.stpIndicator == "N" || schedule.stpIndicator == "R" || schedule.stpIndicator == "O"))
+            {
+                doAdd = true;
+            }
+
+            if( !doAdd)
+            {
+                continue;
+            }
+
             schedule.trainUid = scheduleObj["CIF_train_uid"].toString();
             schedule.atocCode = scheduleObj["atoc_code"].toString();
             schedule.applicableTimetable = scheduleObj["applicable_timetable"].toString();
             schedule.startDate = scheduleObj["schedule_start_date"].toString();
             schedule.endDate = scheduleObj["schedule_end_date"].toString();
             schedule.daysRun = scheduleObj["schedule_days_runs"].toString();
-            schedule.trainStatus = scheduleObj["train_status"].toString();
 
             // Schedule segment details
             QJsonObject segment = scheduleObj["schedule_segment"].toObject();
@@ -256,7 +270,7 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
         out << "," << schedule.startDate << "," << schedule.endDate;
 
-        out << "," << schedule.daysRun << "," << schedule.trainStatus << "," << schedule.stpIndicator;
+        out << "," << schedule.daysRun;
 
         out << "\r\n";
     }
