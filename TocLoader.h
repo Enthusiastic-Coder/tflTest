@@ -49,6 +49,7 @@ struct ScheduleInfo {
     QString serviceBranding; // Branding (e.g., CrossCountry, LNER)
     QString startDate;       // Schedule start date
     QString endDate;         // Schedule end date
+    QString trainStatus;
     QString daysRun;         // Days of the week the train runs (1111100 format)
 
     QList<ScheduleLocation> locations; // List of schedule locations
@@ -69,7 +70,7 @@ public:
 private:
 
     QList<TiplocInfo> tiplocList;
-    QHash<QString,ScheduleInfo> trainScheduleList;
+    QList<ScheduleInfo> trainScheduleList;
     QHash<QString,QString> tiplocCodeToStanox;
 
 };

@@ -75,6 +75,7 @@ void TocLoader::loadTocData(const QString &filePath)
             schedule.startDate = scheduleObj["schedule_start_date"].toString();
             schedule.endDate = scheduleObj["schedule_end_date"].toString();
             schedule.daysRun = scheduleObj["schedule_days_runs"].toString();
+            schedule.trainStatus = scheduleObj["train_status"].toString();
 
             // Schedule segment details
             QJsonObject segment = scheduleObj["schedule_segment"].toObject();
@@ -113,7 +114,7 @@ void TocLoader::loadTocData(const QString &filePath)
                 }
             }
 
-            trainScheduleList[schedule.serviceCode] = schedule;
+            trainScheduleList.push_back(schedule);
         }
     }
 
@@ -213,6 +214,7 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
+        out << schedule.atocCode << ",";
         out << schedule.serviceCode << ",";
 
         QString firstLocation, firstStanox;
@@ -246,6 +248,10 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
         out << firstLocation << ",";
         out << lastLocation;
+
+        out << "," << schedule.startDate << "," << schedule.endDate;
+
+        out << "," << schedule.daysRun << "," << schedule.trainStatus;
 
         out << "\r\n";
     }
