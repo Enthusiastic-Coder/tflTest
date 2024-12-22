@@ -54,7 +54,7 @@ qlonglong OSMWorker::process(const QString &filename)
 
             int itemsObtained(0);
 
-            for(const QString& item : qAsConst(sl))
+            for(const QString& item : std::as_const(sl))
             {
                 if( item.startsWith(QStringLiteral("id=")))
                 {
@@ -204,7 +204,7 @@ quint64 OSMWorker::filter(const QString &key, const QString &value, const QStrin
     }
 
     int skipped = 0;
-    for( const auto& node : qAsConst(_allNodes))
+    for( const auto& node : std::as_const(_allNodes))
     {
         if( bFilterOn )
         {

@@ -31,7 +31,7 @@ void OSMRendererBase::paint(QPainter &p)
     pen.setWidthF(qMax(_lineThickness, _lineThickness* pixM / 1000.0));
     p.setPen( pen);
 
-    for( const auto& pts : qAsConst(_osmPts))
+    for( const auto& pts : std::as_const(_osmPts))
         p.drawPolyline(pts);
 
     p.setPen(oldPen);

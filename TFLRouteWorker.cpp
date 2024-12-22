@@ -82,7 +82,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoute(const QString& line, const QByt
 
     QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
 
-    for(const QJsonValue &value : qAsConst(inBranchArray))
+    for(const QJsonValue &value : std::as_const(inBranchArray))
     {
         QJsonObject obj;
 
@@ -122,7 +122,7 @@ void TFLRouteWorker::buildAllStopPointsFromRoutes()
     QStringList folderList;
     folderList << "inbound" << "outbound";
 
-    for( const QString &folder : qAsConst(folderList))
+    for( const QString &folder : std::as_const(folderList))
     {
         QDirIterator dir("data/Routes/" + folder + "/", QDir::Files);
         qDebug() << dir.path();
@@ -168,7 +168,7 @@ void TFLRouteWorker::storeAllRouteIDsInList(const QByteArray &json)
 
     _allRoutesList.clear();
 
-    for( const QJsonValue &value : qAsConst(arr))
+    for( const QJsonValue &value : std::as_const(arr))
     {
         QJsonObject obj = value.toObject();
 
@@ -206,13 +206,13 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     QJsonArray outBranchArray;
 
-    for(const QJsonValue &value : qAsConst(inBranchArray))
+    for(const QJsonValue &value : std::as_const(inBranchArray))
     {
         QJsonObject obj;
 
         QJsonArray inStopPointArray = value["stopPoint"].toArray();
         QJsonArray outStopPointArray;
-        for(const QJsonValue &value : qAsConst(inStopPointArray))
+        for(const QJsonValue &value : std::as_const(inStopPointArray))
         {
             QJsonObject obj;
 
@@ -299,7 +299,7 @@ void TFLRouteWorker::processStops(const QByteArray &json)
 
     QJsonArray a;
 
-    for(const QJsonValue &value : qAsConst(lines))
+    for(const QJsonValue &value : std::as_const(lines))
     {
         QJsonObject obj;
 
