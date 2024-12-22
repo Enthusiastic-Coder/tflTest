@@ -70,6 +70,7 @@ private:
 
     QList<TiplocInfo> tiplocList;
     QHash<QString,ScheduleInfo> trainScheduleList;
+    QHash<QString,QString> tiplocCodeToStanox;
 
 };
 

@@ -85,6 +85,7 @@ include(qtstomp/qtstomp.pri)
 INCLUDEPATH += sdk/include
 
 SOURCES += \
+    NetworkRailScheduleCSV.cpp \
     NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
     OSMRendererBase.cpp \
@@ -94,7 +95,6 @@ SOURCES += \
     RawScaleOSMRenderer.cpp \
     TFLRouteCompression.cpp \
     TocLoader.cpp \
-    csvfileload.cpp \
         main.cpp \
         Widget.cpp \
     TFLRouteWorker.cpp \
@@ -102,6 +102,7 @@ SOURCES += \
     OSMData.cpp
 
 HEADERS += \
+    NetworkRailScheduleCSV.h \
     NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
     OSMRendererBase.h \

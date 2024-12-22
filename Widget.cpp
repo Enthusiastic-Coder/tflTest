@@ -68,6 +68,8 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
 
+    _networkRailScheduleCSV.Load("data/NetworkRail/schedule-xr.txt", 5);
+
     _NRStatusTimer->start(1000);
     connect( _NRStatusTimer, &QTimer::timeout, [this] {
         ui->labelStatus_NR->setText( _client.isUnconnected()?"Disconnected":"Active");
@@ -635,10 +637,15 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
-        QString from = _networkRailServicesCSV[body["train_service_code"].toString()].from;
-        QString to = _networkRailServicesCSV[body["train_service_code"].toString()].to;
+        const auto& TSC = _networkRailScheduleCSV[body["train_service_code"].toString()];
+
+        QString from = _networkRailStnCSV[TSC.firstStanox].location;
+        QString to = _networkRailStnCSV[TSC.lastStanox].location;
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
+
+
+
         ui->textBrowser_NetworkRail->append( "train_service_from:" + from);
         ui->textBrowser_NetworkRail->append( "train_service_to:" + to);
 

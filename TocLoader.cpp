@@ -12,6 +12,7 @@ void TocLoader::clear()
 {
     tiplocList.clear();
     trainScheduleList.clear();
+    tiplocCodeToStanox.clear();
 }
 
 void TocLoader::loadTocData(const QString &filePath)
@@ -52,6 +53,10 @@ void TocLoader::loadTocData(const QString &filePath)
             tiploc.crsCode = tiplocObj["crs_code"].toString();
             tiploc.description = tiplocObj["description"].toString();
             tiploc.tpsDescription = tiplocObj["tps_description"].toString();
+
+
+            tiplocCodeToStanox[tiploc.tiplocCode] = tiploc.stanox;
+
 
             tiplocList.append(tiploc);
         }
@@ -210,14 +215,34 @@ void TocLoader::generateScheduleToc(const QString &filePath)
     {
         out << schedule.serviceCode << ",";
 
-        QString firstLocation;
-        QString lastLocation;
+        QString firstLocation, firstStanox;
+        QString lastLocation, lastStanox;
 
         if (!schedule.locations.isEmpty())
         {
-            firstLocation = schedule.locations.first().tiplocCode;
-            lastLocation = schedule.locations.last().tiplocCode;
+
+            {
+                firstLocation = schedule.locations.first().tiplocCode;
+                auto itFirst = tiplocCodeToStanox.find(firstLocation);
+                if( itFirst != tiplocCodeToStanox.end())
+                {
+                    firstStanox = itFirst.value();
+                }
+            }
+
+            {
+                lastLocation = schedule.locations.last().tiplocCode;
+
+                auto itLast = tiplocCodeToStanox.find(lastLocation);
+                if( itLast != tiplocCodeToStanox.end())
+                {
+                    lastStanox = itLast.value();
+                }
+            }
         }
+
+        out << firstStanox << ",";
+        out << lastStanox << ",";
 
         out << firstLocation << ",";
         out << lastLocation;

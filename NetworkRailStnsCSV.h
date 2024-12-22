@@ -2,24 +2,17 @@
 #define NETWORKRAILSTNSCSV_H
 
 #include "csvfileload.h"
-#include <QHash>
 
-class NetworkRailStnsCSV : public CSVFileLoad
+struct NetworkRailStnsDATA {
+    QString location;
+    QString stanme;
+};
+
+class NetworkRailStnsCSV : public CSVFileLoad<NetworkRailStnsDATA>
 {
 public:
-    struct DATA {
-        QString location;
-        QString stanme;
-    };
-
-    NetworkRailStnsCSV();
 
     virtual void onLine(int lineNo, const QStringList& args) override;
-
-    const DATA& operator[](QString id) const;
-
-private:
-    QHash<QString, DATA> _data;
 
 };
 
