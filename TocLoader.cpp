@@ -208,14 +208,20 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
-        out << schedule.serviceCode << ","
-            << schedule.atocCode << "\r\n";
+        out << schedule.serviceCode << ",";
 
-        for(const auto& location : std::as_const(schedule.locations))
+        QString firstLocation;
+        QString lastLocation;
+
+        if (!schedule.locations.isEmpty())
         {
-            out << location.tiplocCode << "\r\n";
+            firstLocation = schedule.locations.first().tiplocCode;
+            lastLocation = schedule.locations.last().tiplocCode;
         }
 
-        out << "-----------------------------\r\n";
+        out << firstLocation << ",";
+        out << lastLocation;
+
+        out << "\r\n";
     }
 }
