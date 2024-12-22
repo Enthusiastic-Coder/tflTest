@@ -69,6 +69,7 @@ void TocLoader::loadTocData(const QString &filePath)
 
             // Basic schedule details
             schedule.transactionType = scheduleObj["transaction_type"].toString();
+            schedule.stpIndicator = scheduleObj["CIF_stp_indicator"].toString();
             schedule.trainUid = scheduleObj["CIF_train_uid"].toString();
             schedule.atocCode = scheduleObj["atoc_code"].toString();
             schedule.applicableTimetable = scheduleObj["applicable_timetable"].toString();
@@ -220,11 +221,16 @@ void TocLoader::generateScheduleToc(const QString &filePath)
         QString firstLocation, firstStanox;
         QString lastLocation, lastStanox;
 
+        QString departTime, arrivalTime;
+
         if (!schedule.locations.isEmpty())
         {
 
             {
-                firstLocation = schedule.locations.first().tiplocCode;
+                const auto& record = schedule.locations.first();
+                firstLocation = record.tiplocCode;
+                departTime = record.departure;
+
                 auto itFirst = tiplocCodeToStanox.find(firstLocation);
                 if( itFirst != tiplocCodeToStanox.end())
                 {
@@ -233,7 +239,9 @@ void TocLoader::generateScheduleToc(const QString &filePath)
             }
 
             {
-                lastLocation = schedule.locations.last().tiplocCode;
+                const auto& record = schedule.locations.last();
+                lastLocation = record.tiplocCode;
+                arrivalTime = record.arrival;
 
                 auto itLast = tiplocCodeToStanox.find(lastLocation);
                 if( itLast != tiplocCodeToStanox.end())
@@ -243,15 +251,12 @@ void TocLoader::generateScheduleToc(const QString &filePath)
             }
         }
 
-        out << firstStanox << ",";
-        out << lastStanox << ",";
-
-        out << firstLocation << ",";
-        out << lastLocation;
+        out << firstStanox << "," << lastStanox << "," << firstLocation << "," << lastLocation;
+        out << "," << departTime << "," << arrivalTime;
 
         out << "," << schedule.startDate << "," << schedule.endDate;
 
-        out << "," << schedule.daysRun << "," << schedule.trainStatus;
+        out << "," << schedule.daysRun << "," << schedule.trainStatus << "," << schedule.stpIndicator;
 
         out << "\r\n";
     }

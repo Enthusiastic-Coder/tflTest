@@ -34,6 +34,7 @@ struct ScheduleLocation {
 // Main Schedule structure
 struct ScheduleInfo {
     QString serviceCode;
+    QString stpIndicator;
     QString transactionType; // Create, Update, or Delete
     QString trainUid;        // Unique identifier for the train
     QString atocCode;        // ATOC Code
