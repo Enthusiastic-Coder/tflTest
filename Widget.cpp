@@ -78,6 +78,12 @@ Widget::Widget(QWidget *parent) :
     QObject::connect(&_client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
 
+        QTimer *heartbeatTimer = new QTimer(this);
+        connect(heartbeatTimer, &QTimer::timeout, this, [&]() {
+            _client.send(QByteArray(), QString("\n"));
+        });
+        heartbeatTimer->start(5000);
+
         _client.login("jebaramo@gmail.com", "6MHAk3Nmy!tL7NQ");
 
         ui->textBrowser_NetworkRail->append("Connected");
