@@ -75,6 +75,21 @@ Widget::Widget(QWidget *parent) :
         ui->labelStatus_NR->setText( _client.isUnconnected()?"Disconnected":"Active");
     });
 
+    connect(ui->pushButton_NetworkRail, &QPushButton::toggled, [this](bool toggled) {
+
+        ui->comboBox_NetworkRail->setDisabled(toggled);
+        if( toggled)
+        {
+            ui->pushButton_NetworkRail->setText("Stop");
+            _client.connectToHost("publicdatafeeds.networkrail.co.uk", 61618);
+        }
+        else
+        {
+            _client.disconnectFromHost();
+            ui->pushButton_NetworkRail->setText("Start");
+        }
+    });
+
     QObject::connect(&_client, &QStompClient::socketConnected, [this] {
         qDebug() << "Connected";
 
@@ -117,21 +132,6 @@ Widget::Widget(QWidget *parent) :
 
     connect(ui->pushButton_Clear_NR, &QPushButton::pressed, [this] {
         ui->textBrowser_NetworkRail->clear();
-    });
-
-    connect(ui->pushButton_NetworkRail, &QPushButton::toggled, [this](bool toggled) {
-
-        ui->comboBox_NetworkRail->setDisabled(toggled);
-        if( toggled)
-        {
-            ui->pushButton_NetworkRail->setText("Stop");
-            _client.connectToHost("publicdatafeeds.networkrail.co.uk", 61618);
-        }
-        else
-        {
-            _client.disconnectFromHost();
-            ui->pushButton_NetworkRail->setText("Start");
-        }
     });
 
     connect(ui->pushButton_ParseTocFull, &QPushButton::pressed, [this] {
