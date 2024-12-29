@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QDebug>
 
-template<typename T>
+template<typename T, class U=QHash<QString, T>>
 class CSVFileLoad
 {
 public:
@@ -21,7 +21,7 @@ public:
     const T& operator[](QString id) const;
 
 protected:
-    QHash<QString, T> _data;
+    U _data;
 
 private:
     bool _bInterruptLoad = false;
@@ -29,8 +29,8 @@ private:
     QString _filename;
 };
 
-template<typename T>
-bool CSVFileLoad<T>::Load(const QString& sFilename, const int fieldCount, char separator)
+template<typename T, class U>
+bool CSVFileLoad<T,U>::Load(const QString& sFilename, const int fieldCount, char separator)
 {
     _bHasLoaded = false;
     _filename = sFilename;
@@ -69,32 +69,32 @@ bool CSVFileLoad<T>::Load(const QString& sFilename, const int fieldCount, char s
     return true;
 }
 
-template<typename T>
-void CSVFileLoad<T>::interruptLoad()
+template<typename T,class U>
+void CSVFileLoad<T,U>::interruptLoad()
 {
     _bInterruptLoad = true;
 }
 
-template<typename T>
-bool CSVFileLoad<T>::hasLoaded() const
+template<typename T,class U>
+bool CSVFileLoad<T,U>::hasLoaded() const
 {
     return _bHasLoaded;
 }
 
-template<typename T>
-void CSVFileLoad<T>::resetHasLoaded()
+template<typename T,class U>
+void CSVFileLoad<T,U>::resetHasLoaded()
 {
     _bHasLoaded = false;
 }
 
-template<typename T>
-QString CSVFileLoad<T>::getFilename() const
+template<typename T,class U>
+QString CSVFileLoad<T,U>::getFilename() const
 {
     return _filename;
 }
 
-template<typename T>
-const T &CSVFileLoad<T>::operator[](QString id) const
+template<typename T,class U>
+const T &CSVFileLoad<T,U>::operator[](QString id) const
 {
     auto it = _data.find(id);
     if( it == _data.end())
