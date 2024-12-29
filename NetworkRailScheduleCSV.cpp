@@ -5,15 +5,15 @@ void NetworkRailScheduleCSV::onLine(int lineNo, const QStringList &parts) {
 
     NetworkRailScheduleDATA schedule;
 
-    schedule.startDate = QDate::fromString(parts[6], "yyyy-MM-dd");
-    schedule.endDate = QDate::fromString(parts[7], "yyyy-MM-dd");
+    schedule.startDate = QDate::fromString(parts[8], "yyyy-MM-dd");
+    schedule.endDate = QDate::fromString(parts[9], "yyyy-MM-dd");
 
     QDate today = QDate::currentDate();
     if( today < schedule.startDate || today > schedule.endDate) {
         return;
     }
 
-    const QString bitString = parts[8];
+    const QString bitString = parts[10];
 
     QBitArray bitArray(7);
 
@@ -29,8 +29,10 @@ void NetworkRailScheduleCSV::onLine(int lineNo, const QStringList &parts) {
     schedule.serviceCode = parts[1];
     schedule.firstStanox = parts[2];
     schedule.lastStanox = parts[3];
-    schedule.departTime = QTime::fromString(parts[4], "hhmm");
-    schedule.arrivalTime = QTime::fromString(parts[5], "hhmm");
+    schedule.firstLocation = parts[4];
+    schedule.lastLocation = parts[5];
+    schedule.departTime = QTime::fromString(parts[6], "hhmm");
+    schedule.arrivalTime = QTime::fromString(parts[7], "hhmm");
     schedule.daysRun = bitArray;
 
     _data.insert( schedule.atocCode + "|" + schedule.serviceCode, schedule);

@@ -68,7 +68,7 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
 
-    _networkRailScheduleCSV.Load("data/NetworkRail/schedule-toc.txt", 9);
+    _networkRailScheduleCSV.Load("data/NetworkRail/schedule-toc.txt", 11);
 
     _NRStatusTimer->start(1000);
     connect( _NRStatusTimer, &QTimer::timeout, [this] {
