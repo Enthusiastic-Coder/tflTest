@@ -66,7 +66,14 @@ void TocLoader::jsonSplitFullToc(const QString &filePath)
         for(const auto& key : jsonObj.keys())
         {
 
-            QString keyFilename = "/Project/GIT/TFLTest/gen/"  + rootName + "-" + key  + ".json";
+            QString finalKey;
+
+            if( key.startsWith("Tiploc") || key.startsWith("JsonSchedule"))
+                finalKey = "TipLocSchedule";
+            else
+                finalKey = key;
+
+            QString keyFilename = "/Project/GIT/TFLTest/gen/"  + rootName + "-" + finalKey  + ".json";
 
             QSharedPointer<QFile> outFile;
 
@@ -232,6 +239,8 @@ void TocLoader::generateLocationToc(const QString &filePath)
 
     QTextStream out(&outFile);
 
+    out << "stanox,tpsDescription,crsCode,description,tiplocCode\r\n";
+
     for(const auto& location: std::as_const(tiplocList))
     {
         if(location.stanox.isEmpty())
@@ -257,6 +266,8 @@ void TocLoader::generateScheduleToc(const QString &filePath)
     }
 
     QTextStream out(&outFile);
+
+    out << "atocCode,serviceCode,firstStanox,lastStanox,firstLocation,lastLocation,departTime,arrivalTime,startDate,endDate,daysRun\r\n";
 
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
