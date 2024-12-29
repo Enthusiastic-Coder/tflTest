@@ -223,7 +223,7 @@ void TocLoader::generateLocationToc(const QString &filePath)
 {
     loadTocData(filePath);
 
-    QFile outFile("data/NetworkRail/location-toc.txt");
+    QFile outFile("/project/GIT/tfltest/gen/location-toc.txt");
     if( !outFile.open(QIODevice::WriteOnly))
     {
         qWarning() << "Failed to open file:" << filePath;
@@ -249,7 +249,7 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 {
     loadTocData(filePath);
 
-    QFile outFile("data/NetworkRail/schedule-toc.txt");
+    QFile outFile("/project/GIT/tfltest/gen/schedule-toc.txt");
     if( !outFile.open(QIODevice::WriteOnly))
     {
         qWarning() << "Failed to open file:" << filePath;
