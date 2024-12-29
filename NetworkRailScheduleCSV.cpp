@@ -15,7 +15,16 @@ void NetworkRailScheduleCSV::onLine(int lineNo, const QStringList &parts) {
     schedule.arrivalTime = parts[7];
     schedule.startDate = QDate::fromString(parts[8], "yyyy-MM-dd");
     schedule.endDate = QDate::fromString(parts[9], "yyyy-MM-dd");
-    schedule.daysRun = parts[10];
+
+    const QString bitString = parts[10];
+
+    QBitArray bitArray(7);
+
+    for (int i = 0; i < 7; ++i) {
+        bitArray.setBit(i, bitString.at(i) == '1');
+    }
+
+    schedule.daysRun = bitArray;
 
     _data[schedule.atocCode] = schedule;
 }

@@ -4,6 +4,7 @@
 #include "csvfileload.h"
 
 #include <QDate>
+#include <QBitArray>
 
 struct NetworkRailScheduleDATA {
     QString atocCode;
@@ -16,7 +17,7 @@ struct NetworkRailScheduleDATA {
     QString arrivalTime;
     QDate startDate;
     QDate endDate;
-    QString daysRun;
+    QBitArray daysRun;
 };
 
 class NetworkRailScheduleCSV : public CSVFileLoad<NetworkRailScheduleDATA>
