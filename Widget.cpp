@@ -715,10 +715,10 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
             to = _networkRailStnCSV[results[0]->lastStanox].location;
         }
 
-        ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
+        ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
-        ui->textBrowser_NetworkRail->append( "train_service_from:" + from);
-        ui->textBrowser_NetworkRail->append( "train_service_to:" + to);
+        ui->textBrowser_NetworkRail->append( "FROM:" + from);
+        ui->textBrowser_NetworkRail->append( "TO:" + to);
 
         ui->textBrowser_NetworkRail->append( "platform:" + body["platform"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());
