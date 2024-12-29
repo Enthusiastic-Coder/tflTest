@@ -685,15 +685,31 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         const QString direction = body["direction_ind"].toString();
 
-        const auto& TSC = _networkRailScheduleCSV[atoccode +"|"+serviceCode];
+        const auto servicesAvailable = _networkRailScheduleCSV.values(atoccode +"|"+serviceCode);
 
+        bool foundService {false};
 
-        QString from = _networkRailStnCSV[TSC.firstStanox].location;
-        QString to = _networkRailStnCSV[TSC.lastStanox].location;
+        QString from, to;
+
+        QTime currentTime = QTime::currentTime();
+
+        for(const auto& service : servicesAvailable)
+        {
+            if (currentTime >= service.departTime && currentTime <= service.arrivalTime)
+            {
+                from = _networkRailStnCSV[service.firstStanox].location;
+                to = _networkRailStnCSV[service.lastStanox].location;
+                foundService = true;
+                break;
+            }
+        }
+
+        if( !foundService)
+        {
+            to = from = "Not found";
+        }
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
-
-
 
         ui->textBrowser_NetworkRail->append( "train_service_from:" + from);
         ui->textBrowser_NetworkRail->append( "train_service_to:" + to);
