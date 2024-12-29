@@ -38,7 +38,7 @@ void NetworkRailScheduleCSV::onLine(int lineNo, const QStringList &parts) {
     _data.insert( schedule.atocCode + "|" + schedule.serviceCode, schedule);
 }
 
-QList<NetworkRailScheduleDATA> NetworkRailScheduleCSV::values(QString key)
+QList<NetworkRailScheduleDATA> NetworkRailScheduleCSV::getServices(const QString& atoccode, const QString& serviceCode) const
 {
-    return _data.values(key);
+    return _data.values(atoccode+"|"+serviceCode);
 }

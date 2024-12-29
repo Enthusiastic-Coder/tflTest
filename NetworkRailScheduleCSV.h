@@ -25,8 +25,7 @@ class NetworkRailScheduleCSV : public CSVFileLoad<NetworkRailScheduleDATA, QMult
 public:
     void onLine(int lineNo, const QStringList &parts) override;
 
-
-    QList<NetworkRailScheduleDATA> values(QString key);
+    QList<NetworkRailScheduleDATA> getServices(const QString& atoccode, const QString& serviceCode) const;
 };
 
 #endif // NETWORKRAILSCHEDULECSV_H

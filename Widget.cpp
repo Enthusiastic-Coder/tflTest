@@ -684,7 +684,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         const QString direction = body["direction_ind"].toString();
 
-        const auto servicesAvailable = _networkRailScheduleCSV.values(atoccode +"|"+serviceCode);
+        const auto servicesAvailable = _networkRailScheduleCSV.getServices(atoccode, serviceCode);
 
         QString from, to;
 
