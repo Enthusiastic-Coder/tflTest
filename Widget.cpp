@@ -134,6 +134,25 @@ Widget::Widget(QWidget *parent) :
         ui->textBrowser_NetworkRail->clear();
     });
 
+
+    connect(ui->pushButton_SplitTocFull, &QPushButton::pressed, [this]  {
+
+        TocLoader loader;
+
+        QString fileName = QFileDialog::getOpenFileName(this,
+                                                        "Pick Full Toc File",
+                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "*.*");
+
+        if( fileName.length() )
+        {
+            loader.jsonSplitFullToc(fileName);
+        }
+
+        QMessageBox::information(0, "jsonSplitFullToc", "Completed.");
+
+    });
+
     connect(ui->pushButton_ParseTocFull, &QPushButton::pressed, [this] {
 
         TocLoader loader;
@@ -141,10 +160,22 @@ Widget::Widget(QWidget *parent) :
 
     });
 
-    connect(ui->pushButton_SplitTocLoc, &QPushButton::pressed, [] {
+    connect(ui->pushButton_GenLoc, &QPushButton::pressed, [this] {
 
         TocLoader loader;
-        loader.generateLocationToc("data/NetworkRail/filtered_toc.txt");
+
+
+        QString fileName = QFileDialog::getOpenFileName(this,
+                                                        "Pick Full Toc File",
+                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "*.*");
+
+        if( fileName.length() )
+        {
+            loader.generateLocationToc("data/NetworkRail/filtered_toc.txt");
+        }
+
+        QMessageBox::information(0, "generateLocationToc", "Completed.");
     });
 
     connect(ui->pushButton_SplitTocSched, &QPushButton::pressed, [] {

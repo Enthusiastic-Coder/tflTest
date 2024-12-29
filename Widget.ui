@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
+    <width>639</width>
     <height>476</height>
    </rect>
   </property>
@@ -248,23 +248,10 @@
        <item row="2" column="0" colspan="8">
         <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
        </item>
-       <item row="0" column="7">
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="0" column="5">
-        <widget class="QPushButton" name="pushButton_SplitTocLoc">
+        <widget class="QPushButton" name="pushButton_GenLoc">
          <property name="text">
-          <string>Split Loc</string>
+          <string>Gen Loc</string>
          </property>
         </widget>
        </item>
@@ -275,17 +262,24 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
+       <item row="1" column="5">
+        <widget class="QPushButton" name="pushButton_SplitTocSched">
+         <property name="text">
+          <string>Split Sched</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
         <widget class="QPushButton" name="pushButton_ParseTocFull">
          <property name="text">
           <string>Parse Toc-Full</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="6">
-        <widget class="QPushButton" name="pushButton_SplitTocSched">
+       <item row="0" column="4">
+        <widget class="QPushButton" name="pushButton_SplitTocFull">
          <property name="text">
-          <string>Split Sched</string>
+          <string>Split Toc-Full</string>
          </property>
         </widget>
        </item>
@@ -766,7 +760,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>623</width>
+            <width>587</width>
             <height>354</height>
            </rect>
           </property>

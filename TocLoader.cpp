@@ -3,7 +3,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-
 #include <QFile>
 
 TocLoader::TocLoader() {}
@@ -13,6 +12,65 @@ void TocLoader::clear()
     tiplocList.clear();
     trainScheduleList.clear();
     tiplocCodeToStanox.clear();
+}
+
+void TocLoader::jsonSplitFullToc(const QString &filePath)
+{
+    QFile inFile(filePath);
+    if (!inFile.open(QIODevice::ReadOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QHash<QString,QSharedPointer<QFile>> outputFilesMap;
+
+    QTextStream in(&inFile);
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+
+        QJsonDocument doc = QJsonDocument::fromJson(line.toUtf8());
+
+        if (!doc.isObject())
+            continue;
+
+        QJsonObject jsonObj = doc.object();
+
+        int count ={};
+
+        for(const auto& key : jsonObj.keys())
+        {
+            QString keyFilename = filePath + "-" + key  + ".json";
+
+            QSharedPointer<QFile> outFile;
+
+            auto it = outputFilesMap.find(keyFilename);
+
+            if( it == outputFilesMap.end() )
+            {
+                outFile.reset(new QFile{keyFilename});
+                outFile->open(QIODevice::WriteOnly | QIODevice::Text);
+                outputFilesMap[keyFilename] = outFile;
+            }
+            else
+            {
+                outFile = it.value();
+            }
+
+            QTextStream outStream(outFile.get());
+            outStream << line << "\n";
+
+            count++;
+            if( count % 2000 == 0)
+            {
+                for(auto& fileHandle : outputFilesMap)
+                {
+                    fileHandle->flush();
+                }
+            }
+        }
+    }
 }
 
 void TocLoader::loadTocData(const QString &filePath)

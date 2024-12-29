@@ -63,6 +63,7 @@ public:
 
     void clear();
 
+    void jsonSplitFullToc(const QString& filePath);
     void loadTocData(const QString &filePath);
     void generateFilteredFile(const QString &filePath);
     void generateLocationToc(const QString &filePath);
