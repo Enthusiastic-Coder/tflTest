@@ -109,9 +109,6 @@ Widget::Widget(QWidget *parent) :
 
         ui->textBrowser_NetworkRail->append("Subscribing to " + id );
         _client.subscribe(id.toLocal8Bit(), true);
-
-        QString extraId = QString("/topic/TRAIN_MVT_%1_TOC").arg("HY");
-       _client.subscribe(extraId.toLocal8Bit(), true);
     });
 
     QObject::connect(&_client, &QStompClient::socketDisconnected,  [this] {
