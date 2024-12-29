@@ -267,15 +267,15 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
     QTextStream out(&outFile);
 
-    out << "atocCode,serviceCode,firstStanox,lastStanox,firstLocation,lastLocation,departTime,arrivalTime,startDate,endDate,daysRun\r\n";
+    out << "atocCode,serviceCode,firstStanox,lastStanox,departTime,arrivalTime,startDate,endDate,daysRun\r\n";
 
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
         out << schedule.atocCode << ",";
         out << schedule.serviceCode << ",";
 
-        QString firstLocation, firstStanox;
-        QString lastLocation, lastStanox;
+        QString firstStanox;
+        QString lastStanox;
 
         QString departTime, arrivalTime;
 
@@ -284,10 +284,9 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
             {
                 const auto& record = schedule.locations.first();
-                firstLocation = record.tiplocCode;
                 departTime = record.departure;
 
-                auto itFirst = tiplocCodeToStanox.find(firstLocation);
+                auto itFirst = tiplocCodeToStanox.find(record.tiplocCode);
                 if( itFirst != tiplocCodeToStanox.end())
                 {
                     firstStanox = itFirst.value();
@@ -296,10 +295,9 @@ void TocLoader::generateScheduleToc(const QString &filePath)
 
             {
                 const auto& record = schedule.locations.last();
-                lastLocation = record.tiplocCode;
                 arrivalTime = record.arrival;
 
-                auto itLast = tiplocCodeToStanox.find(lastLocation);
+                auto itLast = tiplocCodeToStanox.find(record.tiplocCode);
                 if( itLast != tiplocCodeToStanox.end())
                 {
                     lastStanox = itLast.value();
@@ -307,7 +305,7 @@ void TocLoader::generateScheduleToc(const QString &filePath)
             }
         }
 
-        out << firstStanox << "," << lastStanox << "," << firstLocation << "," << lastLocation;
+        out << firstStanox << "," << lastStanox;
         out << "," << departTime << "," << arrivalTime;
 
         out << "," << schedule.startDate << "," << schedule.endDate;

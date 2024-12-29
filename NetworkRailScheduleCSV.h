@@ -11,8 +11,6 @@ struct NetworkRailScheduleDATA {
     QString serviceCode;
     QString firstStanox;
     QString lastStanox;
-    QString firstLocation;
-    QString lastLocation;
     QTime departTime;
     QTime arrivalTime;
     QDate startDate;
