@@ -680,33 +680,39 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
         QString serviceCode = body["train_service_code"].toString();
-        QString atoccode = "XR";
-
+        QString atoccode = TocMap::getTocCode(body["toc_id"].toString());
 
         const QString direction = body["direction_ind"].toString();
 
         const auto servicesAvailable = _networkRailScheduleCSV.values(atoccode +"|"+serviceCode);
 
-        bool foundService {false};
-
         QString from, to;
 
         QTime currentTime = QTime::currentTime();
+
+        std::vector<const NetworkRailScheduleDATA*> results;
+        std::vector<const NetworkRailScheduleDATA*> ignored_results;
 
         for(const auto& service : servicesAvailable)
         {
             if (currentTime >= service.departTime && currentTime <= service.arrivalTime)
             {
-                from = _networkRailStnCSV[service.firstStanox].location;
-                to = _networkRailStnCSV[service.lastStanox].location;
-                foundService = true;
-                break;
+                results.push_back(&service);
+            }
+            else
+            {
+                ignored_results.push_back(&service);
             }
         }
 
-        if( !foundService)
+        if( results.empty())
         {
             to = from = "Not found";
+        }
+        else
+        {
+            from = _networkRailStnCSV[results[0]->firstStanox].location;
+            to = _networkRailStnCSV[results[0]->lastStanox].location;
         }
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + body["train_service_code"].toString());
