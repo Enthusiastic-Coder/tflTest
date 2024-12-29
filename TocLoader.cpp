@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QFileInfo>
 
 TocLoader::TocLoader() {}
 
@@ -23,11 +24,14 @@ void TocLoader::jsonSplitFullToc(const QString &filePath)
         return;
     }
 
+    QFileInfo fi(filePath);
+
+    const QString rootName = fi.fileName();
+
     const QStringList linesList = {
 
         "CC", "HX", "SE", "SW", "GN", "XR"
     };
-
 
     const QSet<QString> validLines {linesList.begin(), linesList.end()};
 
@@ -61,7 +65,8 @@ void TocLoader::jsonSplitFullToc(const QString &filePath)
 
         for(const auto& key : jsonObj.keys())
         {
-            QString keyFilename = filePath + "-" + key  + ".json";
+
+            QString keyFilename = "/Project/GIT/TFLTest/gen/"  + rootName + "-" + key  + ".json";
 
             QSharedPointer<QFile> outFile;
 

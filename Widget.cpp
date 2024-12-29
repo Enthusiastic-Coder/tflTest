@@ -141,7 +141,7 @@ Widget::Widget(QWidget *parent) :
 
         QString fileName = QFileDialog::getOpenFileName(this,
                                                         "Split Toc File",
-                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "/Project/GIT/TFLTest/gen",
                                                         "*.*");
 
         if( fileName.length() )
@@ -160,7 +160,7 @@ Widget::Widget(QWidget *parent) :
 
         QString fileName = QFileDialog::getOpenFileName(this,
                                                         "Generate Location",
-                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "/Project/GIT/TFLTest/gen",
                                                         "*.*");
 
         if( fileName.length() )
@@ -177,7 +177,7 @@ Widget::Widget(QWidget *parent) :
 
         QString fileName = QFileDialog::getOpenFileName(this,
                                                         "Generate Schedule",
-                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "/Project/GIT/TFLTest/gen",
                                                         "*.*");
 
         if( fileName.length() )
