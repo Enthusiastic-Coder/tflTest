@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>639</width>
+    <width>669</width>
     <height>476</height>
    </rect>
   </property>
@@ -262,24 +262,17 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="5">
-        <widget class="QPushButton" name="pushButton_SplitTocSched">
-         <property name="text">
-          <string>Split Sched</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="pushButton_ParseTocFull">
-         <property name="text">
-          <string>Parse Toc-Full</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="4">
         <widget class="QPushButton" name="pushButton_SplitTocFull">
          <property name="text">
-          <string>Split Toc-Full</string>
+          <string>Split Toc</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QPushButton" name="pushButton_GenSched">
+         <property name="text">
+          <string>Gen Sched</string>
          </property>
         </widget>
        </item>
@@ -760,7 +753,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>587</width>
+            <width>617</width>
             <height>354</height>
            </rect>
           </property>

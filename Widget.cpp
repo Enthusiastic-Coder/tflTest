@@ -140,7 +140,7 @@ Widget::Widget(QWidget *parent) :
         TocLoader loader;
 
         QString fileName = QFileDialog::getOpenFileName(this,
-                                                        "Pick Full Toc File",
+                                                        "Split Toc File",
                                                         "/Project/GIT/TFLTest/data/NetworkRail",
                                                         "*.*");
 
@@ -153,35 +153,40 @@ Widget::Widget(QWidget *parent) :
 
     });
 
-    connect(ui->pushButton_ParseTocFull, &QPushButton::pressed, [this] {
-
-        TocLoader loader;
-        loader.loadTocData("data/NetworkRail/filtered_toc.txt");
-
-    });
-
     connect(ui->pushButton_GenLoc, &QPushButton::pressed, [this] {
 
         TocLoader loader;
 
 
         QString fileName = QFileDialog::getOpenFileName(this,
-                                                        "Pick Full Toc File",
+                                                        "Generate Location",
                                                         "/Project/GIT/TFLTest/data/NetworkRail",
                                                         "*.*");
 
         if( fileName.length() )
         {
-            loader.generateLocationToc("data/NetworkRail/filtered_toc.txt");
+            loader.generateLocationToc(fileName);
         }
 
         QMessageBox::information(0, "generateLocationToc", "Completed.");
     });
 
-    connect(ui->pushButton_SplitTocSched, &QPushButton::pressed, [] {
+    connect(ui->pushButton_GenSched, &QPushButton::pressed, [this] {
 
         TocLoader loader;
-        loader.generateScheduleToc("data/NetworkRail/filtered_toc.txt");
+
+        QString fileName = QFileDialog::getOpenFileName(this,
+                                                        "Generate Schedule",
+                                                        "/Project/GIT/TFLTest/data/NetworkRail",
+                                                        "*.*");
+
+        if( fileName.length() )
+        {
+            loader.generateScheduleToc(fileName);
+        }
+
+
+        QMessageBox::information(0, "Generate Schedule", "Completed.");
     });
 
 
