@@ -35,5 +35,5 @@ void NetworkRailScheduleCSV::onLine(int lineNo, const QStringList &parts) {
     schedule.arrivalTime = parts[7];
     schedule.daysRun = bitArray;
 
-    _data[QString::number(_data.size())] = schedule;
+    _data.insert( schedule.atocCode + "|" + schedule.serviceCode, schedule);
 }

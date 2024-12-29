@@ -20,7 +20,7 @@ struct NetworkRailScheduleDATA {
     QBitArray daysRun;
 };
 
-class NetworkRailScheduleCSV : public CSVFileLoad<NetworkRailScheduleDATA>
+class NetworkRailScheduleCSV : public CSVFileLoad<NetworkRailScheduleDATA, QMultiHash<QString, NetworkRailScheduleDATA>>
 {
 public:
     void onLine(int lineNo, const QStringList &parts) override;
