@@ -13,8 +13,8 @@ struct NetworkRailScheduleDATA {
     QString lastStanox;
     QString firstLocation;
     QString lastLocation;
-    QString departTime;
-    QString arrivalTime;
+    QTime departTime;
+    QTime arrivalTime;
     QDate startDate;
     QDate endDate;
     QBitArray daysRun;
@@ -24,6 +24,9 @@ class NetworkRailScheduleCSV : public CSVFileLoad<NetworkRailScheduleDATA, QMult
 {
 public:
     void onLine(int lineNo, const QStringList &parts) override;
+
+
+    QList<NetworkRailScheduleDATA> values(QString key);
 };
 
 #endif // NETWORKRAILSCHEDULECSV_H
