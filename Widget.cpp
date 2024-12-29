@@ -679,9 +679,14 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
-        const auto& TSC = _networkRailScheduleCSV[body["train_service_code"].toString()];
+        QString serviceCode = body["train_service_code"].toString();
+        QString atoccode = "XR";
+
 
         const QString direction = body["direction_ind"].toString();
+
+        const auto& TSC = _networkRailScheduleCSV[atoccode +"|"+serviceCode];
+
 
         QString from = _networkRailStnCSV[TSC.firstStanox].location;
         QString to = _networkRailStnCSV[TSC.lastStanox].location;
