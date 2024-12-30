@@ -179,7 +179,7 @@ Widget::Widget(QWidget *parent) :
 
         if( fileName.length() )
         {
-            loader.generateScheduleToc(fileName);
+            loader.generateScheduleTocCSV(fileName);
         }
 
 

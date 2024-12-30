@@ -63,7 +63,7 @@ public:
 
     void jsonSplitFullToc(const QString& filePath);
     void generateLocationToc(const QString &filePath);
-    void generateScheduleToc(const QString &filePath);
+    void generateScheduleTocCSV(const QString &filePath);
 
 private:
     void clear();

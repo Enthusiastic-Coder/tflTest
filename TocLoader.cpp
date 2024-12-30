@@ -254,7 +254,7 @@ void TocLoader::generateLocationToc(const QString &filePath)
     }
 }
 
-void TocLoader::generateScheduleToc(const QString &filePath)
+void TocLoader::generateScheduleTocCSV(const QString &filePath)
 {
     loadTocData(filePath);
 
