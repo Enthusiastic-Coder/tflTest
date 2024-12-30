@@ -168,7 +168,7 @@ Widget::Widget(QWidget *parent) :
         QMessageBox::information(0, "generateLocationToc", "Completed.");
     });
 
-    connect(ui->pushButton_GenSched, &QPushButton::pressed, [this] {
+    connect(ui->pushButton_GenSchedCSV, &QPushButton::pressed, [this] {
 
         TocLoader loader;
 
@@ -183,7 +183,25 @@ Widget::Widget(QWidget *parent) :
         }
 
 
-        QMessageBox::information(0, "Generate Schedule", "Completed.");
+        QMessageBox::information(0, "Generate Schedule CSV", "Completed.");
+    });
+
+    connect(ui->pushButton_GenSchedJSON, &QPushButton::pressed, [this] {
+
+        TocLoader loader;
+
+        QString fileName = QFileDialog::getOpenFileName(this,
+                                                        "Generate Schedule",
+                                                        "/Project/GIT/TFLTest/gen",
+                                                        "*.*");
+
+        if( fileName.length() )
+        {
+            loader.generateScheduleTocJSON(fileName);
+        }
+
+
+        QMessageBox::information(0, "Generate Schedule JSON", "Completed.");
     });
 
 

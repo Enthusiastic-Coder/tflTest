@@ -189,10 +189,10 @@
        <string>Network Rail</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_9">
-       <item row="3" column="0" colspan="3">
-        <widget class="QLabel" name="labelStatus_NR">
+       <item row="0" column="4">
+        <widget class="QPushButton" name="pushButton_SplitTocFull">
          <property name="text">
-          <string>Status....</string>
+          <string>Split Toc</string>
          </property>
         </widget>
        </item>
@@ -206,12 +206,29 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QCheckBox" name="checkBox_NetworkRail">
+       <item row="0" column="5">
+        <widget class="QPushButton" name="pushButton_GenLoc">
          <property name="text">
-          <string>Raw</string>
+          <string>Gen Loc</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QLabel" name="labelStatus_NR">
+         <property name="text">
+          <string>Status....</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_Clear_NR">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="8">
+        <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
        </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="comboBox_NetworkRail">
@@ -245,34 +262,24 @@
          </item>
         </widget>
        </item>
-       <item row="2" column="0" colspan="8">
-        <widget class="QTextBrowser" name="textBrowser_NetworkRail"/>
-       </item>
-       <item row="0" column="5">
-        <widget class="QPushButton" name="pushButton_GenLoc">
+       <item row="0" column="3">
+        <widget class="QCheckBox" name="checkBox_NetworkRail">
          <property name="text">
-          <string>Gen Loc</string>
+          <string>Raw</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_Clear_NR">
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButton_GenSchedCSV">
          <property name="text">
-          <string>Clear</string>
+          <string>Sched CSV</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="4">
-        <widget class="QPushButton" name="pushButton_SplitTocFull">
+       <item row="1" column="5">
+        <widget class="QPushButton" name="pushButton_GenSchedJSON">
          <property name="text">
-          <string>Split Toc</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="6">
-        <widget class="QPushButton" name="pushButton_GenSched">
-         <property name="text">
-          <string>Gen Sched</string>
+          <string>Sched JSON</string>
          </property>
         </widget>
        </item>

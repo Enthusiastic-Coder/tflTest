@@ -317,3 +317,59 @@ void TocLoader::generateScheduleTocCSV(const QString &filePath)
         out << "\r\n";
     }
 }
+
+void TocLoader::generateScheduleTocJSON(const QString &filePath)
+{
+    loadTocData(filePath);
+
+    QFile outFile("/project/GIT/tfltest/gen/schedule-toc.json");
+    if( !outFile.open(QIODevice::WriteOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    QJsonDocument doc;
+
+    QJsonArray serviceArray;
+
+    for(const auto& schedule: std::as_const(trainScheduleList))
+    {
+        QJsonObject scheduleObj;
+        scheduleObj["atoc"] = schedule.atocCode;
+        scheduleObj["serviceCode"] = schedule.serviceCode;
+        scheduleObj["startDate"] = schedule.startDate;
+        scheduleObj["endDate"] = schedule.endDate;
+        scheduleObj["daysRun"] = schedule.daysRun;
+
+        QJsonArray stnsArray;
+
+        for(const auto& stn :schedule.locations)
+        {
+            QJsonObject stnObject;
+
+            stnObject["name"] = stn.tiplocCode;
+            stnObject["stanox"] = tiplocCodeToStanox.value(stn.tiplocCode);
+
+            if( !stn.arrival.isEmpty())
+            {
+                stnObject["arrivalTime"] = stn.arrival;
+            }
+            else
+            {
+                stnObject["arrivalTime"] = stn.pass;
+            }
+            stnsArray.push_back(stnObject);
+        }
+
+        scheduleObj["stns"] = stnsArray;
+
+        serviceArray.push_back(scheduleObj);
+    }
+
+    doc.setArray(serviceArray);
+
+    QTextStream stream(&outFile);
+
+    stream << doc.toJson();
+}
