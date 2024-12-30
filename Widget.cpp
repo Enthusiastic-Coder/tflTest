@@ -173,7 +173,7 @@ Widget::Widget(QWidget *parent) :
         TocLoader loader;
 
         QString fileName = QFileDialog::getOpenFileName(this,
-                                                        "Generate Schedule",
+                                                        "Generate Schedule CSV",
                                                         "/Project/GIT/TFLTest/gen",
                                                         "*.*");
 
@@ -191,7 +191,7 @@ Widget::Widget(QWidget *parent) :
         TocLoader loader;
 
         QString fileName = QFileDialog::getOpenFileName(this,
-                                                        "Generate Schedule",
+                                                        "Generate Schedule JSON",
                                                         "/Project/GIT/TFLTest/gen",
                                                         "*.*");
 

@@ -228,7 +228,6 @@ void TocLoader::loadTocData(const QString &filePath)
 
 void TocLoader::generateLocationToc(const QString &filePath)
 {
-    loadTocData(filePath);
 
     QFile outFile("/project/GIT/tfltest/gen/location-toc.txt");
     if( !outFile.open(QIODevice::WriteOnly))
@@ -237,6 +236,7 @@ void TocLoader::generateLocationToc(const QString &filePath)
         return;
     }
 
+    loadTocData(filePath);
     QTextStream out(&outFile);
 
     out << "stanox,tpsDescription,crsCode,description,tiplocCode\r\n";
@@ -320,14 +320,21 @@ void TocLoader::generateScheduleTocCSV(const QString &filePath)
 
 void TocLoader::generateScheduleTocJSON(const QString &filePath)
 {
-    loadTocData(filePath);
-
     QFile outFile("/project/GIT/tfltest/gen/schedule-toc.json");
-    if( !outFile.open(QIODevice::WriteOnly))
+    if( !outFile.open(QIODevice::WriteOnly|QIODevice::Text))
     {
         qWarning() << "Failed to open file:" << filePath;
         return;
     }
+
+    QFile outFileB("/project/GIT/tfltest/gen/schedule-toc-indented.json");
+    if( !outFileB.open(QIODevice::WriteOnly|QIODevice::Text))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return;
+    }
+
+    loadTocData(filePath);
 
     QJsonDocument doc;
 
@@ -348,7 +355,7 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
         {
             QJsonObject stnObject;
 
-            stnObject["name"] = stn.tiplocCode;
+            // stnObject["name"] = stn.tiplocCode;
             stnObject["stanox"] = tiplocCodeToStanox.value(stn.tiplocCode);
 
             if( !stn.arrival.isEmpty())
@@ -369,7 +376,13 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
 
     doc.setArray(serviceArray);
 
-    QTextStream stream(&outFile);
+    {
+        QTextStream stream(&outFile);
+        stream << doc.toJson(QJsonDocument::Compact);
+    }
 
-    stream << doc.toJson();
+    {
+        QTextStream stream(&outFileB);
+        stream << doc.toJson();
+    }
 }
