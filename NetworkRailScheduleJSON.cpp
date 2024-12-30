@@ -92,17 +92,11 @@ QString NetworkRailScheduleJSON::getDestination(const QString &atoccode, const Q
             continue;
         }
 
-        if( timeDiff < 0)
+        const int currentTimeDiff = qAbs(now.secsTo(arrivalTime));
+        if( timeDiff < 0 || currentTimeDiff < timeDiff)
         {
             foundService = &service;
-            timeDiff = qAbs(now.secsTo(arrivalTime));
-        }
-        else
-        {
-            if( qAbs(now.secsTo(arrivalTime)) < timeDiff)
-            {
-                foundService = &service;
-            }
+            timeDiff = currentTimeDiff;
         }
     }
 

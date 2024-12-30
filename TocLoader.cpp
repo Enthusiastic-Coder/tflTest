@@ -358,14 +358,24 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
             // stnObject["name"] = stn.tiplocCode;
             stnObject["stanox"] = tiplocCodeToStanox.value(stn.tiplocCode);
 
+            QString arrivalTime;
+
             if( !stn.arrival.isEmpty())
             {
-                stnObject["arrivalTime"] = stn.arrival;
+                arrivalTime = stn.arrival;
             }
             else
             {
-                stnObject["arrivalTime"] = stn.pass;
+                arrivalTime = stn.pass;
             }
+
+            if( arrivalTime.endsWith("H"))
+            {
+                arrivalTime.chop(1);
+            }
+
+            stnObject["arrivalTime"] = arrivalTime;
+
             stnsArray.push_back(stnObject);
         }
 

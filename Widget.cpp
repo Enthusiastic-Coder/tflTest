@@ -66,9 +66,9 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);
 
-    _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
+    // _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
 
-    _networkRailScheduleCSV.Load("data/NetworkRail/schedule-toc.txt", 11);
+    // _networkRailScheduleCSV.Load("data/NetworkRail/schedule-toc.txt", 11);
 
     _networkRailScheduleJSON.load("data/NetworkRail/schedule-toc.json");
 
@@ -687,6 +687,8 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 {
     QJsonArray a = doc.array();
 
+    QTime now = QTime::currentTime();
+
     for(const QJsonValue &item : std::as_const(a))
     {
         QJsonObject obj = item.toObject();
@@ -740,7 +742,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString nextStanox = body["next_report_stanox"].toString();
 
-        QString serviceStanox = _networkRailScheduleJSON.getDestination(atoccode, serviceCode, nextStanox, QTime::currentTime());
+        QString serviceStanox = _networkRailScheduleJSON.getDestination(atoccode, serviceCode, nextStanox, now);
         to = _networkRailStnCSV[serviceStanox].location;
 
 #endif
