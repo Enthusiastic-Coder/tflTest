@@ -13,6 +13,7 @@
 #include "OSMWorker.h"
 #include "NetworkRailStnsCSV.h"
 #include "NetworkRailServicesCSV.h"
+#include "NetworkRailScheduleJSON.h"
 #include <qstomp.h>
 #include "OSMTileGenerator.h"
 #include "OSMTileDownloader.h"
@@ -276,6 +277,7 @@ private:
     NetworkRailStnsCSV _networkRailStnCSV;
     NetworkRailServicesCSV _networkRailServicesCSV;
     NetworkRailScheduleCSV _networkRailScheduleCSV;
+    NetworkRailScheduleJSON _networkRailScheduleJSON;
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;
     OSMTileGenerator* _osmTileGenerator;

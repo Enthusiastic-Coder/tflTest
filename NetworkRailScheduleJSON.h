@@ -5,14 +5,9 @@
 #include <QTime>
 #include <QDate>
 #include <QBitArray>
-
-
-struct NRScheduleStnDATA
-{
-    QString location;
-    QString stanox;
-    QTime arrivalTime;
-};
+#include <QList>
+#include <QMultiHash>
+#include <QHash>
 
 struct NRScheduleDATA {
     QString atocCode;
@@ -20,14 +15,20 @@ struct NRScheduleDATA {
     QDate startDate;
     QDate endDate;
     QBitArray daysRun;
+    QString destinationStanox;
 
-    std::vector<NRScheduleStnDATA> stations;
+    QHash<QString, QTime> stations;
 };
 
 class NetworkRailScheduleJSON
 {
 public:
     void load(const QString& filename);
+
+    QString getDestination(const QString& atoccode, const QString& serviceCode, const QString& stanox, const QTime& now) const;
+
+private:
+    QMultiHash<QString,NRScheduleDATA> _services;
 };
 
 #endif // NETWORKRAILSCHEDULEJSON_H

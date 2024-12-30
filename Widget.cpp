@@ -70,6 +70,8 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailScheduleCSV.Load("data/NetworkRail/schedule-toc.txt", 11);
 
+    _networkRailScheduleJSON.load("data/NetworkRail/schedule-toc.json");
+
     _NRStatusTimer->start(1000);
     connect( _NRStatusTimer, &QTimer::timeout, [this] {
         ui->labelStatus_NR->setText( _client.isUnconnected()?"Disconnected":"Active");
@@ -702,9 +704,11 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         const QString direction = body["direction_ind"].toString();
 
+        QString from, to;
+
+#ifdef __SCHEDULE_CSV__
         const auto servicesAvailable = _networkRailScheduleCSV.getServices(atoccode, serviceCode);
 
-        QString from, to;
 
         QTime currentTime = QTime::currentTime();
 
@@ -732,6 +736,14 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
             from = _networkRailStnCSV[results[0]->firstStanox].location;
             to = _networkRailStnCSV[results[0]->lastStanox].location;
         }
+#else
+
+        QString nextStanox = body["next_report_stanox"].toString();
+
+        QString serviceStanox = _networkRailScheduleJSON.getDestination(atoccode, serviceCode, nextStanox, QTime::currentTime());
+        to = _networkRailStnCSV[serviceStanox].location;
+
+#endif
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
