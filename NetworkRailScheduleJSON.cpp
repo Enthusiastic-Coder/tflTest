@@ -102,7 +102,12 @@ QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QSt
         }
         else
         {
-            return {}; // Unknown event type
+            continue;
+        }
+
+        if( !scheduleTime.isValid())
+        {
+            continue;
         }
 
         const int currentTimeDiff = qAbs(now.secsTo(scheduleTime));
