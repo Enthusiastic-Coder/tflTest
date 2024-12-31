@@ -7,7 +7,6 @@
 #include <QMap>
 #include <QTimer>
 #include <QTextBrowser>
-#include "NetworkRailScheduleCSV.h"
 #include "TFLRouteWorker.h"
 #include "TFLRouteCompression.h"
 #include "OSMWorker.h"
@@ -259,7 +258,6 @@ private:
     OSMWorker* _osmWorker = new OSMWorker(this);
     NetworkRailStnsCSV _networkRailStnCSV;
     NetworkRailServicesCSV _networkRailServicesCSV;
-    NetworkRailScheduleCSV _networkRailScheduleCSV;
     NetworkRailScheduleJSON _networkRailScheduleJSON;
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;

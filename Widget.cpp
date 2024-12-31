@@ -708,44 +708,10 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString from, to;
 
-#ifdef __SCHEDULE_CSV__
-        const auto servicesAvailable = _networkRailScheduleCSV.getServices(atoccode, serviceCode);
-
-
-        QTime currentTime = QTime::currentTime();
-
-        std::vector<const NetworkRailScheduleDATA*> results;
-        std::vector<const NetworkRailScheduleDATA*> ignored_results;
-
-        for(const auto& service : servicesAvailable)
-        {
-            if (currentTime >= service.departTime && currentTime <= service.arrivalTime)
-            {
-                results.push_back(&service);
-            }
-            else
-            {
-                ignored_results.push_back(&service);
-            }
-        }
-
-        if( results.empty())
-        {
-            to = from = "Not found";
-        }
-        else
-        {
-            from = _networkRailStnCSV[results[0]->firstStanox].location;
-            to = _networkRailStnCSV[results[0]->lastStanox].location;
-        }
-#else
-
         QString nextStanox = body["next_report_stanox"].toString();
 
         QString serviceStanox = _networkRailScheduleJSON.getDestination(toc_id, serviceCode, nextStanox, now);
         to = _networkRailStnCSV[serviceStanox].location;
-
-#endif
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 

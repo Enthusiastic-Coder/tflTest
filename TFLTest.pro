@@ -85,7 +85,6 @@ include(qtstomp/qtstomp.pri)
 INCLUDEPATH += sdk/include
 
 SOURCES += \
-    NetworkRailScheduleCSV.cpp \
     NetworkRailScheduleJSON.cpp \
     NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
@@ -103,7 +102,6 @@ SOURCES += \
     OSMData.cpp
 
 HEADERS += \
-    NetworkRailScheduleCSV.h \
     NetworkRailScheduleJSON.h \
     NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
