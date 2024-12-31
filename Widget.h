@@ -11,7 +11,6 @@
 #include "TFLRouteCompression.h"
 #include "OSMWorker.h"
 #include "NetworkRailStnsCSV.h"
-#include "NetworkRailServicesCSV.h"
 #include "NetworkRailScheduleJSON.h"
 #include <qstomp.h>
 #include "OSMTileGenerator.h"
@@ -257,7 +256,6 @@ private:
     TFLRouteCompression* _tflRouteCompress = new TFLRouteCompression(this);
     OSMWorker* _osmWorker = new OSMWorker(this);
     NetworkRailStnsCSV _networkRailStnCSV;
-    NetworkRailServicesCSV _networkRailServicesCSV;
     NetworkRailScheduleJSON _networkRailScheduleJSON;
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;

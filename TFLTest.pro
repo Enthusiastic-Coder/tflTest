@@ -86,7 +86,6 @@ INCLUDEPATH += sdk/include
 
 SOURCES += \
     NetworkRailScheduleJSON.cpp \
-    NetworkRailServicesCSV.cpp \
     NetworkRailStnsCSV.cpp \
     OSMRendererBase.cpp \
     OSMTileDownloader.cpp \
@@ -103,7 +102,6 @@ SOURCES += \
 
 HEADERS += \
     NetworkRailScheduleJSON.h \
-    NetworkRailServicesCSV.h \
     NetworkRailStnsCSV.h \
     OSMRendererBase.h \
     OSMTileDownloader.h \

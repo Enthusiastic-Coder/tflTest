@@ -66,8 +66,6 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);
 
-    // _networkRailServicesCSV.Load("data/NetworkRail/network_rail_services.txt", 4);
-
     _networkRailScheduleJSON.load("data/NetworkRail/schedule-toc.json");
 
     _NRStatusTimer->start(1000);
