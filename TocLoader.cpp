@@ -343,7 +343,7 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
         QJsonObject scheduleObj;
-        scheduleObj["atoc"] = schedule.atocCode;
+        scheduleObj["toc_id"] = TocMap::getATocCode(schedule.atocCode);
         scheduleObj["serviceCode"] = schedule.serviceCode;
         scheduleObj["startDate"] = schedule.startDate;
         scheduleObj["endDate"] = schedule.endDate;

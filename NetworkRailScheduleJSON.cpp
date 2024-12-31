@@ -52,14 +52,14 @@ void NetworkRailScheduleJSON::load(const QString &filename)
             continue;
         }
 
-        QString atoc = serviceObj["atoc"].toString();
+        QString toc_id = serviceObj["toc_id"].toString();
         QString serviceCode = serviceObj["serviceCode"].toString();
 
         QJsonArray stns = serviceObj["stns"].toArray();
 
         NRScheduleDATA serviceDATA;
         serviceDATA.serviceCode = serviceCode;
-        serviceDATA.atocCode = atoc;
+        serviceDATA.toc_id = toc_id;
         serviceDATA.startDate = startDate;
         serviceDATA.endDate = endDate;
         serviceDATA.destinationStanox = stns.last()["stanox"].toString();
@@ -72,13 +72,13 @@ void NetworkRailScheduleJSON::load(const QString &filename)
                 = QTime::fromString(pointObj["arrivalTime"].toString(), "hhmm");
         }
 
-        _services.insert(atoc + "|" + serviceCode, serviceDATA);
+        _services.insert(toc_id + "|" + serviceCode, serviceDATA);
     }
 }
 
-QString NetworkRailScheduleJSON::getDestination(const QString &atoccode, const QString &serviceCode, const QString &stanox, const QTime &now) const
+QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QTime &now) const
 {
-    const auto& servicesAvailable = _services.values(atoccode +"|"+ serviceCode);
+    const auto& servicesAvailable = _services.values(toc_id +"|"+ serviceCode);
 
     const NRScheduleDATA* foundService = nullptr;
     int timeDiff = -1;

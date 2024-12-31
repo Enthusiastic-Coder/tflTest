@@ -56,6 +56,24 @@ struct ScheduleInfo {
     QList<ScheduleLocation> locations; // List of schedule locations
 };
 
+
+class TocMap {
+public:
+    // Static getter function
+    static QString getATocCode(const QString &key) {
+        static const QHash<QString, QString> tocMap = {
+            {"CC", "79"},
+            {"HX", "86"},
+            {"SE", "80"},
+            {"SW", "84"},
+            {"GN", "88"},
+            {"XR", "33"}
+        };
+
+        return tocMap.value(key, QString()); // Returns an empty QString if the key is not found
+    }
+};
+
 class TocLoader
 {
 public:

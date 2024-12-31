@@ -221,23 +221,6 @@ struct OldStopPoint
     }
 };
 
-class TocMap {
-public:
-    // Static getter function
-    static QString getATocCode(const QString &key) {
-        static const QHash<QString, QString> tocMap = {
-            {"79", "CC"},
-            {"86", "HX"},
-            {"80", "SE"},
-            {"84", "SW"},
-            {"88", "GN"},
-            {"33", "XR"}
-        };
-
-        return tocMap.value(key, QString()); // Returns an empty QString if the key is not found
-    }
-};
-
 class Widget : public QWidget
 {
     Q_OBJECT

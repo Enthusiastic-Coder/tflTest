@@ -10,7 +10,7 @@
 #include <QHash>
 
 struct NRScheduleDATA {
-    QString atocCode;
+    QString toc_id;
     QString serviceCode;
     QDate startDate;
     QDate endDate;
@@ -25,7 +25,7 @@ class NetworkRailScheduleJSON
 public:
     void load(const QString& filename);
 
-    QString getDestination(const QString& atoccode, const QString& serviceCode, const QString& stanox, const QTime& now) const;
+    QString getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QTime& now) const;
 
 private:
     QMultiHash<QString,NRScheduleDATA> _services;

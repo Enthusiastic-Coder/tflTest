@@ -702,7 +702,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
         QString serviceCode = body["train_service_code"].toString();
-        QString atoccode = TocMap::getATocCode(body["toc_id"].toString());
+        QString toc_id = body["toc_id"].toString();
 
         const QString direction = body["direction_ind"].toString();
 
@@ -742,7 +742,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString nextStanox = body["next_report_stanox"].toString();
 
-        QString serviceStanox = _networkRailScheduleJSON.getDestination(atoccode, serviceCode, nextStanox, now);
+        QString serviceStanox = _networkRailScheduleJSON.getDestination(toc_id, serviceCode, nextStanox, now);
         to = _networkRailStnCSV[serviceStanox].location;
 
 #endif
