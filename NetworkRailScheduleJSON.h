@@ -9,6 +9,13 @@
 #include <QMultiHash>
 #include <QHash>
 
+struct NRScheduleTimesDATA
+{
+    QTime arrival;
+    QTime departure;
+    QTime pass;
+};
+
 struct NRScheduleDATA {
     QString toc_id;
     QString serviceCode;
@@ -17,7 +24,7 @@ struct NRScheduleDATA {
     QBitArray daysRun;
     QString destinationStanox;
 
-    QHash<QString, QTime> stations;
+    QHash<QString, NRScheduleTimesDATA> stations;
 };
 
 class NetworkRailScheduleJSON

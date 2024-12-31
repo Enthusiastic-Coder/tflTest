@@ -715,6 +715,15 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
+        QDateTime plannedTime = QDateTime::fromMSecsSinceEpoch(body["planned_timestamp"].toVariant().toLongLong());
+
+        QDateTime localDateTime = plannedTime.toLocalTime();
+
+        ui->textBrowser_NetworkRail->append( "PlannedTime : " + plannedTime.toString());
+        ui->textBrowser_NetworkRail->append( "LocalTime : " + localDateTime.toString());
+
+        ui->textBrowser_NetworkRail->append( "Event type : " + body["event_type"].toString());
+
         ui->textBrowser_NetworkRail->append( "FROM:" + from);
         ui->textBrowser_NetworkRail->append( "TO:" + to);
 

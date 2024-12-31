@@ -68,8 +68,11 @@ void NetworkRailScheduleJSON::load(const QString &filename)
         {
             QJsonObject pointObj = stn.toObject();
 
-            serviceDATA.stations[pointObj["stanox"].toString()]
-                = QTime::fromString(pointObj["arrivalTime"].toString(), "hhmm");
+            NRScheduleTimesDATA& times = serviceDATA.stations[pointObj["stanox"].toString()];
+
+            times.arrival = QTime::fromString(pointObj["arrivalTime"].toString(), "hhmm");
+            times.departure = QTime::fromString(pointObj["departureTime"].toString(), "hhmm");
+            times.pass = QTime::fromString(pointObj["passTime"].toString(), "hhmm");
         }
 
         _services.insert(toc_id + "|" + serviceCode, serviceDATA);
@@ -85,7 +88,9 @@ QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QSt
 
     for(const auto& service : servicesAvailable)
     {
-        QTime arrivalTime = service.stations.value(stanox);
+        const NRScheduleTimesDATA& times = service.stations.value(stanox);
+
+        QTime arrivalTime = times.arrival;
 
         if( !arrivalTime.isValid())
         {
