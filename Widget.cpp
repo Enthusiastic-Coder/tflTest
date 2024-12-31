@@ -697,19 +697,6 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "event_type:" + body["event_type"].toString());
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
-        QString serviceCode = body["train_service_code"].toString();
-        QString toc_id = body["toc_id"].toString();
-
-        const QString direction = body["direction_ind"].toString();
-
-        QString from, to;
-
-        QString nextStanox = body["next_report_stanox"].toString();
-
-        QString serviceStanox = _networkRailScheduleJSON.getDestination(toc_id, serviceCode, nextStanox, now);
-        to = _networkRailStnCSV[serviceStanox].location;
-
-        ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
         QDateTime plannedTime = QDateTime::fromMSecsSinceEpoch(body["planned_timestamp"].toVariant().toLongLong());
 
@@ -718,10 +705,24 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "PlannedTime : " + plannedTime.toString());
         ui->textBrowser_NetworkRail->append( "LocalTime : " + localDateTime.toString());
 
-        ui->textBrowser_NetworkRail->append( "Event type : " + body["event_type"].toString());
+        QString serviceCode = body["train_service_code"].toString();
+        QString toc_id = body["toc_id"].toString();
 
-        ui->textBrowser_NetworkRail->append( "FROM:" + from);
-        ui->textBrowser_NetworkRail->append( "TO:" + to);
+        const QString direction = body["direction_ind"].toString();
+
+        QString nextStanox = body["next_report_stanox"].toString();
+
+        QString serviceStanox = _networkRailScheduleJSON.getDestination(toc_id,
+                                                                        serviceCode,
+                                                                        body["loc_stanox"].toString(),
+                                                                        body["event_type"].toString(),
+                                                                        localDateTime.time());
+
+        QString destination = _networkRailStnCSV[serviceStanox].location;
+
+        ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
+
+        ui->textBrowser_NetworkRail->append( "TO:" + destination);
 
         ui->textBrowser_NetworkRail->append( "platform:" + body["platform"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());

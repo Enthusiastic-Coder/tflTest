@@ -79,7 +79,7 @@ void NetworkRailScheduleJSON::load(const QString &filename)
     }
 }
 
-QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QTime &now) const
+QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
 {
     const auto& servicesAvailable = _services.values(toc_id +"|"+ serviceCode);
 
@@ -90,14 +90,22 @@ QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QSt
     {
         const NRScheduleTimesDATA& times = service.stations.value(stanox);
 
-        QTime arrivalTime = times.arrival;
+        QTime scheduleTime;
 
-        if( !arrivalTime.isValid())
+        if (eventType == "ARRIVAL")
         {
-            continue;
+            scheduleTime = times.arrival;
+        }
+        else if (eventType == "DEPARTURE")
+        {
+            scheduleTime = times.departure;
+        }
+        else
+        {
+            return {}; // Unknown event type
         }
 
-        const int currentTimeDiff = qAbs(now.secsTo(arrivalTime));
+        const int currentTimeDiff = qAbs(now.secsTo(scheduleTime));
         if( timeDiff < 0 || currentTimeDiff < timeDiff)
         {
             foundService = &service;
