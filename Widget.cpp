@@ -702,7 +702,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         ui->textBrowser_NetworkRail->append( "train_id:" + body["train_id"].toString());
 
         QString serviceCode = body["train_service_code"].toString();
-        QString atoccode = TocMap::getTocCode(body["toc_id"].toString());
+        QString atoccode = TocMap::getATocCode(body["toc_id"].toString());
 
         const QString direction = body["direction_ind"].toString();
 

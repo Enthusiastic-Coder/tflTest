@@ -224,7 +224,7 @@ struct OldStopPoint
 class TocMap {
 public:
     // Static getter function
-    static QString getTocCode(const QString &key) {
+    static QString getATocCode(const QString &key) {
         static const QHash<QString, QString> tocMap = {
             {"79", "CC"},
             {"86", "HX"},
