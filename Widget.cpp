@@ -712,7 +712,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString nextStanox = body["next_report_stanox"].toString();
 
-        QString serviceStanox = _networkRailScheduleJSON.getDestination(toc_id,
+        auto [serviceStanox, timeDiff] = _networkRailScheduleJSON.getDestination(toc_id,
                                                                         serviceCode,
                                                                         body["loc_stanox"].toString(),
                                                                         body["event_type"].toString(),
@@ -722,7 +722,8 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
-        ui->textBrowser_NetworkRail->append( "TO:" + destination);
+        ui->textBrowser_NetworkRail->append( QString("TO:%1 (%2)").arg(destination).arg(timeDiff));
+
 
         ui->textBrowser_NetworkRail->append( "platform:" + body["platform"].toString());
         ui->textBrowser_NetworkRail->append( "next_report_run_time:" + body["next_report_run_time"].toString());

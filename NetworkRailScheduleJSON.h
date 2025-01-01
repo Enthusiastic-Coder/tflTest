@@ -32,7 +32,7 @@ class NetworkRailScheduleJSON
 public:
     void load(const QString& filename);
 
-    QString getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
+    std::tuple<QString, int> getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
 
 private:
     QMultiHash<QString,NRScheduleDATA> _services;
