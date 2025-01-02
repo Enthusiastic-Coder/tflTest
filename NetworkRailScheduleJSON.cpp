@@ -101,7 +101,8 @@ auto NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QStrin
         {
             scheduleTime = times.departure;
         }
-        else
+
+        if( !scheduleTime.isValid())
         {
             scheduleTime = times.pass;
         }
