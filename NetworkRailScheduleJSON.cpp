@@ -73,10 +73,17 @@ void NetworkRailScheduleJSON::load(const QString &filename)
             times.arrival = QTime::fromString(pointObj["arrivalTime"].toString(), "hhmm");
             times.departure = QTime::fromString(pointObj["departureTime"].toString(), "hhmm");
             times.pass = QTime::fromString(pointObj["passTime"].toString(), "hhmm");
+
+            if( !times.arrival.isValid() && !times.departure.isValid() && !times.pass.isValid())
+            {
+                qDebug() << "Invalid : " << toc_id << "," << service <<" ," << startDate <<", " << endDate;
+            }
         }
 
         _services.insert(toc_id + "|" + serviceCode, serviceDATA);
     }
+
+    qDebug() << "Network Rail Schedule count for today : " << _services.count();
 }
 
 auto NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
