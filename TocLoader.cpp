@@ -228,7 +228,6 @@ void TocLoader::loadTocData(const QString &filePath)
 
 void TocLoader::generateLocationToc(const QString &filePath)
 {
-
     QFile outFile("/project/GIT/tfltest/gen/location-toc.txt");
     if( !outFile.open(QIODevice::WriteOnly))
     {
@@ -237,85 +236,28 @@ void TocLoader::generateLocationToc(const QString &filePath)
     }
 
     loadTocData(filePath);
-    QTextStream out(&outFile);
 
-    out << "stanox,tpsDescription,crsCode,description,tiplocCode\r\n";
+    QJsonArray arrayObj;
 
     for(const auto& location: std::as_const(tiplocList))
     {
         if(location.stanox.isEmpty())
             continue;
 
-        out << location.stanox << ","
-            << location.tpsDescription << ","
-            << location.crsCode << ","
-            << location.description << ","
-            << location.tiplocCode << "\r\n";
-    }
-}
+        QJsonObject jsonObj;
 
-void TocLoader::generateScheduleTocCSV(const QString &filePath)
-{
-    loadTocData(filePath);
+        jsonObj["stanox"] = location.stanox;
+        jsonObj["tpsDescription"] = location.tpsDescription;
+        jsonObj["crsCode"] = location.crsCode;
+        jsonObj["tiplocCode"] = location.tiplocCode;
 
-    QFile outFile("/project/GIT/tfltest/gen/schedule-toc.txt");
-    if( !outFile.open(QIODevice::WriteOnly))
-    {
-        qWarning() << "Failed to open file:" << filePath;
-        return;
+        arrayObj.push_back(jsonObj);
     }
 
-    QTextStream out(&outFile);
+    QJsonDocument doc;
+    doc.setArray(arrayObj);
 
-    out << "atocCode,serviceCode,firstStanox,lastStanox,firstLocation,lastLocation,departTime,arrivalTime,startDate,endDate,daysRun\r\n";
-
-    for(const auto& schedule: std::as_const(trainScheduleList))
-    {
-        out << schedule.atocCode << ",";
-        out << schedule.serviceCode << ",";
-
-        QString firstLocation, firstStanox;
-        QString lastLocation, lastStanox;
-
-        QString departTime, arrivalTime;
-
-        if (!schedule.locations.isEmpty())
-        {
-
-            {
-                const auto& record = schedule.locations.first();
-                firstLocation = record.tiplocCode;
-                departTime = record.departure;
-
-                auto itFirst = tiplocCodeToStanox.find(firstLocation);
-                if( itFirst != tiplocCodeToStanox.end())
-                {
-                    firstStanox = itFirst.value();
-                }
-            }
-
-            {
-                const auto& record = schedule.locations.last();
-                lastLocation = record.tiplocCode;
-                arrivalTime = record.arrival;
-
-                auto itLast = tiplocCodeToStanox.find(lastLocation);
-                if( itLast != tiplocCodeToStanox.end())
-                {
-                    lastStanox = itLast.value();
-                }
-            }
-        }
-
-        out << firstStanox << "," << lastStanox << "," << firstLocation << "," << lastLocation;
-        out << "," << departTime << "," << arrivalTime;
-
-        out << "," << schedule.startDate << "," << schedule.endDate;
-
-        out << "," << schedule.daysRun;
-
-        out << "\r\n";
-    }
+    outFile.write(doc.toJson());
 }
 
 void TocLoader::generateScheduleTocJSON(const QString &filePath, const QString &filter)
