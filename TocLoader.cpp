@@ -162,18 +162,18 @@ void TocLoader::loadTocData(const QString &filePath)
             schedule.stpIndicator = scheduleObj["CIF_stp_indicator"].toString();
             schedule.trainStatus = scheduleObj["train_status"].toString();
 
-            bool doAdd{false};
+            // bool doAdd{false};
 
-            if ((schedule.trainStatus == "P" || schedule.trainStatus == "1") &&
-                (schedule.stpIndicator == "N" || schedule.stpIndicator == "R" || schedule.stpIndicator == "O"))
-            {
-                doAdd = true;
-            }
+            // if ((schedule.trainStatus == "P" || schedule.trainStatus == "1") &&
+            //     (schedule.stpIndicator == "N" || schedule.stpIndicator == "R" || schedule.stpIndicator == "O"))
+            // {
+            //     doAdd = true;
+            // }
 
-            if( !doAdd)
-            {
-                continue;
-            }
+            // if( !doAdd)
+            // {
+            //     continue;
+            // }
 
             schedule.trainUid = scheduleObj["CIF_train_uid"].toString();
             schedule.atocCode = scheduleObj["atoc_code"].toString();
