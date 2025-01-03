@@ -318,16 +318,21 @@ void TocLoader::generateScheduleTocCSV(const QString &filePath)
     }
 }
 
-void TocLoader::generateScheduleTocJSON(const QString &filePath)
+void TocLoader::generateScheduleTocJSON(const QString &filePath, const QString &filter)
 {
-    QFile outFile("/project/GIT/tfltest/gen/schedule-toc.json");
+    const QString outputFilename = QString("/project/GIT/tfltest/gen/schedule-toc%1.json").arg( filter.isEmpty()?"" : "-"+filter);
+
+    QFile outFile(outputFilename);
     if( !outFile.open(QIODevice::WriteOnly|QIODevice::Text))
     {
         qWarning() << "Failed to open file:" << filePath;
         return;
     }
 
-    QFile outFileB("/project/GIT/tfltest/gen/schedule-toc-indented.json");
+    const QString outputFilenameB = QString("/project/GIT/tfltest/gen/schedule-toc-indented%1.json").arg( filter.isEmpty()?"" : "-"+filter);
+
+
+    QFile outFileB(outputFilenameB);
     if( !outFileB.open(QIODevice::WriteOnly|QIODevice::Text))
     {
         qWarning() << "Failed to open file:" << filePath;
@@ -342,6 +347,11 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
 
     for(const auto& schedule: std::as_const(trainScheduleList))
     {
+        if( !filter.isEmpty() && filter != schedule.atocCode)
+        {
+            continue;
+        }
+
         QJsonObject scheduleObj;
         scheduleObj["toc_id"] = TocMap::getATocCode(schedule.atocCode);
         scheduleObj["serviceCode"] = schedule.serviceCode;
@@ -355,7 +365,11 @@ void TocLoader::generateScheduleTocJSON(const QString &filePath)
         {
             QJsonObject stnObject;
 
-            // stnObject["name"] = stn.tiplocCode;
+            if(!filter.isEmpty())
+            {
+                stnObject["name"] = stn.tiplocCode;
+            }
+
             stnObject["stanox"] = tiplocCodeToStanox.value(stn.tiplocCode);
 
             if( !stn.arrival.isEmpty())

@@ -195,7 +195,7 @@ Widget::Widget(QWidget *parent) :
 
         if( fileName.length() )
         {
-            loader.generateScheduleTocJSON(fileName);
+            loader.generateScheduleTocJSON(fileName, ui->lineEditScheduleJSONFilter->text());
         }
 
 
