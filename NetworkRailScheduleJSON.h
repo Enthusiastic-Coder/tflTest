@@ -32,6 +32,8 @@ class NetworkRailScheduleJSON
 public:
     void load(const QString& filename);
 
+    void loadFromJson(const QJsonDocument &doc);
+
     std::tuple<QString, int> getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
 
 private:

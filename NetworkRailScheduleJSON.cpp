@@ -25,6 +25,10 @@ void NetworkRailScheduleJSON::load(const QString &filename)
         return;
     }
 
+}
+
+void NetworkRailScheduleJSON::loadFromJson(const QJsonDocument &doc)
+{
     QDate today = QDate::currentDate();
 
     QJsonArray services = doc.array();
@@ -84,6 +88,7 @@ void NetworkRailScheduleJSON::load(const QString &filename)
     }
 
     qDebug() << "Network Rail Schedule count for today : " << _services.count();
+
 }
 
 auto NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const

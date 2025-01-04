@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QTimer>
 #include <QTextBrowser>
+#include <QFuture>
+
 #include "TFLRouteWorker.h"
 #include "TFLRouteCompression.h"
 #include "OSMWorker.h"
@@ -235,6 +237,9 @@ protected slots:
     void processOperatorJson();
     void runwayBlend();
 
+private slots:
+    void loadScheduleDataForToday();
+
 protected:
     void parseLineArrival(const QJsonDocument& doc, bool bMinimize=true);
     void parseStopPoints(const QJsonDocument& doc);
@@ -255,8 +260,13 @@ private:
     TFLRouteWorker* _tflWorker = new TFLRouteWorker(this);
     TFLRouteCompression* _tflRouteCompress = new TFLRouteCompression(this);
     OSMWorker* _osmWorker = new OSMWorker(this);
+
+
     NetworkRailStnsCSV _networkRailStnCSV;
-    NetworkRailScheduleJSON _networkRailScheduleJSON;
+    std::shared_ptr<NetworkRailScheduleJSON> _networkRailScheduleJSON;
+    QFuture<std::shared_ptr<NetworkRailScheduleJSON>> _future;
+    QDate _lastCheckedDate;
+
     QTimer* _NRStatusTimer = new QTimer(this);
     QStompClient _client;
     OSMTileGenerator* _osmTileGenerator;

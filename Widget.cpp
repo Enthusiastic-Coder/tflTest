@@ -20,6 +20,7 @@
 #include <QString>
 #include <set>
 #include <QRgb>
+#include <QtConcurrent/QtConcurrent>
 
 const QString appID = "6fb298fd";
 const QString key = "b9434ccf3448ff8def9d55707ed9c406";
@@ -28,7 +29,7 @@ const QString key = "b9434ccf3448ff8def9d55707ed9c406";
 
 const QString ADSBExchange_URL = "adsbexchange.com/VirtualRadar/AircraftList.json";
 
-
+namespace {
 std::string encryptDecrypt(const std::string& toEncrypt, const std::string& salt)
 {
     std::string output = toEncrypt;
@@ -37,6 +38,35 @@ std::string encryptDecrypt(const std::string& toEncrypt, const std::string& salt
         output[i] = toEncrypt[i] ^ salt[i];
 
     return output;
+}
+
+std::shared_ptr<NetworkRailScheduleJSON> loadNetworkRailInThread(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qWarning() << "Failed to open file:" << filePath;
+        return nullptr;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError)
+    {
+        qWarning() << "JSON Parse Error:" << parseError.errorString();
+        return nullptr;
+    }
+
+    auto model = std::make_shared<NetworkRailScheduleJSON>();
+    model->loadFromJson(jsonDoc);
+    return model;
+}
+
+
 }
 
 
@@ -66,7 +96,11 @@ Widget::Widget(QWidget *parent) :
 
     _networkRailStnCSV.Load( "data/NetworkRail/network_rail_stns.txt", 3);
 
-    _networkRailScheduleJSON.load("data/NetworkRail/schedule-toc.json");
+    loadScheduleDataForToday();
+
+    QTimer *scheduleTimer = new QTimer(this);
+    connect(scheduleTimer, &QTimer::timeout, this, &Widget::loadScheduleDataForToday);
+    scheduleTimer->start(60000);
 
     _NRStatusTimer->start(1000);
     connect( _NRStatusTimer, &QTimer::timeout, [this] {
@@ -553,6 +587,7 @@ Widget::Widget(QWidget *parent) :
 
 Widget::~Widget()
 {
+    _future.waitForFinished();
     delete ui;
 }
 
@@ -694,13 +729,21 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString nextStanox = body["next_report_stanox"].toString();
 
-        auto [serviceStanox, timeDiff] = _networkRailScheduleJSON.getDestination(toc_id,
+        QString serviceStanox;
+        int timeDiff = 0;
+
+        if (_networkRailScheduleJSON)
+        {
+            std::tie(serviceStanox, timeDiff) = _networkRailScheduleJSON->getDestination(toc_id,
                                                                         serviceCode,
                                                                         body["loc_stanox"].toString(),
                                                                         body["event_type"].toString(),
                                                                         localDateTime.time());
+        }
 
-        QString destination = _networkRailStnCSV[serviceStanox].location;
+        QString destination = serviceStanox.isEmpty()
+                                  ? QString()
+                                  : _networkRailStnCSV[serviceStanox].location;
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
@@ -978,5 +1021,46 @@ void Widget::runwayBlend()
 
     imgIn.save("C:/Project/GIT/TFLTest/images/runway_out.png");
 
+}
+
+void Widget::loadScheduleDataForToday()
+{
+    if( QDate::currentDate() ==_lastCheckedDate)
+    {
+        return;
+    }
+
+    _future.waitForFinished();
+
+    _lastCheckedDate = QDate::currentDate();
+    _networkRailScheduleJSON.reset();
+    _future = QtConcurrent::run(loadNetworkRailInThread, "data/NetworkRail/schedule-toc.json");
+
+    // Timer to check the shared pointer in the main/UI thread
+    QTimer *timer = new QTimer{this};
+    QObject::connect(timer, &QTimer::timeout, [this, timer]() {
+
+        if (_future.isFinished() && !_networkRailScheduleJSON)
+        {
+            _networkRailScheduleJSON = _future.result();
+            timer->stop();
+            timer->deleteLater();
+
+            if (_networkRailScheduleJSON)
+            {
+                qDebug() << "schedule-toc successfully loaded in the worker thread!";
+            }
+            else
+            {
+                qWarning() << "Failed to schedule-toc.";
+            }
+        }
+        else if (!_networkRailScheduleJSON)
+        {
+            qDebug() << "schedule-toc not loaded yet. Waiting...";
+        }
+    });
+
+    timer->start(500); // Check every {} ms
 }
 
