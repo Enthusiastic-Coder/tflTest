@@ -228,7 +228,7 @@ void TocLoader::loadTocData(const QString &filePath)
 
 void TocLoader::generateLocationToc(const QString &filePath)
 {
-    QFile outFile("/project/GIT/tfltest/gen/location-toc.txt");
+    QFile outFile("/project/GIT/tfltest/gen/location-toc.json");
     if( !outFile.open(QIODevice::WriteOnly))
     {
         qWarning() << "Failed to open file:" << filePath;
