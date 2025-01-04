@@ -120,8 +120,7 @@ QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QSt
             continue;
         }
 
-        const int currentTimeDiff = qAbs(now.secsTo(scheduleTime));
-        if( currentTimeDiff <=30)
+        if( qAbs(now.secsTo(scheduleTime)) <=30)
         {
             return service.destinationStanox;
         }
