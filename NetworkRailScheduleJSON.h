@@ -34,7 +34,7 @@ public:
 
     void loadFromJson(const QJsonDocument &doc);
 
-    std::tuple<QString, int> getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
+    QString getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
 
 private:
     QMultiHash<QString,NRScheduleDATA> _services;

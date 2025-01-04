@@ -91,13 +91,9 @@ void NetworkRailScheduleJSON::loadFromJson(const QJsonDocument &doc)
 
 }
 
-auto NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
-    -> std::tuple<QString,int>
+QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
 {
     const auto& servicesAvailable = _services.values(toc_id +"|"+ serviceCode);
-
-    const NRScheduleDATA* foundService = nullptr;
-    int timeDiff = -1;
 
     for(const auto& service : servicesAvailable)
     {
@@ -125,17 +121,11 @@ auto NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QStrin
         }
 
         const int currentTimeDiff = qAbs(now.secsTo(scheduleTime));
-        if( timeDiff < 0 || currentTimeDiff < timeDiff)
+        if( currentTimeDiff <=30)
         {
-            foundService = &service;
-            timeDiff = currentTimeDiff;
+            return service.destinationStanox;
         }
     }
 
-    if( foundService && timeDiff < 40 )
-    {
-        return std::make_tuple(foundService->destinationStanox, timeDiff);
-    }
-
-    return std::make_tuple(QString{},-1);
+    return {};
 }

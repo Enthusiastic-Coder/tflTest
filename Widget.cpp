@@ -730,11 +730,10 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
         QString nextStanox = body["next_report_stanox"].toString();
 
         QString serviceStanox;
-        int timeDiff = 0;
 
         if (_networkRailScheduleJSON)
         {
-            std::tie(serviceStanox, timeDiff) = _networkRailScheduleJSON->getDestination(toc_id,
+            serviceStanox = _networkRailScheduleJSON->getDestination(toc_id,
                                                                         serviceCode,
                                                                         body["loc_stanox"].toString(),
                                                                         body["event_type"].toString(),
@@ -747,7 +746,7 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
-        ui->textBrowser_NetworkRail->append( QString("TO:%1 (%2)").arg(destination).arg(timeDiff));
+        ui->textBrowser_NetworkRail->append( QString("TO:%1").arg(destination));
 
 
         ui->textBrowser_NetworkRail->append( "platform:" + body["platform"].toString());
