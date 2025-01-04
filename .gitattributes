@@ -1,1 +1,2 @@
 data/NetworkRail/schedule-toc.json filter=lfs diff=lfs merge=lfs -text
+data/NetworkRail/schedule-toc-XR.json filter=lfs diff=lfs merge=lfs -text

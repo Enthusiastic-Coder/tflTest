@@ -1034,7 +1034,7 @@ void Widget::loadScheduleDataForToday()
 
     _lastCheckedDate = QDate::currentDate();
     _networkRailScheduleJSON.reset();
-    _future = QtConcurrent::run(loadNetworkRailInThread, "data/NetworkRail/schedule-toc.json");
+    _future = QtConcurrent::run(loadNetworkRailInThread, "data/NetworkRail/schedule-toc-XR.json");
 
     // Timer to check the shared pointer in the main/UI thread
     QTimer *timer = new QTimer{this};
