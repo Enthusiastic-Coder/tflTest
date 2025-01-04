@@ -729,20 +729,27 @@ void Widget::parseNetworkRail(const QJsonDocument &doc)
 
         QString nextStanox = body["next_report_stanox"].toString();
 
+        QString origin;
         QString destination;
 
         if (_networkRailScheduleJSON)
         {
-            QString serviceStanox = _networkRailScheduleJSON->getDestination(toc_id,
+            const std::shared_ptr<NRScheduleDATA> schedule = _networkRailScheduleJSON->getDestination(toc_id,
                                                                         serviceCode,
                                                                         body["loc_stanox"].toString(),
                                                                         body["event_type"].toString(),
                                                                         localDateTime.time());
-            destination = _networkRailStnCSV[serviceStanox].location;
+
+            if( schedule)
+            {
+                origin = _networkRailStnCSV[schedule->originStanox].location;
+                destination = _networkRailStnCSV[schedule->destinationStanox].location;
+            }
         }
 
         ui->textBrowser_NetworkRail->append( "train_service_code:" + serviceCode);
 
+        ui->textBrowser_NetworkRail->append( QString("FROM:%1").arg(origin));
         ui->textBrowser_NetworkRail->append( QString("TO:%1").arg(destination));
 
 

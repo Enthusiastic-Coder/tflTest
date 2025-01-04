@@ -22,6 +22,7 @@ struct NRScheduleDATA {
     QDate startDate;
     QDate endDate;
     QBitArray daysRun;
+    QString originStanox;
     QString destinationStanox;
 
     QHash<QString, NRScheduleTimesDATA> stations;
@@ -34,10 +35,10 @@ public:
 
     void loadFromJson(const QJsonDocument &doc);
 
-    QString getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
+    const std::shared_ptr<NRScheduleDATA> getDestination(const QString& toc_id, const QString& serviceCode, const QString& stanox, const QString &eventType, const QTime& now) const;
 
 private:
-    QMultiHash<QString,NRScheduleDATA> _services;
+    QMultiHash<QString,std::shared_ptr<NRScheduleDATA>> _services;
 };
 
 #endif // NETWORKRAILSCHEDULEJSON_H

@@ -61,18 +61,19 @@ void NetworkRailScheduleJSON::loadFromJson(const QJsonDocument &doc)
 
         QJsonArray stns = serviceObj["stns"].toArray();
 
-        NRScheduleDATA serviceDATA;
-        serviceDATA.serviceCode = serviceCode;
-        serviceDATA.toc_id = toc_id;
-        serviceDATA.startDate = startDate;
-        serviceDATA.endDate = endDate;
-        serviceDATA.destinationStanox = stns.last()["stanox"].toString();
+        std::shared_ptr<NRScheduleDATA> serviceDATA = std::make_shared<NRScheduleDATA>();
+        serviceDATA->serviceCode = serviceCode;
+        serviceDATA->toc_id = toc_id;
+        serviceDATA->startDate = startDate;
+        serviceDATA->endDate = endDate;
+        serviceDATA->originStanox = stns.first()["stanox"].toString();
+        serviceDATA->destinationStanox = stns.last()["stanox"].toString();
 
         for(const auto&stn : std::as_const(stns))
         {
             QJsonObject pointObj = stn.toObject();
 
-            NRScheduleTimesDATA& times = serviceDATA.stations[pointObj["stanox"].toString()];
+            NRScheduleTimesDATA& times = serviceDATA->stations[pointObj["stanox"].toString()];
 
             times.arrival = QTime::fromString(pointObj["arrivalTime"].toString(), "hhmm");
             times.departure = QTime::fromString(pointObj["departureTime"].toString(), "hhmm");
@@ -91,13 +92,13 @@ void NetworkRailScheduleJSON::loadFromJson(const QJsonDocument &doc)
 
 }
 
-QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
+const std::shared_ptr<NRScheduleDATA> NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QString &serviceCode, const QString &stanox, const QString &eventType, const QTime &now) const
 {
     const auto& servicesAvailable = _services.values(toc_id +"|"+ serviceCode);
 
     for(const auto& service : servicesAvailable)
     {
-        const NRScheduleTimesDATA& times = service.stations.value(stanox);
+        const NRScheduleTimesDATA& times = service->stations.value(stanox);
 
         QTime scheduleTime;
 
@@ -122,9 +123,9 @@ QString NetworkRailScheduleJSON::getDestination(const QString &toc_id, const QSt
 
         if( qAbs(now.secsTo(scheduleTime)) <=30)
         {
-            return service.destinationStanox;
+            return service;
         }
     }
 
-    return {};
+    return nullptr;
 }
