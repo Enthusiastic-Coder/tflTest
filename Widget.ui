@@ -29,6 +29,11 @@
      </property>
      <item>
       <property name="text">
+       <string>elizabeth</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>circle</string>
       </property>
      </item>
@@ -69,17 +74,7 @@
      </item>
      <item>
       <property name="text">
-       <string>elizabeth</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>dlr</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>london-overground</string>
       </property>
      </item>
      <item>
@@ -763,8 +758,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>617</width>
-            <height>354</height>
+            <width>625</width>
+            <height>375</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
