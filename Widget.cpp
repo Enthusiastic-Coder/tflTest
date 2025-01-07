@@ -297,8 +297,15 @@ Widget::Widget(QWidget *parent) :
                 QByteArray str = reply->readAll();
                 QJsonDocument doc = QJsonDocument::fromJson(str);
 
-                parseLineArrival(doc);
-                updateTextBrowserWithArrivals(ui->textBrowser);
+                if(ui->checkBox_Raw_Line_Arrivals->isChecked())
+                {
+                    ui->textBrowser->setText(doc.toJson());
+                }
+                else
+                {
+                    parseLineArrival(doc);
+                    updateTextBrowserWithArrivals(ui->textBrowser);
+                }
             }
             else
             {
