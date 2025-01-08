@@ -258,8 +258,15 @@ Widget::Widget(QWidget *parent) :
                 QByteArray str = reply->readAll();
                 QJsonDocument doc = QJsonDocument::fromJson(str);
 
-                parseStopPoints(doc);
-                updateTextBrowserWithStations(ui->textBrowser_2);
+                if( ui->checkBoxRawStopPoints->isChecked())
+                {
+                    ui->textBrowser_2->setText(doc.toJson());
+                }
+                else
+                {
+                    parseStopPoints(doc);
+                    updateTextBrowserWithStations(ui->textBrowser_2);
+                }
             }
             else
             {
@@ -344,8 +351,15 @@ Widget::Widget(QWidget *parent) :
                 QByteArray str = reply->readAll();
                 QJsonDocument doc = QJsonDocument::fromJson(str);
 
-                parseLineArrival(doc, false);
-                updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
+                if( ui->checkBoxRawVehicle->isChecked())
+                {
+                    ui->textBrowser_Vehicle->setText(doc.toJson());
+                }
+                else
+                {
+                    parseLineArrival(doc, false);
+                    updateTextBrowserWithArrivals(ui->textBrowser_Vehicle);
+                }
             }
             else
             {
