@@ -595,6 +595,10 @@ Widget::Widget(QWidget *parent) :
     ui->checkBoxOSMValueStartsWith->setChecked(s.value("OSMValueStarsWith").toBool());
     ui->checkBoxOSMFilterOn->setChecked(s.value("OSMFilterOn").toBool());
 
+    ui->checkBoxRawStopPoints->setChecked(s.value("RawStopPoints").toBool());
+    ui->checkBoxRawVehicle->setChecked(s.value("RawVehicle").toBool());
+    ui->checkBox_Raw_Line_Arrivals->setChecked(s.value("RawLineArrivals").toBool());
+
     s.beginGroup( "mainwindow" );
 
     restoreGeometry(s.value( "geometry", saveGeometry() ).toByteArray());
@@ -800,6 +804,10 @@ void Widget::closeEvent(QCloseEvent *event)
     s.setValue("OSMOutfilename", ui->lineEditOSMOutfilename->text());
     s.setValue("OSMValueStarsWith", ui->checkBoxOSMValueStartsWith->isChecked());
     s.setValue("OSMFilterOn", ui->checkBoxOSMFilterOn->isChecked());
+
+    s.setValue("RawStopPoints", ui->checkBoxRawStopPoints->isChecked());
+    s.setValue("RawVehicle", ui->checkBoxRawVehicle->isChecked());
+    s.setValue("RawLineArrivals", ui->checkBox_Raw_Line_Arrivals->isChecked());
 
     s.beginGroup( "mainwindow" );
 
