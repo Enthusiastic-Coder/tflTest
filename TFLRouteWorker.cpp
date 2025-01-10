@@ -197,9 +197,6 @@ void TFLRouteWorker::processRoute(const QByteArray &json)
 
     topObject["mode"] = mode;
 
-    if( mode != "bus")
-        topObject["orderedLineRoutes"] = rootObj["orderedLineRoutes"];
-
     topObject["direction"] = rootObj["direction"];
 
     QJsonArray inBranchArray = rootObj["stopPointSequences"].toArray();
